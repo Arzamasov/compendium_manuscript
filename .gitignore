@@ -1,18 +1,58 @@
 # History files
+.DS_store
 .Rhistory
 .Rapp.history
 
 # Session Data files
 .RData
 
-# User-specific files
-.Ruserdata
-
 # Example code in package build process
 *-Ex.R
 
 # Output files from R CMD build
 /*.tar.gz
+
+# any fastq files or fastq references
+*fastq.gz
+*fq.gz
+*fq
+*fasta.gz
+*fasta
+*fa.gz
+*gbk
+*gtf
+
+# specific files and folders
+TO_DO.txt
+lab_journal.Rmd
+code/drafts
+code/hidden
+docs
+data/CAZyme/archive
+data/CAZyme/dbCAN_output_raw
+data/gene_clusters
+data/genomes/366_ref_genomes
+data/genomes/2710_NR_additional_genomes
+data/genomes/files
+data/genomes/genome_info
+data/genomes/dRep
+data/growth/raw
+data/growth/formatted/for_lab_journal
+data/growth/formatted/other_carbs
+data/hmo_consumption/raw
+data/phenotypes
+data/phylogeny/tree_263_NR_ref_genomes/legacy
+data/phylogeny/proteins
+data/rnaseq/RNA_isolation
+data/rnaseq/ribo_depletion
+data/rnaseq/legacy
+data/rnaseq/GEO_submission
+data/tables/additional
+data/tables/archive
+results/growth/growth_curves_other
+results/growth/for_lab_journal
+results/phenotypes/dim_reduction_testing
+results/phenotypes/triangle_plots
 
 # Output files from R CMD check
 /*.Rcheck/
@@ -28,12 +68,14 @@ vignettes/*.pdf
 .httr-oauth
 
 # knitr and R markdown default cache directories
-*_cache/
+/*_cache/
 /cache/
 
 # Temporary files created by R markdown
 *.utf8.md
 *.knit.md
 
-# R Environment Variables
-.Renviron
+# Shiny token, see https://shiny.rstudio.com/articles/shinyapps.html
+rsconnect/
+.Rproj.user
+inst/doc

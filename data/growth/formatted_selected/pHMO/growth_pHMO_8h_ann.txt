@@ -1,0 +1,24 @@
+well	carbon_source	strain
+blank_1	blank	NA
+blank_2	blank	NA
+blank_3	blank	NA
+ATCC_1	HMO	B. longum subsp. infantis ATCC 15697
+ATCC_2	HMO	B. longum subsp. infantis ATCC 15697
+Bg2D9_1	HMO	B. longum subsp. infantis Bg40721_2D9
+Bg2D9_2	HMO	B. longum subsp. infantis Bg40721_2D9
+Bg2D9_3	HMO	B. longum subsp. infantis Bg40721_2D9
+PS131_1	HMO	B. longum subsp. suis Bg131.S11_17.F6
+PS131_2	HMO	B. longum subsp. suis Bg131.S11_17.F6
+PS131_3	HMO	B. longum subsp. suis Bg131.S11_17.F6
+Bg1E1_1	HMO	B. catenulatum subsp. kashiwanohense Bg42221_1E1
+Bg1E1_2	HMO	B. catenulatum subsp. kashiwanohense Bg42221_1E1
+Bg1E1_3	HMO	B. catenulatum subsp. kashiwanohense Bg42221_1E1
+Bg3A11_1	HMO	B. longum subsp. longum Bg115.S08_3A11
+Bg3A11_2	HMO	B. longum subsp. longum Bg115.S08_3A11
+Bg3A11_3	HMO	B. longum subsp. longum Bg115.S08_3A11
+Pse_1	HMO	B. pseudocatenulatum STL_TW14.1_LFYP29
+Pse_2	HMO	B. pseudocatenulatum STL_TW14.1_LFYP29
+Pse_3	HMO	B. pseudocatenulatum STL_TW14.1_LFYP29
+4F7_1	HMO	B. breve Bg155.S08_4F7
+4F7_2	HMO	B. breve Bg155.S08_4F7
+4F7_3	HMO	B. breve Bg155.S08_4F7

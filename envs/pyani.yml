@@ -1,0 +1,10 @@
+name: pyani
+
+channels:
+  - defaults
+  - conda-forge
+  - bioconda
+
+dependencies:
+  - pyani=0.2.12
+  - mummer=3.23=h6de7cb9_11

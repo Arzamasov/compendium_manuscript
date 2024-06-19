@@ -1,0 +1,17 @@
+genome_name	Glc	Gal	Fru	Man	Xyl	Ara	Rib	GlcNAc	GalNAc	ManNAc	Neu5Ac	GlcA	GalA	Gco	Ino	Mtl	Stl	Mal	IMO	Mlz	Cld	Bgl	Lac	Mel	RFO	Scr	scFOS	lcFOS	bMnOS	XOS	aAOS	LNT	LNnT	FL	SL	ST	GA	bMAN	AR	XGL
+Bifidobacterium adolescentis STL_TW14.1_LFYP80	1	1	1	0	0	0	0	0	0	0	0	0	0	1	0	0	1	1	1	0	1	1	1	1	1	1	1	1	0	1	1	0	0	0	0	1	0	0	0	0
+Bifidobacterium bifidum Bg41221_3D10	1	1	1	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	1	1	1	1	0	0	0	0	0
+Bifidobacterium breve Bg155.S08_4F7	1	1	1	0	0	0	0	1	0	0	1	0	0	0	0	1	1	1	1	1	1	1	1	1	1	1	1	0	0	0	0	1	1	0	0	1	0	0	0	0
+Bifidobacterium breve Bg41721_1C11	1	1	1	0	0	0	0	1	0	0	0	0	0	0	0	1	1	1	1	1	1	1	1	1	1	1	1	0	1	0	0	1	1	0	0	1	0	0	0	0
+Bifidobacterium breve JG_Bg463	1	1	1	0	0	0	1	1	0	0	1	0	0	0	0	1	1	1	1	1	0	0	1	1	1	1	1	0	0	0	0	1	1	0	0	1	0	0	0	0
+Bifidobacterium breve STL_TW14.1_LFYP81	1	1	1	0	0	0	1	1	0	0	1	0	0	0	0	1	1	1	1	0	1	1	1	1	1	1	1	0	1	0	0	1	1	0	0	1	0	0	0	0
+Bifidobacterium catenulatum subsp. kashiwanohense Bg42221_1E1	1	1	1	0	0	0	0	0	0	0	0	0	0	1	0	0	1	1	1	1	1	1	1	1	1	1	1	1	0	1	1	0	1	0	0	0	0	0	0	1
+Bifidobacterium dentium STL_TW14.1_LFYP24	1	1	1	0	1	1	1	0	0	0	1	0	0	1	0	1	0	1	1	0	1	1	1	1	1	1	1	0	1	1	1	0	0	0	0	1	0	1	0	1
+Bifidobacterium longum subsp. infantis ATCC 15697 = JCM 1222	1	1	1	0	0	0	0	1	0	0	1	1	0	0	0	0	0	1	1	0	0	0	1	1	1	1	1	1	0	0	0	1	1	1	1	0	0	0	0	0
+Bifidobacterium longum subsp. infantis Bg064.S07_13.C6	1	1	1	0	0	0	0	1	0	0	1	0	0	1	0	1	1	1	1	1	0	0	1	1	1	1	1	1	0	1	0	1	1	1	1	0	0	0	0	0
+Bifidobacterium longum subsp. infantis Bg40721_2D9	1	1	1	0	0	0	0	1	0	0	1	0	0	0	0	1	1	1	1	0	0	0	1	1	1	1	1	0	0	0	0	1	1	1	1	0	0	0	0	0
+Bifidobacterium longum subsp. infantis JG_Bg463	1	1	1	0	0	0	1	1	0	0	1	1	0	0	1	0	0	1	1	0	0	0	1	1	1	1	1	0	0	0	0	1	1	1	1	0	0	0	0	0
+Bifidobacterium longum subsp. infantis Malawi264A_MC2	1	1	1	0	0	0	0	1	0	0	1	0	0	1	1	0	0	1	1	0	0	0	1	1	1	1	0	0	0	0	0	1	1	1	1	0	0	0	0	0
+Bifidobacterium longum subsp. longum Bg115.S08_3A11	1	1	1	0	1	1	1	0	0	0	0	0	0	0	0	0	0	1	1	0	0	0	1	1	1	1	1	1	0	1	1	1	0	0	0	0	0	0	0	0
+Bifidobacterium longum subsp. suis Bg131.S11_17.F6	1	1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	1	1	0	0	0	1	1	1	1	1	0	0	0	0	1	1	0	1	0	0	0	0	0
+Bifidobacterium pseudocatenulatum STL_TW14.1_LFYP29	1	1	1	0	1	1	1	0	0	0	0	0	0	0	0	0	1	1	1	0	1	1	1	1	1	1	1	0	0	1	1	1	0	0	0	1	0	0	0	0

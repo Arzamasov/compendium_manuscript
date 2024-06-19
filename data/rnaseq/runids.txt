@@ -1,0 +1,12 @@
+Glc1
+Glc2
+Glc3
+LNT1
+LNT2
+LNT3
+Lac1
+Lac2
+Lac3
+XGL1
+XGL2
+XGL3

@@ -1,0 +1,9 @@
+name: iqtree
+
+channels:
+  - defaults
+  - conda-forge
+  - bioconda
+
+dependencies:
+  - iqtree=2.2.0.3

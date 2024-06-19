@@ -1,0 +1,17 @@
+genome_name	Glc	Gal	Fru	Man	Xyl	Ara	Rib	GlcNAc	GalNAc	ManNAc	Neu5Ac	GlcA	GalA	Gco	Ino	Mtl	Stl	Mal	IMO	Mlz	Cld	Bgl	Lac	Mel	RFO	Scr	scFOS	lcFOS	bMnOS	XOS	aAOS	LNT	LNnT	FL	SL	ST	GA	bMAN	AR	XGL
+Bifidobacterium adolescentis STL_TW14.1_LFYP80	+	+	+	-	-	+	-	-	-	-	-	-	-	+	-	-	+	+	+	-	+	+	+	+	+	+	+	+	-	+	w	-	-	-	-	+	-	-	-	-
+Bifidobacterium bifidum Bg41221_3D10	+	+	+	-	-	-	-	+	w	-	-	-	-	-	-	-	-	-	-	-	-	+	+	-	-	-	-	-	-	-	-	+	+	+	+	-	-	-	-	-
+Bifidobacterium breve Bg155.S08_4F7	+	+	+	-	-	-	-	-	w	-	+	-	-	-	-	+	+	+	+	+	+	+	+	+	+	+	+	-	-	-	-	+	+	-	-	w	-	-	-	-
+Bifidobacterium breve Bg41721_1C11	+	+	+	w	-	-	+	+	+	-	-	-	-	-	-	+	+	+	+	+	-	+	+	+	+	+	+	-	+	-	-	+	+	-	-	+	-	-	-	-
+Bifidobacterium breve JG_Bg463	+	+	+	-	-	-	+	-	w	-	+	-	-	-	-	+	+	+	+	+	+	-	+	+	+	+	+	-	-	-	-	+	+	-	-	-	-	-	-	-
+Bifidobacterium breve STL_TW14.1_LFYP81	+	+	+	w	-	-	+	+	-	-	+	-	-	-	-	+	+	+	+	-	-	+	+	+	+	+	+	-	+	-	-	+	+	-	-	-	-	-	-	-
+Bifidobacterium catenulatum subsp. kashiwanohense Bg42221_1E1	+	+	+	-	-	-	w	-	-	-	-	-	-	+	-	-	+	+	+	+	-	+	+	+	+	w	+	+	-	+	+	+	+	-	-	-	-	-	-	+
+Bifidobacterium dentium STL_TW14.1_LFYP24	+	+	+	w	+	+	+	-	-	-	+	-	-	+	-	+	-	+	+	-	w	+	+	+	+	+	+	-	+	+	-	-	-	-	-	+	-	+	-	+
+Bifidobacterium longum subsp. infantis ATCC 15697 = JCM 1222	+	+	+	-	-	-	+	-	-	-	+	+	-	-	-	-	-	+	+	-	-	-	+	+	+	w	+	+	-	-	-	+	+	+	-	-	-	-	-	-
+Bifidobacterium longum subsp. infantis Bg064.S07_13.C6	+	+	+	w	+	-	+	+	-	-	+	-	-	+	-	+	+	+	+	+	-	-	+	+	+	w	+	+	-	+	-	+	+	+	-	-	-	-	-	-
+Bifidobacterium longum subsp. infantis Bg40721_2D9	+	+	w	-	-	-	w	-	-	-	w	-	-	-	-	+	+	+	+	-	-	-	+	+	+	+	+	-	-	-	-	+	+	+	w	-	-	-	-	-
+Bifidobacterium longum subsp. infantis JG_Bg463	+	+	+	-	-	-	+	w	-	-	w	+	-	-	w	-	-	+	+	-	-	-	+	+	+	+	+	-	-	-	-	+	+	w	w	-	-	-	-	-
+Bifidobacterium longum subsp. infantis Malawi264A_MC2	+	+	+	w	-	-	-	-	-	-	+	-	-	+	-	-	-	+	+	-	-	-	+	+	+	w	-	-	-	-	-	+	+	+	-	-	-	-	-	-
+Bifidobacterium longum subsp. longum Bg115.S08_3A11	+	+	+	-	+	+	-	-	-	-	-	-	-	-	-	-	-	+	+	-	-	-	+	+	+	+	+	+	-	+	+	+	-	-	-	-	-	-	-	-
+Bifidobacterium longum subsp. suis Bg131.S11_17.F6	+	+	+	+	-	-	w	-	-	-	w	-	-	-	-	-	-	+	+	-	-	-	+	+	+	+	+	-	-	-	-	+	+	+	w	-	-	-	-	-
+Bifidobacterium pseudocatenulatum STL_TW14.1_LFYP29	+	+	+	-	+	+	w	-	-	-	-	-	-	-	-	-	+	+	+	-	+	+	+	+	+	+	+	-	-	+	-	-	-	-	-	+	-	-	-	-

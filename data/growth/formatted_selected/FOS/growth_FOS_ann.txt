@@ -1,0 +1,40 @@
+well	carbon_source	strain
+blank_1	blank	NA
+blank_2	blank	NA
+blank_3	blank	NA
+scFOS_ado_1	scFOS	B. adolescentis STL_TW14.1_LFYP80
+scFOS_ado_2	scFOS	B. adolescentis STL_TW14.1_LFYP80
+scFOS_ado_3	scFOS	B. adolescentis STL_TW14.1_LFYP80
+lcFOS_ado_1	lcFOS	B. adolescentis STL_TW14.1_LFYP80
+lcFOS_ado_2	lcFOS	B. adolescentis STL_TW14.1_LFYP80
+lcFOS_ado_3	lcFOS	B. adolescentis STL_TW14.1_LFYP80
+scFOS_3A11_1	scFOS	B. longum subsp. longum Bg115.S08_3A11
+scFOS_3A11_2	scFOS	B. longum subsp. longum Bg115.S08_3A11
+scFOS_3A11_3	scFOS	B. longum subsp. longum Bg115.S08_3A11
+lcFOS_3A11_1	lcFOS	B. longum subsp. longum Bg115.S08_3A11
+lcFOS_3A11_2	lcFOS	B. longum subsp. longum Bg115.S08_3A11
+lcFOS_3A11_3	lcFOS	B. longum subsp. longum Bg115.S08_3A11
+scFOS_4F7_1	scFOS	B. breve Bg155.S08_4F7
+scFOS_4F7_2	scFOS	B. breve Bg155.S08_4F7
+scFOS_4F7_3	scFOS	B. breve Bg155.S08_4F7
+lcFOS_4F7_1	lcFOS	B. breve Bg155.S08_4F7
+lcFOS_4F7_2	lcFOS	B. breve Bg155.S08_4F7
+lcFOS_4F7_3	lcFOS	B. breve Bg155.S08_4F7
+scFOS_2D9_1	scFOS	B. longum subsp. infantis Bg40721_2D9
+scFOS_2D9_2	scFOS	B. longum subsp. infantis Bg40721_2D9
+scFOS_2D9_3	scFOS	B. longum subsp. infantis Bg40721_2D9
+lcFOS_2D9_1	lcFOS	B. longum subsp. infantis Bg40721_2D9
+lcFOS_2D9_2	lcFOS	B. longum subsp. infantis Bg40721_2D9
+lcFOS_2D9_3	lcFOS	B. longum subsp. infantis Bg40721_2D9
+scFOS_bif_1	scFOS	B. bifidum Bg41221_3D10
+scFOS_bif_2	scFOS	B. bifidum Bg41221_3D10
+scFOS_bif_3	scFOS	B. bifidum Bg41221_3D10
+lcFOS_bif_1	lcFOS	B. bifidum Bg41221_3D10
+lcFOS_bif_2	lcFOS	B. bifidum Bg41221_3D10
+lcFOS_bif_3	lcFOS	B. bifidum Bg41221_3D10
+scFOS_MC2_1	scFOS	B. longum subsp. infantis Malawi264A_MC2
+scFOS_MC2_2	scFOS	B. longum subsp. infantis Malawi264A_MC2
+scFOS_MC2_3	scFOS	B. longum subsp. infantis Malawi264A_MC2
+lcFOS_MC2_1	lcFOS	B. longum subsp. infantis Malawi264A_MC2
+lcFOS_MC2_2	lcFOS	B. longum subsp. infantis Malawi264A_MC2
+lcFOS_MC2_3	lcFOS	B. longum subsp. infantis Malawi264A_MC2

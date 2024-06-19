@@ -1,0 +1,1 @@
+# Place downloaded fastq.gz files to this directory

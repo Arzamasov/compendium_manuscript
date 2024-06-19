@@ -1,0 +1,16 @@
+well	carbon_source	strain
+blank_1	blank	NA
+blank_2	blank	NA
+blank_3	blank	NA
+1C11_1	Neu5Ac	B. breve Bg41721_1C11
+1C11_2	Neu5Ac	B. breve Bg41721_1C11
+1C11_3	Neu5Ac	B. breve Bg41721_1C11
+4F7_1	Neu5Ac	B. breve Bg155.S08_4F7
+4F7_2	Neu5Ac	B. breve Bg155.S08_4F7
+4F7_3	Neu5Ac	B. breve Bg155.S08_4F7
+Bg463_1	Neu5Ac	B. breve JG_Bg463
+Bg463_2	Neu5Ac	B. breve JG_Bg463
+Bg463_2	Neu5Ac	B. breve JG_Bg463
+LFYP81_1	Neu5Ac	B. breve STL_TW14.1_LFYP24
+LFYP81_2	Neu5Ac	B. breve STL_TW14.1_LFYP24
+LFYP81_3	Neu5Ac	B. breve STL_TW14.1_LFYP24

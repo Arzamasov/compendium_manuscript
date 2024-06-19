@@ -1,0 +1,9 @@
+name: prokka
+
+channels:
+  - defaults
+  - conda-forge
+  - bioconda
+
+dependencies:
+  - prokka

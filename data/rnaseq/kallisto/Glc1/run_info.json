@@ -1,0 +1,13 @@
+{
+	"n_targets": 2099,
+	"n_bootstraps": 0,
+	"n_processed": 42694038,
+	"n_pseudoaligned": 35945233,
+	"n_unique": 35859231,
+	"p_pseudoaligned": 84.2,
+	"p_unique": 84.0,
+	"kallisto_version": "0.48.0",
+	"index_version": 10,
+	"start_time": "Mon Sep 25 18:18:45 2023",
+	"call": "kallisto quant -i data/rnaseq/refs/Bc_kashiwanohense_Bg42221_1E1_transcriptome.index -o data/rnaseq/kallisto/Glc1 --single --rf-stranded -l 150 -s 20 data/rnaseq/fq_filt/Glc1.fastq.gz"
+}

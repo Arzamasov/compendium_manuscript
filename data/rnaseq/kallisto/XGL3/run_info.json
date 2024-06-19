@@ -1,0 +1,13 @@
+{
+	"n_targets": 2099,
+	"n_bootstraps": 0,
+	"n_processed": 50865363,
+	"n_pseudoaligned": 41852056,
+	"n_unique": 41585122,
+	"p_pseudoaligned": 82.3,
+	"p_unique": 81.8,
+	"kallisto_version": "0.48.0",
+	"index_version": 10,
+	"start_time": "Mon Sep 25 18:18:45 2023",
+	"call": "kallisto quant -i data/rnaseq/refs/Bc_kashiwanohense_Bg42221_1E1_transcriptome.index -o data/rnaseq/kallisto/XGL3 --single --rf-stranded -l 150 -s 20 data/rnaseq/fq_filt/XGL3.fastq.gz"
+}
