@@ -8,12 +8,12 @@ scFOS_ado_3	scFOS	B. adolescentis STL_TW14.1_LFYP80
 lcFOS_ado_1	lcFOS	B. adolescentis STL_TW14.1_LFYP80
 lcFOS_ado_2	lcFOS	B. adolescentis STL_TW14.1_LFYP80
 lcFOS_ado_3	lcFOS	B. adolescentis STL_TW14.1_LFYP80
-scFOS_3A11_1	scFOS	B. longum subsp. longum Bg115.S08_3A11
-scFOS_3A11_2	scFOS	B. longum subsp. longum Bg115.S08_3A11
-scFOS_3A11_3	scFOS	B. longum subsp. longum Bg115.S08_3A11
-lcFOS_3A11_1	lcFOS	B. longum subsp. longum Bg115.S08_3A11
-lcFOS_3A11_2	lcFOS	B. longum subsp. longum Bg115.S08_3A11
-lcFOS_3A11_3	lcFOS	B. longum subsp. longum Bg115.S08_3A11
+scFOS_064_1	scFOS	B. longum subsp. infantis Bg064.S07_13.C6
+scFOS_064_2	scFOS	B. longum subsp. infantis Bg064.S07_13.C6
+scFOS_064_3	scFOS	B. longum subsp. infantis Bg064.S07_13.C6
+lcFOS_064_1	lcFOS	B. longum subsp. infantis Bg064.S07_13.C6
+lcFOS_064_2	lcFOS	B. longum subsp. infantis Bg064.S07_13.C6
+lcFOS_064_3	lcFOS	B. longum subsp. infantis Bg064.S07_13.C6
 scFOS_4F7_1	scFOS	B. breve Bg155.S08_4F7
 scFOS_4F7_2	scFOS	B. breve Bg155.S08_4F7
 scFOS_4F7_3	scFOS	B. breve Bg155.S08_4F7

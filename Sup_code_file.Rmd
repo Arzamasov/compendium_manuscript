@@ -4,11 +4,10 @@ author:
 - Aleksandr A. Arzamasov
 - Dmitry A. Rodionov
 - Matthew C. Hibberd
-- Swetha Nakshatri
+- Janaki L. Guruge
 - Marat D. Kazanov
 - Semen A. Leyn
 - James E. Kent
-- Janaki L. Guruge
 - Kristija Sejane
 - Lars Bode
 - Michael J. Barratt
@@ -2338,7 +2337,7 @@ ggplot(FOS_d_bl_long_ann, aes(time, od, color = strain, fill = strain)) +
   scale_color_manual(name = "Taxonomy",
                      breaks=c("B. adolescentis STL_TW14.1_LFYP80",
                               "B. breve Bg155.S08_4F7",
-                              "B. longum subsp. longum Bg115.S08_3A11",
+                              "B. longum subsp. infantis Bg064.S07_13.C6",
                               "B. longum subsp. infantis Bg40721_2D9",
                               "B. longum subsp. infantis Malawi264A_MC2",
                               "B. bifidum Bg41221_3D10"),
