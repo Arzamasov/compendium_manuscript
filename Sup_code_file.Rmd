@@ -73,9 +73,9 @@ All code used in this analysis (including the Rmarkdown document used to compile
 Once the GitHub repo has been downloaded, navigate to `compendium_manuscript/` to find the Rmarkdown document as well as the RProject file.
 This should be your working directory for executing code.
 
-1.  To fully reproduce the phylogenetic analysis of 263 reference *Bifidobacterium* genomes, you will need to download FNA files from [**Figshare**](https://doi.org/10.6084/m9.figshare.26053936). Downloaded FNA files should be placed to `data/genomes/263_NR_ref_genomes/fna/`
-2.  To fully reproduce the analysis of the CAZyme representation in 263 reference *Bifidobacterium* genomes, you will need to download FAA files from [**Figshare**](https://doi.org/10.6084/m9.figshare.26053936). Downloaded FAA files should be placed to `data/genomes/263_NR_ref_genomes/faa/`
-3.  To fully reproduce the RNA-seq data analysis, you will need to download raw FASTQ files from Gene Expression Omnibus under accession [**GSE239955**](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE239955). Downloaded FASTQ files should be placed to `data/rnaseq/fastq/`. Otherwise, `data/rnaseq/kallisto/` already contains Kallisto mapping outputs
+1.  To fully reproduce the phylogenetic analysis of 263 reference *Bifidobacterium* genomes, you will need to download FNA files from [**Figshare**](https://doi.org/10.6084/m9.figshare.26053936). Downloaded FNA files should be placed in `data/genomes/263_NR_ref_genomes/fna/`
+2.  To fully reproduce the analysis of the CAZyme representation in 263 reference *Bifidobacterium* genomes, you will need to download FAA files from [**Figshare**](https://doi.org/10.6084/m9.figshare.26053936). Downloaded FAA files should be placed in `data/genomes/263_NR_ref_genomes/faa/`
+3.  To fully reproduce the RNA-seq data analysis, you will need to download raw FASTQ files from Gene Expression Omnibus under accession [**GSE239955**](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE239955). Downloaded FASTQ files should be placed in `data/rnaseq/fastq/`. Otherwise, `data/rnaseq/kallisto/` already contains Kallisto mapping outputs
 
 ------------------------------------------------------------------------
 
