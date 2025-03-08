@@ -1,7 +1,7 @@
-genome_name	Glc	Gal	Fru	Man	Xyl	Ara	Rib	Mtl	Stl	Mal	Mlz	Cld	RFO	Lac	Scr	ST	AGI
-Bifidobacterium breve 12L	+	-	-	-	-	-	-	+	+	+	+	-	+	+	+	+	+
-Bifidobacterium breve 689b	+	-	+	-	+	-	+	+	+	+	-	-	+	+	+	+	+
-Bifidobacterium breve JCM 7017	+	-	+	-	-	-	-	+	+	+	-	+	+	+	+	-	+
-Bifidobacterium breve JCM 7019	+	-	+	-	-	-	-	+	+	+	+	-	+	+	-	-	-
-Bifidobacterium breve NCFB 2258	+	-	+	-	+	-	+	-	-	+	-	-	+	+	+	+	+
-Bifidobacterium breve UCC2003	+	-	-	-	-	-	+	-	-	+	+	+	+	+	+	+	+
+genome_name	Glc	Gal	Fru	Xyl	Ara	Rib	Mtl	Stl	Mal	Mlz	BglOS	RFO	Lac	Scr	ST	PUL	PG
+Bifidobacterium breve 12L	+	-	-	-	-	-	+	+	+	+	-	+	+	+	+	+	+
+Bifidobacterium breve 689b	+	-	+	-	-	+	+	+	+	-	-	+	+	+	+	+	+
+Bifidobacterium breve JCM 7017	+	-	+	-	-	-	+	+	+	-	+	+	+	+	-	-	+
+Bifidobacterium breve JCM 7019	+	-	+	-	-	-	+	+	+	+	-	+	+	-	-	-	-
+Bifidobacterium breve NCFB 2258	+	-	+	+	-	+	-	-	+	-	-	+	+	+	+	+	+
+Bifidobacterium breve UCC2003	+	-	-	-	-	+	-	-	+	+	+	+	+	+	+	+	+

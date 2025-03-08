@@ -55,6 +55,11 @@ calculate_group_metrics <- function(group_table1, group_table2) {
       value1 <- values1[i]
       value2 <- values2[i]
       
+      # Skip if either value is "NT"
+      if (value1 == "NT" || value2 == "NT") {
+        next
+      }
+      
       if (value1 == "1" && (value2 == "+" || value2 == "w")) {
         tp <- tp + 1
       } else if (value1 == "0" && value2 == "-") {

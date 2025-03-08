@@ -35,17 +35,57 @@ d_bl_long <- d_bl %>%
 d_bl_long_ann <- left_join(d_bl_long, ann, by="well") %>%
   filter(carbon_source != "blank") %>%
   filter(carbon_source != "blank_ST") %>%
-  mutate(across(carbon_source, factor, levels = c("no_sugar", "Glc", "Gal", "Fru", "Man",  
-                                                  "Xyl", "Ara", "Rib", "GlcNAc", "GalNAc",
-                                                  "ManNAc", "Neu5Ac", "GlcA", "GalA", "Gco",
-                                                  "Ino", "Mtl", "Stl", "Mal", "IMO", "Mlz",
-                                                  "Cld", "Gen", "Lam", "Sop", "Lac", "Mel",
-                                                  "RFO", "Scr", "scFOS", "lcFOS", "bMnOS",
-                                                  "XOS", "aAOS", "LNT", "LNnT", "FL", "SL",
-                                                  "ST", "GA", "bMAN", "AR", "XGL")))
+  mutate(across(carbon_source, factor, levels = c("No substrate",
+                                                  "D-glucose (Glc)",
+                                                  "D-galactose (Gal)",
+                                                  "D-fructose (Fru)",
+                                                  "D-mannose (Man)",
+                                                  "D-xylose (Xyl)",
+                                                  "L-arabinose (Ara)",
+                                                  "D-ribose (Rib)",
+                                                  "N-acetyl-D-glucosamine (GlcNAc)",
+                                                  "N-acetyl-D-galactosamine (GalNAc)",
+                                                  "N-acetyl-D-mannosamine (ManNAc)",
+                                                  "N-acetylneuraminic acid (Neu5Ac)",
+                                                  "D-glucuronate (GlcA)",
+                                                  "D-galacturonate (GalA)",
+                                                  "D-gluconate (Gco)",
+                                                  "Myo-inositol (Ino)",
+                                                  "D-mannitol (Mtl)",
+                                                  "D-sorbitol (Stl)",
+                                                  "Maltose (Mal)",
+                                                  "Maltotriose (MOS)",
+                                                  "Panose (IMO)",
+                                                  "Isomaltotriose (IMO)",
+                                                  "Melezitose (Mlz)",
+                                                  "Cellobiose (BglOS)",
+                                                  "Gentiobiose (BglOS)",
+                                                  "Laminaritriose (BglOS)",
+                                                  "Sophorose (BglOS)",
+                                                  "Melibiose (Mel)",
+                                                  "Raffinose (RFO)",
+                                                  "Lactose (Lac)",
+                                                  "Sucrose (Scr)",
+                                                  "Fructooligosaccharide DP=3 (scFOS)",
+                                                  "Chicory fructooligosaccharides (lcFOS)",
+                                                  "Mannotriose (bMnOS)",
+                                                  "Xylotriose (XOS)",
+                                                  "Arabinotriose (aAOS)",
+                                                  "Lacto-N-tetraose (LNT)",
+                                                  "Lacto-N-neotetraose (LNnT)",
+                                                  "2'-fucosyllactose (2'FL)",
+                                                  "3'-sialyllactose (SHMO)",
+                                                  "6'-sialyllactose (SHMO)",
+                                                  "Potato soluble starch (ST)",
+                                                  "Pullulan (PUL)",
+                                                  "Gum arabic from acacia tree (GA)",
+                                                  "Konjac glucomannan (bMAN)",
+                                                  "Wheat flour arabinoxylan (AX)",
+                                                  "Sugar beet arabinan (AR)",
+                                                  "Tamarind xyloglucan (XGL)")))
 
 # calculate the mean OD600_max value and set thresholds based on this value
-mean_max_OD <- mean(head(sort(d_bl_long_ann$od,decreasing=TRUE), n=3))
+mean_max_OD <- mean(head(sort(d_bl_long_ann$od,decreasing=TRUE), n=30))
 # threshold for no growth (10% of OD600_max)
 growth_limit <- 0.1 * mean_max_OD 
 # threshold for weak growth (25% of OD600_max)
@@ -85,7 +125,10 @@ curves <- ggplot(filtered_summary, aes(x = time, y = mean_od)) +
   xlab("Time (h)") +
   ylab("OD600") +
   facet_wrap(~ carbon_source, scales="fixed", ncol = 6) +
-  theme_bw()
+  theme_bw() + 
+  theme(
+    strip.text = element_text(size = 5) 
+  )
 # save pdf
 ggsave(filename = growth_output_file, plot = curves, width = 8.5, height = 11, units = "in", dpi = 300)
 print(curves)

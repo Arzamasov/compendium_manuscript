@@ -11,6 +11,9 @@ blank_3	blank	NA
 Bg463_1	Neu5Ac	B. breve JG_Bg463
 Bg463_2	Neu5Ac	B. breve JG_Bg463
 Bg463_2	Neu5Ac	B. breve JG_Bg463
-LFYP81_1	Neu5Ac	B. breve STL_TW14.1_LFYP24
-LFYP81_2	Neu5Ac	B. breve STL_TW14.1_LFYP24
-LFYP81_3	Neu5Ac	B. breve STL_TW14.1_LFYP24
+LFYP81_1	Neu5Ac	B. breve LFYP24
+LFYP81_2	Neu5Ac	B. breve LFYP24
+LFYP81_3	Neu5Ac	B. breve LFYP24
+Bg131_1	Neu5Ac	B. breve Bg131.S11_D6
+Bg131_2	Neu5Ac	B. breve Bg131.S11_D6
+Bg131_3	Neu5Ac	B. breve Bg131.S11_D6

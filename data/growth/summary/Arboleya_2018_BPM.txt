@@ -1,20 +1,20 @@
-genome_name	Glc	Gal	Man	Xyl	Ara	Fuc	GlcNAc	GalNAc	ManNAc	Neu5Ac	Lac	GOS	Scr	XOS	FL	LNnT	Muc	ST	AGI	AGII	XL	AX	AR
-Bifidobacterium longum subsp. longum APC1462	1	1	0	1	1	0	0	0	0	0	1	1	1	0	0	0	0	0	1	1	0	1	1
-Bifidobacterium longum subsp. longum APC1464	1	1	0	1	1	0	0	0	0	0	1	1	1	1	0	0	0	0	0	1	0	1	1
-Bifidobacterium longum subsp. longum APC1465	1	1	0	1	1	0	0	0	0	0	1	1	1	1	0	0	0	0	1	1	0	1	0
-Bifidobacterium longum subsp. longum APC1466	1	1	0	1	1	0	0	0	0	0	1	1	1	1	0	0	0	0	1	1	0	1	0
-Bifidobacterium longum subsp. longum APC1468	1	1	0	1	1	0	0	0	0	0	1	1	1	1	0	0	0	0	1	1	0	1	0
-Bifidobacterium longum subsp. longum APC1472	1	1	0	1	1	0	0	0	0	0	1	1	1	0	0	0	0	0	1	1	0	1	1
-Bifidobacterium longum subsp. longum APC1473	1	1	0	1	1	0	0	0	0	0	1	1	1	1	0	0	0	0	1	1	0	1	0
-Bifidobacterium longum subsp. longum APC1476	1	1	0	1	1	0	0	0	0	0	1	1	1	1	0	0	0	0	1	1	0	1	1
-Bifidobacterium longum subsp. longum APC1478	1	1	0	1	1	0	0	0	0	0	1	1	1	0	1	0	0	0	1	1	0	1	1
-Bifidobacterium longum subsp. longum APC1480	1	1	0	1	1	0	0	0	0	0	1	1	1	0	0	0	0	0	1	1	0	1	1
-Bifidobacterium longum subsp. longum APC1482	1	1	0	1	1	0	0	0	0	0	1	1	1	0	0	0	0	0	1	1	0	1	1
-Bifidobacterium longum subsp. longum APC1503	1	1	0	1	1	0	0	0	0	0	1	1	1	1	0	0	0	0	1	1	0	1	0
-Bifidobacterium longum subsp. longum APC1504	1	1	0	1	1	0	0	0	0	0	1	1	1	0	0	0	0	0	1	1	0	1	0
-Bifidobacterium longum subsp. longum DPC6316	1	1	0	1	1	0	0	0	0	0	1	1	1	0	0	0	0	0	1	1	0	1	1
-Bifidobacterium longum subsp. longum DPC6317	1	1	0	1	1	0	0	0	0	0	1	1	1	1	0	0	0	0	0	1	0	1	1
-Bifidobacterium longum subsp. longum DPC6320	1	1	0	1	1	0	0	0	0	0	1	1	1	1	0	0	0	0	1	1	0	1	1
-Bifidobacterium longum subsp. longum DPC6321	1	1	0	1	1	0	0	0	0	0	1	1	1	1	0	0	0	0	0	1	0	1	1
-Bifidobacterium longum subsp. longum DPC6323	1	1	0	1	1	0	0	0	0	0	1	1	1	0	1	0	0	0	1	1	0	1	0
-Bifidobacterium longum subsp. suis APC1461	1	1	0	0	1	0	0	0	0	0	1	1	1	0	0	0	0	0	1	1	0	0	0
+genome_name	Glc	Gal	Xyl	Ara	Fuc	GlcNAc	Neu5Ac	Lac	GOS	Scr	XOS	2'FL	3FL	LNnT	Muc	ST	PUL	PG	AGII	XL	AX	AR
+Bifidobacterium longum subsp. longum APC1462	1	1	1	1	0	0	0	1	1	1	0	0	0	0	0	0	0	1	1	0	1	1
+Bifidobacterium longum subsp. longum APC1464	1	1	1	1	0	0	0	1	1	1	1	0	0	0	0	0	0	0	1	0	1	1
+Bifidobacterium longum subsp. longum APC1465	1	1	1	1	0	0	0	1	1	1	1	0	0	0	0	0	0	1	1	0	1	0
+Bifidobacterium longum subsp. longum APC1466	1	1	1	1	0	0	0	1	1	1	1	0	0	0	0	0	0	1	1	0	1	0
+Bifidobacterium longum subsp. longum APC1468	1	1	1	1	0	0	0	1	1	1	1	0	0	0	0	0	0	1	1	0	1	0
+Bifidobacterium longum subsp. longum APC1472	1	1	1	1	0	0	0	1	1	1	0	0	0	0	0	0	0	1	1	0	1	1
+Bifidobacterium longum subsp. longum APC1473	1	1	1	1	0	0	0	1	1	1	1	0	0	0	0	0	0	1	1	0	1	0
+Bifidobacterium longum subsp. longum APC1476	1	1	1	1	0	0	0	1	1	1	1	0	0	0	0	0	0	1	1	0	1	1
+Bifidobacterium longum subsp. longum APC1478	1	1	1	1	0	0	0	1	1	1	0	1	1	0	0	0	0	1	1	0	1	1
+Bifidobacterium longum subsp. longum APC1480	1	1	1	1	0	0	0	1	1	1	0	0	0	0	0	0	0	1	1	0	1	1
+Bifidobacterium longum subsp. longum APC1482	1	1	1	1	0	0	0	1	1	1	0	0	0	0	0	0	0	1	1	0	1	1
+Bifidobacterium longum subsp. longum APC1503	1	1	1	1	0	0	0	1	1	1	1	0	0	0	0	0	0	1	1	0	1	0
+Bifidobacterium longum subsp. longum APC1504	1	1	1	1	0	0	0	1	1	1	0	0	0	0	0	0	0	1	1	0	1	0
+Bifidobacterium longum subsp. longum DPC6316	1	1	1	1	0	0	0	1	1	1	0	0	0	0	0	0	0	1	1	0	1	1
+Bifidobacterium longum subsp. longum DPC6317	1	1	1	1	0	0	0	1	1	1	1	0	0	0	0	0	0	0	1	0	1	1
+Bifidobacterium longum subsp. longum DPC6320	1	1	1	1	0	0	0	1	1	1	1	0	0	0	0	0	0	1	1	0	1	1
+Bifidobacterium longum subsp. longum DPC6321	1	1	1	1	0	0	0	1	1	1	1	0	0	0	0	0	0	0	1	0	1	1
+Bifidobacterium longum subsp. longum DPC6323	1	1	1	1	0	0	0	1	1	1	0	1	1	0	0	0	0	1	1	0	1	0
+Bifidobacterium longum subsp. suis APC1461	1	1	1	1	0	0	0	1	1	1	0	0	0	0	0	0	0	1	1	0	0	0

@@ -1,254 +1,254 @@
 contrast	estimate	SE	df	z.ratio	p.value
-Bifidobacterium longum subsp. nov. - Bifidobacterium adolescentis	-0.17619584855156248	0.04089390899935678	Inf	-4.308608613432721	0.004156405286029162
-Bifidobacterium longum subsp. nov. - Bifidobacterium angulatum	-0.1532461116968352	0.13025703000427338	Inf	-1.176490141774364	1
-Bifidobacterium longum subsp. nov. - Bifidobacterium animalis subsp. animalis	0.0893155254744538	0.24577593025496938	Inf	0.3634022476562182	1
-Bifidobacterium longum subsp. nov. - Bifidobacterium animalis subsp. lactis	0.24838022010416605	0.09208056366346835	Inf	2.6974228895028727	1
-Bifidobacterium longum subsp. nov. - Bifidobacterium bifidum	0.08714460053183803	0.04155538264643866	Inf	2.0970713053777263	1
-Bifidobacterium longum subsp. nov. - Bifidobacterium breve	-0.3871971086343031	0.041352054383662296	Inf	-9.363431017039872	1.9528702211799025e-18
-Bifidobacterium longum subsp. nov. - Bifidobacterium catenulatum subsp. catenulatum	-0.008403410796376356	0.05126698338502029	Inf	-0.16391467259280462	1
-Bifidobacterium longum subsp. nov. - Bifidobacterium catenulatum subsp. kashiwanohense	-0.3563296599392138	0.057398669390856985	Inf	-6.207977706116885	1.3578702866527658e-7
-Bifidobacterium longum subsp. nov. - Bifidobacterium catenulatum subsp. kashiwanohense_A	-0.3161495826337031	0.10670613876224981	Inf	-2.96280594819489	0.7712671769691828
-Bifidobacterium longum subsp. nov. - Bifidobacterium dentium	-0.4554449457502931	0.043636365101501595	Inf	-10.437279656334631	4.238841717078176e-23
-Bifidobacterium longum subsp. nov. - Bifidobacterium gallicum	0.5246335967322834	0.30412393754853534	Inf	1.7250651197048794	1
-Bifidobacterium longum subsp. nov. - Bifidobacterium longum subsp. infantis	-0.4907787938044797	0.042536999836713586	Inf	-11.537691790404308	2.1550622139364764e-28
-Bifidobacterium longum subsp. nov. - Bifidobacterium longum subsp. longum	-0.44555935352418463	0.04022787691752623	Inf	-11.075885372664699	4.1554889674458726e-26
-Bifidobacterium longum subsp. nov. - Bifidobacterium longum subsp. suis	-0.4001061896283305	0.06313576350780195	Inf	-6.337235306877816	5.918292362295739e-8
-Bifidobacterium longum subsp. nov. - Bifidobacterium pseudocatenulatum	-0.3492174115209526	0.04098549634267797	Inf	-8.520511953818025	4.0188941383745175e-15
-Bifidobacterium longum subsp. nov. - Bifidobacterium pseudolongum subsp. globosum	-0.21838541386779653	0.08359236735495344	Inf	-2.612504236666479	1
-Bifidobacterium longum subsp. nov. - Bifidobacterium pullorum	-0.280217573407612	0.09855130525282134	Inf	-2.8433674489520766	1
-Bifidobacterium longum subsp. nov. - Bifidobacterium ruminantium	-0.04788559603900877	0.1649948608948718	Inf	-0.29022477293713755	1
-Bifidobacterium longum subsp. nov. - Bifidobacterium scardovii	-0.4561956562794018	0.08522967008472665	Inf	-5.352545138634217	2.1941591884007174e-5
-Bifidobacterium longum subsp. nov. - Bifidobacterium sp002742445	-0.17606078946300893	0.06394172460181802	Inf	-2.7534570041609903	1
-Bifidobacterium longum subsp. nov. - Bifidobacterium thermophilum	0.43762221974269405	0.2914028342591315	Inf	1.501777499368919	1
-Bifidobacterium longum subsp. nov. - Bifidobacterium tsurumiense	-0.603831655085469	0.12762507917284172	Inf	-4.731293089093439	5.644281728985684e-4
-Bifidobacterium adolescentis - Bifidobacterium angulatum	0.022949736854727287	0.12439714103192386	Inf	0.18448765513700777	1
-Bifidobacterium adolescentis - Bifidobacterium animalis subsp. animalis	0.26551137402601627	0.24272116249737632	Inf	1.0938946208651514	1
-Bifidobacterium adolescentis - Bifidobacterium animalis subsp. lactis	0.4245760686557285	0.08358579446272241	Inf	5.079524234767918	9.573045778676563e-5
-Bifidobacterium adolescentis - Bifidobacterium bifidum	0.2633404490834005	0.015316809663706299	Inf	17.19290471483723	7.592843721959018e-64
-Bifidobacterium adolescentis - Bifidobacterium breve	-0.21100126008274064	0.014756260811317617	Inf	-14.29910075328222	5.607875656027609e-44
-Bifidobacterium adolescentis - Bifidobacterium catenulatum subsp. catenulatum	0.16779243775518612	0.03370546568113519	Inf	4.9781966919715	1.6237392835652392e-4
-Bifidobacterium adolescentis - Bifidobacterium catenulatum subsp. kashiwanohense	-0.1801338113876513	0.042454235115276705	Inf	-4.243011584086509	0.005579663186493614
-Bifidobacterium adolescentis - Bifidobacterium catenulatum subsp. kashiwanohense_A	-0.1399537340821406	0.09946836120561482	Inf	-1.4070175921852872	1
-Bifidobacterium adolescentis - Bifidobacterium dentium	-0.2792490971987306	0.02029500408114706	Inf	-13.75949943553535	1.1299191531381587e-40
-Bifidobacterium adolescentis - Bifidobacterium gallicum	0.7008294452838458	0.3016606109875921	Inf	2.3232381681832246	1
-Bifidobacterium adolescentis - Bifidobacterium longum subsp. infantis	-0.3145829452529172	0.017808739048312414	Inf	-17.664526634901062	1.9903505545110735e-67
-Bifidobacterium adolescentis - Bifidobacterium longum subsp. longum	-0.2693635049726222	0.011226616261095335	Inf	-23.993294035182554	8.266006090801035e-125
-Bifidobacterium adolescentis - Bifidobacterium longum subsp. suis	-0.22391034107676802	0.04993875714408205	Inf	-4.483698711819109	0.0018560136467246817
-Bifidobacterium adolescentis - Bifidobacterium pseudocatenulatum	-0.1730215629693901	0.013695464279750996	Inf	-12.633493792919879	3.491693420049983e-34
-Bifidobacterium adolescentis - Bifidobacterium pseudolongum subsp. globosum	-0.04218956531623405	0.07413122629086702	Inf	-0.5691200244104395	1
-Bifidobacterium adolescentis - Bifidobacterium pullorum	-0.10402172485604952	0.09066484764459265	Inf	-1.1473214543283192	1
-Bifidobacterium adolescentis - Bifidobacterium ruminantium	0.1283102525125537	0.16040903638230752	Inf	0.799894166851973	1
-Bifidobacterium adolescentis - Bifidobacterium scardovii	-0.2799998077278393	0.07597270229584842	Inf	-3.6855317668901724	0.05774107971702809
-Bifidobacterium adolescentis - Bifidobacterium sp002742445	1.3505908855354631e-4	0.050953890689887454	Inf	0.0026506138535236676	1
-Bifidobacterium adolescentis - Bifidobacterium thermophilum	0.6138180682942566	0.2888310347688361	Inf	2.125180449481551	1
-Bifidobacterium adolescentis - Bifidobacterium tsurumiense	-0.42763580653390654	0.12163846293527543	Inf	-3.5156298116119253	0.1109941941352042
-Bifidobacterium angulatum - Bifidobacterium animalis subsp. animalis	0.24256163717128898	0.27241171927133406	Inf	0.89042291506441	1
-Bifidobacterium angulatum - Bifidobacterium animalis subsp. lactis	0.40162633180100127	0.1492687747261658	Inf	2.6906252331593565	1
-Bifidobacterium angulatum - Bifidobacterium bifidum	0.24039071222867323	0.12461615758223553	Inf	1.9290493054244338	1
-Bifidobacterium angulatum - Bifidobacterium breve	-0.23395099693746793	0.12454850181924301	Inf	-1.878392702603525	1
-Bifidobacterium angulatum - Bifidobacterium catenulatum subsp. catenulatum	0.14484270090045884	0.12818205993456547	Inf	1.1299763865114847	1
-Bifidobacterium angulatum - Bifidobacterium catenulatum subsp. kashiwanohense	-0.2030835482423786	0.13075528345542886	Inf	-1.5531574929559506	1
-Bifidobacterium angulatum - Bifidobacterium catenulatum subsp. kashiwanohense_A	-0.16290347093686788	0.15870896935339543	Inf	-1.0264288880493742	1
-Bifidobacterium angulatum - Bifidobacterium dentium	-0.30219883405345793	0.1253254533721707	Inf	-2.4113125141150547	1
-Bifidobacterium angulatum - Bifidobacterium gallicum	0.6778797084291186	0.32602715576113245	Inf	2.079212410532376	1
-Bifidobacterium angulatum - Bifidobacterium longum subsp. infantis	-0.33753268210764453	0.12494692176591324	Inf	-2.7014085448220047	1
-Bifidobacterium angulatum - Bifidobacterium longum subsp. longum	-0.2923132418273494	0.12417978492878881	Inf	-2.353951909281991	1
-Bifidobacterium angulatum - Bifidobacterium longum subsp. suis	-0.2468600779314953	0.13337339141441204	Inf	-1.8508945098686314	1
-Bifidobacterium angulatum - Bifidobacterium pseudocatenulatum	-0.1959712998241174	0.12442727922013037	Inf	-1.5749866191111919	1
-Bifidobacterium angulatum - Bifidobacterium pseudolongum subsp. globosum	-0.06513930217096134	0.1441874501601096	Inf	-0.45176818161794885	1
-Bifidobacterium angulatum - Bifidobacterium pullorum	-0.1269714617107768	0.15334502492974317	Inf	-0.8280116147814399	1
-Bifidobacterium angulatum - Bifidobacterium ruminantium	0.10536051565782642	0.20254787341610578	Inf	0.5201758669733265	1
-Bifidobacterium angulatum - Bifidobacterium scardovii	-0.3029495445825666	0.14514280404629076	Inf	-2.0872515628535475	1
-Bifidobacterium angulatum - Bifidobacterium sp002742445	-0.02281467776617374	0.1337567981402192	Inf	-0.17056836051246368	1
-Bifidobacterium angulatum - Bifidobacterium thermophilum	0.5908683314395292	0.3141941258488499	Inf	1.8805836354934897	1
-Bifidobacterium angulatum - Bifidobacterium tsurumiense	-0.45058554338863377	0.17346612850220278	Inf	-2.597541936741339	1
-Bifidobacterium animalis subsp. animalis - Bifidobacterium animalis subsp. lactis	0.15906469462971223	0.2563592813521918	Inf	0.620475661309043	1
-Bifidobacterium animalis subsp. animalis - Bifidobacterium bifidum	-0.002170924942615768	0.24283348360084522	Inf	-0.008939973641296523	1
-Bifidobacterium animalis subsp. animalis - Bifidobacterium breve	-0.47651263410875694	0.24279877127485502	Inf	-1.962582560063005	1
-Bifidobacterium animalis subsp. animalis - Bifidobacterium catenulatum subsp. catenulatum	-0.09771893627083016	0.24468255866781746	Inf	-0.39937025672309556	1
-Bifidobacterium animalis subsp. animalis - Bifidobacterium catenulatum subsp. kashiwanohense	-0.4456451854136676	0.24604035884112782	Inf	-1.811268637034576	1
-Bifidobacterium animalis subsp. animalis - Bifidobacterium catenulatum subsp. kashiwanohense_A	-0.4054651081081569	0.26196841599776566	Inf	-1.5477633307963932	1
-Bifidobacterium animalis subsp. animalis - Bifidobacterium dentium	-0.5447604712247469	0.24319823866570567	Inf	-2.2399852655740706	1
-Bifidobacterium animalis subsp. animalis - Bifidobacterium gallicum	0.43531807125782956	0.3869529949759468	Inf	1.1249895385481876	1
-Bifidobacterium animalis subsp. animalis - Bifidobacterium longum subsp. infantis	-0.5800943192789335	0.24300338945360134	Inf	-2.387186123548683	1
-Bifidobacterium animalis subsp. animalis - Bifidobacterium longum subsp. longum	-0.5348748789986384	0.24260983700609018	Inf	-2.204671029003707	1
-Bifidobacterium animalis subsp. animalis - Bifidobacterium longum subsp. suis	-0.4894217151027843	0.247441660931508	Inf	-1.9779276992416268	1
-Bifidobacterium animalis subsp. animalis - Bifidobacterium pseudocatenulatum	-0.4385329369954064	0.24273661001440575	Inf	-1.8066205051202646	1
-Bifidobacterium animalis subsp. animalis - Bifidobacterium pseudolongum subsp. globosum	-0.30770093934225035	0.2534342810490236	Inf	-1.2141251691310442	1
-Bifidobacterium animalis subsp. animalis - Bifidobacterium pullorum	-0.3695330988820658	0.2587539578400009	Inf	-1.4281253974502088	1
-Bifidobacterium animalis subsp. animalis - Bifidobacterium ruminantium	-0.1372011215134626	0.2906278635171587	Inf	-0.47208522903848216	1
-Bifidobacterium animalis subsp. animalis - Bifidobacterium scardovii	-0.5455111817538556	0.2539790298303806	Inf	-2.147859144584394	1
-Bifidobacterium animalis subsp. animalis - Bifidobacterium sp002742445	-0.2653763149374627	0.24764853134207107	Inf	-1.0715844487319195	1
-Bifidobacterium animalis subsp. animalis - Bifidobacterium thermophilum	0.34830669426824024	0.37703695143193106	Inf	0.9237998900251619	1
-Bifidobacterium animalis subsp. animalis - Bifidobacterium tsurumiense	-0.6931471805599227	0.271163072273317	Inf	-2.5562004986478017	1
-Bifidobacterium animalis subsp. lactis - Bifidobacterium bifidum	-0.16123561957232802	0.08391140011707994	Inf	-1.9214983821907285	1
-Bifidobacterium animalis subsp. lactis - Bifidobacterium breve	-0.6355773287384692	0.08381089215887219	Inf	-7.583469312481089	8.511809205020011e-12
-Bifidobacterium animalis subsp. lactis - Bifidobacterium catenulatum subsp. catenulatum	-0.2567836309005424	0.08912113569808598	Inf	-2.8812876865757584	1
-Bifidobacterium animalis subsp. lactis - Bifidobacterium catenulatum subsp. kashiwanohense	-0.6047098800433799	0.09278405299704155	Inf	-6.517390225049355	1.8099908467897404e-8
-Bifidobacterium animalis subsp. lactis - Bifidobacterium catenulatum subsp. kashiwanohense_A	-0.5645298027378691	0.12923031104297913	Inf	-4.368400866497327	0.003166538031242438
-Bifidobacterium animalis subsp. lactis - Bifidobacterium dentium	-0.7038251658544592	0.08496120056819025	Inf	-8.284077451207459	3.011411731141998e-14
-Bifidobacterium animalis subsp. lactis - Bifidobacterium gallicum	0.27625337662811733	0.3127389368670646	Inf	0.8833354087455502	1
-Bifidobacterium animalis subsp. lactis - Bifidobacterium longum subsp. infantis	-0.7391590139086457	0.08440183409041159	Inf	-8.757617910492982	5.045321560243887e-16
-Bifidobacterium animalis subsp. lactis - Bifidobacterium longum subsp. longum	-0.6939395736283507	0.08326196805269719	Inf	-8.334412335643455	1.9704665773112654e-14
-Bifidobacterium animalis subsp. lactis - Bifidobacterium longum subsp. suis	-0.6484864097324965	0.09643857048105847	Inf	-6.724346975465235	4.462456322718447e-9
-Bifidobacterium animalis subsp. lactis - Bifidobacterium pseudocatenulatum	-0.5975976316251186	0.08363064123377516	Inf	-7.145677981287225	2.265685180961932e-10
-Bifidobacterium animalis subsp. lactis - Bifidobacterium pseudolongum subsp. globosum	-0.4667656339719626	0.11091418810378685	Inf	-4.20834919275784	0.006508251028761596
-Bifidobacterium animalis subsp. lactis - Bifidobacterium pullorum	-0.528597793511778	0.12258316772604498	Inf	-4.312156418515101	0.004090250777574863
-Bifidobacterium animalis subsp. lactis - Bifidobacterium ruminantium	-0.2962658161431748	0.18038175452199962	Inf	-1.6424378226515244	1
-Bifidobacterium animalis subsp. lactis - Bifidobacterium scardovii	-0.7045758763835679	0.1121533321193271	Inf	-6.282255400436294	8.442509874212654e-8
-Bifidobacterium animalis subsp. lactis - Bifidobacterium sp002742445	-0.424441009567175	0.09696812562781378	Inf	-4.377118840022528	0.0030425378224237126
-Bifidobacterium animalis subsp. lactis - Bifidobacterium thermophilum	0.189241999638528	0.30038289741090635	Inf	0.6300025776089907	1
-Bifidobacterium animalis subsp. lactis - Bifidobacterium tsurumiense	-0.852211875189635	0.1469776652304385	Inf	-5.798240663664762	1.6954601494865966e-6
-Bifidobacterium bifidum - Bifidobacterium breve	-0.47434170916614116	0.01650106865557	Inf	-28.746120573592385	2.5622772856874977e-179
-Bifidobacterium bifidum - Bifidobacterium catenulatum subsp. catenulatum	-0.09554801132821439	0.03450502065535374	Inf	-2.769104597344715	1
-Bifidobacterium bifidum - Bifidobacterium catenulatum subsp. kashiwanohense	-0.4434742604710518	0.043091763863497175	Inf	-10.291392616831745	1.9494605736735593e-22
-Bifidobacterium bifidum - Bifidobacterium catenulatum subsp. kashiwanohense_A	-0.4032941831655411	0.09974213209358854	Inf	-4.043368381048123	0.013330250988620847
-Bifidobacterium bifidum - Bifidobacterium dentium	-0.5425895462821311	0.0215968799667448	Inf	-25.1235153928539	6.964742758749174e-137
-Bifidobacterium bifidum - Bifidobacterium gallicum	0.43748899620044535	0.30175099379298087	Inf	1.4498344833972239	1
-Bifidobacterium bifidum - Bifidobacterium longum subsp. infantis	-0.5779233943363178	0.01927924324591332	Inf	-29.9764563870432	5.033927242744288e-195
-Bifidobacterium bifidum - Bifidobacterium longum subsp. longum	-0.5327039540560227	0.013437817766218487	Inf	-39.64214750665799	0
-Bifidobacterium bifidum - Bifidobacterium longum subsp. suis	-0.48725079016016853	0.05048185316269415	Inf	-9.651998879475459	1.219631125074004e-19
-Bifidobacterium bifidum - Bifidobacterium pseudocatenulatum	-0.4363620120527906	0.015559684298922743	Inf	-28.044400109261964	1.1827222468664207e-170
-Bifidobacterium bifidum - Bifidobacterium pseudolongum subsp. globosum	-0.30553001439963456	0.07449816605146695	Inf	-4.101174976422367	0.010399756680018284
-Bifidobacterium bifidum - Bifidobacterium pullorum	-0.36736217393945003	0.09096511766639674	Inf	-4.038495011755002	0.013610195004895416
-Bifidobacterium bifidum - Bifidobacterium ruminantium	-0.1350301965708468	0.16057894316112767	Inf	-0.8408960347643787	1
-Bifidobacterium bifidum - Bifidobacterium scardovii	-0.5433402568112398	0.07633079016869862	Inf	-7.118231785763044	2.7658066294849195e-10
-Bifidobacterium bifidum - Bifidobacterium sp002742445	-0.263205389994847	0.05148627982366958	Inf	-5.1121462047029596	8.05853449143103e-5
-Bifidobacterium bifidum - Bifidobacterium thermophilum	0.350477619210856	0.28892543100128937	Inf	1.2130383192516272	1
-Bifidobacterium bifidum - Bifidobacterium tsurumiense	-0.690976255617307	0.12186243760445867	Inf	-5.670133219065247	3.6099691102647864e-6
-Bifidobacterium breve - Bifidobacterium catenulatum subsp. catenulatum	0.37879369783792677	0.034259874857970656	Inf	11.056482237844467	5.1596801929548e-26
-Bifidobacterium breve - Bifidobacterium catenulatum subsp. kashiwanohense	0.03086744869508934	0.04289571875752664	Inf	0.7195927609832444	1
-Bifidobacterium breve - Bifidobacterium catenulatum subsp. kashiwanohense_A	0.07104752600060005	0.09965759122832685	Inf	0.7129163481166437	1
-Bifidobacterium breve - Bifidobacterium dentium	-0.06824783711598997	0.02120301391678564	Inf	-3.2187799991000663	0.32570515341177186
-Bifidobacterium breve - Bifidobacterium gallicum	0.9118307053665865	0.30172305982458314	Inf	3.0220782789910388	0.6351454160247471
-Bifidobacterium breve - Bifidobacterium longum subsp. infantis	-0.10358168517017657	0.01883697945511742	Inf	-5.498847913328093	9.671700872766407e-6
-Bifidobacterium breve - Bifidobacterium longum subsp. longum	-0.05836224488988151	0.012795214776451354	Inf	-4.5612555873069756	0.0012864706127427468
-Bifidobacterium breve - Bifidobacterium longum subsp. suis	-0.012909080994027378	0.05031461093556458	Inf	-0.2565672426754804	1
-Bifidobacterium breve - Bifidobacterium pseudocatenulatum	0.03797969711335053	0.015008209431493297	Inf	2.5305948245667302	1
-Bifidobacterium breve - Bifidobacterium pseudolongum subsp. globosum	0.1688116947665066	0.07438494014173408	Inf	2.2694337650181673	1
-Bifidobacterium breve - Bifidobacterium pullorum	0.10697953522669112	0.09087241169309213	Inf	1.1772498741201938	1
-Bifidobacterium breve - Bifidobacterium ruminantium	0.33931151259529435	0.16052644505377325	Inf	2.1137421468570587	1
-Bifidobacterium breve - Bifidobacterium scardovii	-0.06899854764509866	0.07622028668691315	Inf	-0.9052517465398823	1
-Bifidobacterium breve - Bifidobacterium sp002742445	0.2111363191712942	0.051322310791103574	Inf	4.1139285413448965	0.009841241896508039
-Bifidobacterium breve - Bifidobacterium thermophilum	0.8248193283769971	0.28889625690572424	Inf	2.8550710113428748	1
-Bifidobacterium breve - Bifidobacterium tsurumiense	-0.21663454645116587	0.1217932521684104	Inf	-1.7787072977705944	1
-Bifidobacterium catenulatum subsp. catenulatum - Bifidobacterium catenulatum subsp. kashiwanohense	-0.34792624914283743	0.052520033048117705	Inf	-6.624638808282452	8.806886431294978e-9
-Bifidobacterium catenulatum subsp. catenulatum - Bifidobacterium catenulatum subsp. kashiwanohense_A	-0.3077461718373267	0.10416307730228998	Inf	-2.9544650542938697	0.7924254077072882
-Bifidobacterium catenulatum subsp. catenulatum - Bifidobacterium dentium	-0.44704153495391674	0.036984848016531804	Inf	-12.087153494698539	3.124335788364445e-31
-Bifidobacterium catenulatum subsp. catenulatum - Bifidobacterium gallicum	0.5330370075286598	0.3032410196750425	Inf	1.7577998125051484	1
-Bifidobacterium catenulatum subsp. catenulatum - Bifidobacterium longum subsp. infantis	-0.48237538300810334	0.03568112916715317	Inf	-13.519061595510314	3.053853646883524e-39
-Bifidobacterium catenulatum subsp. catenulatum - Bifidobacterium longum subsp. longum	-0.4371559427278083	0.03289420473010517	Inf	-13.289755636734332	6.715724952570263e-38
-Bifidobacterium catenulatum subsp. catenulatum - Bifidobacterium longum subsp. suis	-0.39170277883195415	0.05873560468104324	Inf	-6.668915404192224	6.5198285429809115e-9
-Bifidobacterium catenulatum subsp. catenulatum - Bifidobacterium pseudocatenulatum	-0.34081400072457624	0.033816527527085305	Inf	-10.078326358364315	1.7429044129349617e-21
-Bifidobacterium catenulatum subsp. catenulatum - Bifidobacterium pseudolongum subsp. globosum	-0.20998200307142018	0.08032079745333656	Inf	-2.6142918114503533	1
-Bifidobacterium catenulatum subsp. catenulatum - Bifidobacterium pullorum	-0.27181416261123564	0.09579199544100424	Inf	-2.8375456775888837	1
-Bifidobacterium catenulatum subsp. catenulatum - Bifidobacterium ruminantium	-0.03948218524263242	0.16336171750215114	Inf	-0.24168566446488612	1
-Bifidobacterium catenulatum subsp. catenulatum - Bifidobacterium scardovii	-0.44779224548302543	0.0820234313247488	Inf	-5.459321053152696	1.209235741703379e-5
-Bifidobacterium catenulatum subsp. catenulatum - Bifidobacterium sp002742445	-0.16765737866663258	0.059601097041826166	Inf	-2.812991488209956	1
-Bifidobacterium catenulatum subsp. catenulatum - Bifidobacterium thermophilum	0.4460256305390704	0.2904812531606623	Inf	1.5354713107505704	1
-Bifidobacterium catenulatum subsp. catenulatum - Bifidobacterium tsurumiense	-0.5954282442890926	0.125506603242254	Inf	-4.744198543400873	5.296136520738161e-4
-Bifidobacterium catenulatum subsp. kashiwanohense - Bifidobacterium catenulatum subsp. kashiwanohense_A	0.04018007730551071	0.10731379378031443	Inf	0.37441670721067466	1
-Bifidobacterium catenulatum subsp. kashiwanohense - Bifidobacterium dentium	-0.09911528581107931	0.0451019139865147	Inf	-2.1975849149265465	1
-Bifidobacterium catenulatum subsp. kashiwanohense - Bifidobacterium gallicum	0.8809632566714971	0.30433767377043636	Inf	2.8946901175830524	0.9602184929905132
-Bifidobacterium catenulatum subsp. kashiwanohense - Bifidobacterium longum subsp. infantis	-0.1344491338652659	0.04403914895958006	Inf	-3.0529457776004207	0.5733154066794264
-Bifidobacterium catenulatum subsp. kashiwanohense - Bifidobacterium longum subsp. longum	-0.08922969358497085	0.041813064552446835	Inf	-2.1340146803410818	1
-Bifidobacterium catenulatum subsp. kashiwanohense - Bifidobacterium longum subsp. suis	-0.04377652968911672	0.0641574229508075	Inf	-0.6823299265415046	1
-Bifidobacterium catenulatum subsp. kashiwanohense - Bifidobacterium pseudocatenulatum	0.007112248418261191	0.04254246345042951	Inf	0.16717998539384973	1
-Bifidobacterium catenulatum subsp. kashiwanohense - Bifidobacterium pseudolongum subsp. globosum	0.13794424607141725	0.0843666650163495	Inf	1.6350562872751329	1
-Bifidobacterium catenulatum subsp. kashiwanohense - Bifidobacterium pullorum	0.07611208653160179	0.09920892123700564	Inf	0.7671899420191601	1
-Bifidobacterium catenulatum subsp. kashiwanohense - Bifidobacterium ruminantium	0.308444063900205	0.16538849539098435	Inf	1.8649668658695524	1
-Bifidobacterium catenulatum subsp. kashiwanohense - Bifidobacterium scardovii	-0.099865996340188	0.08598922577117901	Inf	-1.161378015031042	1
-Bifidobacterium catenulatum subsp. kashiwanohense - Bifidobacterium sp002742445	0.18026887047620485	0.06495070770230447	Inf	2.775471997971915	1
-Bifidobacterium catenulatum subsp. kashiwanohense - Bifidobacterium thermophilum	0.7939518796819078	0.29162589408389267	Inf	2.722501313458502	1
-Bifidobacterium catenulatum subsp. kashiwanohense - Bifidobacterium tsurumiense	-0.2475019951462552	0.12813356749833188	Inf	-1.931593726596876	1
-Bifidobacterium catenulatum subsp. kashiwanohense_A - Bifidobacterium dentium	-0.13929536311659002	0.10062691214061192	Inf	-1.3842754403707072	1
-Bifidobacterium catenulatum subsp. kashiwanohense_A - Bifidobacterium gallicum	0.8407831793659865	0.31735313528892073	Inf	2.64936150260665	1
-Bifidobacterium catenulatum subsp. kashiwanohense_A - Bifidobacterium longum subsp. infantis	-0.17462921117077662	0.10015507696962518	Inf	-1.743588207952132	1
-Bifidobacterium catenulatum subsp. kashiwanohense_A - Bifidobacterium longum subsp. longum	-0.12940977089048156	0.09919639695560793	Inf	-1.3045813644662378	1
-Bifidobacterium catenulatum subsp. kashiwanohense_A - Bifidobacterium longum subsp. suis	-0.08395660699462743	0.11048876739920789	Inf	-0.7598655408226531	1
-Bifidobacterium catenulatum subsp. kashiwanohense_A - Bifidobacterium pseudocatenulatum	-0.03306782888724952	0.0995060500579668	Inf	-0.33231978224425557	1
-Bifidobacterium catenulatum subsp. kashiwanohense_A - Bifidobacterium pseudolongum subsp. globosum	0.09776416876590655	0.12332610010735112	Inf	0.7927289412444422	1
-Bifidobacterium catenulatum subsp. kashiwanohense_A - Bifidobacterium pullorum	0.03593200922609108	0.13391789594642628	Inf	0.2683137229132217	1
-Bifidobacterium catenulatum subsp. kashiwanohense_A - Bifidobacterium ruminantium	0.2682639865946943	0.18826828519270342	Inf	1.4249026930909297	1
-Bifidobacterium catenulatum subsp. kashiwanohense_A - Bifidobacterium scardovii	-0.1400460736456987	0.12444171226093868	Inf	-1.1253949427507044	1
-Bifidobacterium catenulatum subsp. kashiwanohense_A - Bifidobacterium sp002742445	0.14008879317069414	0.1109512831504785	Inf	1.262615349663849	1
-Bifidobacterium catenulatum subsp. kashiwanohense_A - Bifidobacterium thermophilum	0.7537718023763971	0.30518396894649835	Inf	2.469893176166604	1
-Bifidobacterium catenulatum subsp. kashiwanohense_A - Bifidobacterium tsurumiense	-0.2876820724517659	0.15655607277125033	Inf	-1.8375657191663748	1
-Bifidobacterium dentium - Bifidobacterium gallicum	0.9800785424825764	0.3020446072808305	Inf	3.244813907805789	0.2973443247049249
-Bifidobacterium dentium - Bifidobacterium longum subsp. infantis	-0.0353338480541866	0.023430146233317944	Inf	-1.5080506840346328	1
-Bifidobacterium dentium - Bifidobacterium longum subsp. longum	0.009885592226108464	0.018917121311068066	Inf	0.5225738136132045	1
-Bifidobacterium dentium - Bifidobacterium longum subsp. suis	0.055338756121962596	0.052208237196053484	Inf	1.059962164862095	1
-Bifidobacterium dentium - Bifidobacterium pseudocatenulatum	0.1062275342293405	0.020478923503487973	Inf	5.187163974280573	5.402074125482075e-5
-Bifidobacterium dentium - Bifidobacterium pseudolongum subsp. globosum	0.23705953188249657	0.07567865800482663	Inf	3.1324489378151683	0.4385870842119363
-Bifidobacterium dentium - Bifidobacterium pullorum	0.1752273723426811	0.09193440685859115	Inf	1.9060042733751137	1
-Bifidobacterium dentium - Bifidobacterium ruminantium	0.4075593497112843	0.1611300081273635	Inf	2.529382046509508	1
-Bifidobacterium dentium - Bifidobacterium scardovii	-7.507105291086891e-4	0.07748336634502516	Inf	-0.009688666929697597	1
-Bifidobacterium dentium - Bifidobacterium sp002742445	0.2793841562872842	0.053180067153594066	Inf	5.253550272517898	3.7746316653736314e-5
-Bifidobacterium dentium - Bifidobacterium thermophilum	0.8930671654929871	0.2892320646326413	Inf	3.0877183918985174	0.5102997506822005
-Bifidobacterium dentium - Bifidobacterium tsurumiense	-0.1483867093351759	0.12258766753340301	Inf	-1.210453810900212	1
-Bifidobacterium gallicum - Bifidobacterium longum subsp. infantis	-1.0154123905367631	0.3018877420222097	Inf	-3.3635429638016237	0.19468061063950826
-Bifidobacterium gallicum - Bifidobacterium longum subsp. longum	-0.970192950256468	0.30157104388427486	Inf	-3.2171289980637887	0.32758532945737695
-Bifidobacterium gallicum - Bifidobacterium longum subsp. suis	-0.9247397863606139	0.30547166327152664	Inf	-3.0272522709860468	0.6243733990696229
-Bifidobacterium gallicum - Bifidobacterium pseudocatenulatum	-0.873851008253236	0.3016730404570738	Inf	-2.8966824709600774	0.9541420691327678
-Bifidobacterium gallicum - Bifidobacterium pseudolongum subsp. globosum	-0.7430190106000799	0.31034576895483057	Inf	-2.3941651052707695	1
-Bifidobacterium gallicum - Bifidobacterium pullorum	-0.8048511701398954	0.3147048969990689	Inf	-2.557479015467232	1
-Bifidobacterium gallicum - Bifidobacterium ruminantium	-0.5725191927712922	0.3413943709991098	Inf	-1.6770024388386446	1
-Bifidobacterium gallicum - Bifidobacterium scardovii	-0.9808292530116851	0.31079078025403356	Inf	-3.1559148962204633	0.40478870576172354
-Bifidobacterium gallicum - Bifidobacterium sp002742445	-0.7006943861952923	0.3056392588873595	Inf	-2.292553609592172	1
-Bifidobacterium gallicum - Bifidobacterium thermophilum	-0.08701137698958933	0.4174235549683486	Inf	-0.20844865114568586	1
-Bifidobacterium gallicum - Bifidobacterium tsurumiense	-1.1284652518177523	0.3249845738831825	Inf	-3.472365590569186	0.1305209974095344
-Bifidobacterium longum subsp. infantis - Bifidobacterium longum subsp. longum	0.045219440280295065	0.01622101952821643	Inf	2.7877064201566335	1
-Bifidobacterium longum subsp. infantis - Bifidobacterium longum subsp. suis	0.0906726041761492	0.051292923751298236	Inf	1.7677409970971727	1
-Bifidobacterium longum subsp. infantis - Bifidobacterium pseudocatenulatum	0.1415613822835271	0.018018054936613563	Inf	7.856640618620132	9.98269315133687e-13
-Bifidobacterium longum subsp. infantis - Bifidobacterium pseudolongum subsp. globosum	0.27239337993668317	0.0750501383959325	Inf	3.6294853781568257	0.07184866443806018
-Bifidobacterium longum subsp. infantis - Bifidobacterium pullorum	0.2105612203968677	0.091417717977852	Inf	2.303286770381655	1
-Bifidobacterium longum subsp. infantis - Bifidobacterium ruminantium	0.4428931977654709	0.16083576565851684	Inf	2.7536984448211137	1
-Bifidobacterium longum subsp. infantis - Bifidobacterium scardovii	0.03458313752507791	0.07686960423987162	Inf	0.4498935290100001	1
-Bifidobacterium longum subsp. infantis - Bifidobacterium sp002742445	0.3147180043414708	0.05228177061173316	Inf	6.019650839270567	4.4222807218205565e-7
-Bifidobacterium longum subsp. infantis - Bifidobacterium thermophilum	0.9284010135471737	0.2890682466261168	Inf	3.2117018191485247	0.3338366694652496
-Bifidobacterium longum subsp. infantis - Bifidobacterium tsurumiense	-0.11305286128098929	0.1222006555920109	Inf	-0.925141201029533	1
-Bifidobacterium longum subsp. longum - Bifidobacterium longum subsp. suis	0.04545316389585413	0.04939483528810978	Inf	0.9202007382094768	1
-Bifidobacterium longum subsp. longum - Bifidobacterium pseudocatenulatum	0.09634194200323204	0.011555779068579738	Inf	8.337122182024629	1.9258460305402177e-14
-Bifidobacterium longum subsp. longum - Bifidobacterium pseudolongum subsp. globosum	0.2271739396563881	0.07376590675530008	Inf	3.079660369525189	0.5243090202460944
-Bifidobacterium longum subsp. longum - Bifidobacterium pullorum	0.16534178011657263	0.09036639246125235	Inf	1.8296822038953091	1
-Bifidobacterium longum subsp. longum - Bifidobacterium ruminantium	0.39767375748517586	0.16024053557431825	Inf	2.4817300819662953	1
-Bifidobacterium longum subsp. longum - Bifidobacterium scardovii	-0.010636302755217153	0.07561627987528541	Inf	-0.14066154501067363	1
-Bifidobacterium longum subsp. longum - Bifidobacterium sp002742445	0.26949856406117567	0.050420920900761924	Inf	5.344975046996875	2.2878666137157384e-5
-Bifidobacterium longum subsp. longum - Bifidobacterium thermophilum	0.8831815732668786	0.28873748792576365	Inf	3.058770025366261	0.5622866509770097
-Bifidobacterium longum subsp. longum - Bifidobacterium tsurumiense	-0.15827230156128436	0.12141616841796757	Inf	-1.3035521020268228	1
-Bifidobacterium longum subsp. suis - Bifidobacterium pseudocatenulatum	0.05088877810737791	0.0500137839230702	Inf	1.017495060674745	1
-Bifidobacterium longum subsp. suis - Bifidobacterium pseudolongum subsp. globosum	0.18172077576053397	0.08836996974002734	Inf	2.056363448976301	1
-Bifidobacterium longum subsp. suis - Bifidobacterium pullorum	0.1198886162207185	0.10263492309580986	Inf	1.1681074297566558	1
-Bifidobacterium longum subsp. suis - Bifidobacterium ruminantium	0.35222059358932173	0.16746603176037242	Inf	2.1032360406874337	1
-Bifidobacterium longum subsp. suis - Bifidobacterium scardovii	-0.056089466651071285	0.08992032214465871	Inf	-0.6237685243257662	1
-Bifidobacterium longum subsp. suis - Bifidobacterium sp002742445	0.22404540016532157	0.07007219003929165	Inf	3.1973511893904325	0.35090076258729985
-Bifidobacterium longum subsp. suis - Bifidobacterium thermophilum	0.8377284093710246	0.29280911783293595	Inf	2.861005202197958	1
-Bifidobacterium longum subsp. suis - Bifidobacterium tsurumiense	-0.2037254654571385	0.13080416088841357	Inf	-1.557484594323667	1
-Bifidobacterium pseudocatenulatum - Bifidobacterium pseudolongum subsp. globosum	0.13083199765315606	0.07418178906305556	Inf	1.7636673273267518	1
-Bifidobacterium pseudocatenulatum - Bifidobacterium pullorum	0.0689998381133406	0.09070619447218109	Inf	0.7606959868049842	1
-Bifidobacterium pseudocatenulatum - Bifidobacterium ruminantium	0.3013318154819438	0.1604324096630989	Inf	1.8782477687315646	1
-Bifidobacterium pseudocatenulatum - Bifidobacterium scardovii	-0.10697824475844919	0.0760220402997811	Inf	-1.4072003900000198	1
-Bifidobacterium pseudocatenulatum - Bifidobacterium sp002742445	0.17315662205794366	0.05102742491685167	Inf	3.393403103137175	0.17464583746180798
-Bifidobacterium pseudocatenulatum - Bifidobacterium thermophilum	0.7868396312636466	0.28884401631822737	Inf	2.7240987758484976	1
-Bifidobacterium pseudocatenulatum - Bifidobacterium tsurumiense	-0.2546142435645164	0.12166928446598307	Inf	-2.0926747837964212	1
-Bifidobacterium pseudolongum subsp. globosum - Bifidobacterium pullorum	-0.06183215953981547	0.11634211054117483	Inf	-0.5314684360821558	1
-Bifidobacterium pseudolongum subsp. globosum - Bifidobacterium ruminantium	0.17049981782878776	0.17619997457394307	Inf	0.9676495030209938	1
-Bifidobacterium pseudolongum subsp. globosum - Bifidobacterium scardovii	-0.23781024241160525	0.1052958858687811	Inf	-2.2584951012042627	1
-Bifidobacterium pseudolongum subsp. globosum - Bifidobacterium sp002742445	0.0423246244047876	0.08894757480220994	Inf	0.475837868529902	1
-Bifidobacterium pseudolongum subsp. globosum - Bifidobacterium thermophilum	0.6560076336104905	0.29789048110403826	Inf	2.20217722694328	1
-Bifidobacterium pseudolongum subsp. globosum - Bifidobacterium tsurumiense	-0.38544624121767246	0.1418142720321695	Inf	-2.7179650940226727	1
-Bifidobacterium pullorum - Bifidobacterium ruminantium	0.23233197736860323	0.18376916750882805	Inf	1.2642598348683398	1
-Bifidobacterium pullorum - Bifidobacterium scardovii	-0.1759780828717898	0.11752403783022776	Inf	-1.497379481855476	1
-Bifidobacterium pullorum - Bifidobacterium sp002742445	0.10415678394460307	0.1031326667464009	Inf	1.0099300951920542	1
-Bifidobacterium pullorum - Bifidobacterium thermophilum	0.717839793150306	0.3024291894302277	Inf	2.37357972787847	1
-Bifidobacterium pullorum - Bifidobacterium tsurumiense	-0.323614081677857	0.15111572929064518	Inf	-2.1414983284462785	1
-Bifidobacterium ruminantium - Bifidobacterium scardovii	-0.408310060240393	0.17698260881398484	Inf	-2.307063179690959	1
-Bifidobacterium ruminantium - Bifidobacterium sp002742445	-0.12817519342400016	0.1677715449797952	Inf	-0.7639864879317666	1
-Bifidobacterium ruminantium - Bifidobacterium thermophilum	0.4855078157817028	0.3301126458863821	Inf	1.470733768705136	1
-Bifidobacterium ruminantium - Bifidobacterium tsurumiense	-0.5559460590464602	0.20086539770136344	Inf	-2.767754254383888	1
-Bifidobacterium scardovii - Bifidobacterium sp002742445	0.2801348668163929	0.09048803150660643	Inf	3.0958223109974554	0.4965578805268438
-Bifidobacterium scardovii - Bifidobacterium thermophilum	0.8938178760220958	0.2983540707199098	Inf	2.995829330785965	0.6924599220260945
-Bifidobacterium scardovii - Bifidobacterium tsurumiense	-0.1476359988060672	0.142785505338462	Inf	-1.0339704892041213	1
-Bifidobacterium sp002742445 - Bifidobacterium thermophilum	0.613683009205703	0.2929839568943054	Inf	2.094595948907504	1
-Bifidobacterium sp002742445 - Bifidobacterium tsurumiense	-0.42777086562246003	0.13119507619214743	Inf	-3.2605710369492042	0.2813059224440387
-Bifidobacterium thermophilum - Bifidobacterium tsurumiense	-1.041453874828163	0.3131121455425577	Inf	-3.326136943757138	0.22278839274102336
+Bifidobacterium longum subsp. nov. - Bifidobacterium tsurumiense	-0.6196071643480827	0.1224361808773124	Inf	-5.060654129427332	1.0570859797242183e-4
+Bifidobacterium longum subsp. nov. - Bifidobacterium thermophilum	0.4263613908345841	0.28000032463798613	Inf	1.5227174875094482	1
+Bifidobacterium longum subsp. nov. - Bifidobacterium scardovii	-0.4523073492499835	0.06835197914635653	Inf	-6.617326299820735	9.25356568922643e-9
+Bifidobacterium longum subsp. nov. - Bifidobacterium ruminantium	0.04687176912967562	0.12097520246282072	Inf	0.387449396037016	1
+Bifidobacterium longum subsp. nov. - Bifidobacterium pullorum	-0.16142527406754176	0.10012049441208166	Inf	-1.6123099972233295	1
+Bifidobacterium longum subsp. nov. - Bifidobacterium pseudocatenulatum	-0.3554508396566114	0.03956975128216649	Inf	-8.982892945723616	6.672599387269111e-17
+Bifidobacterium longum subsp. nov. - Bifidobacterium longum subsp. suis	-0.38361870654542196	0.05812267676954434	Inf	-6.600155530800227	1.0391384505464946e-8
+Bifidobacterium longum subsp. nov. - Bifidobacterium longum subsp. longum	-0.3722823723283327	0.0388988450314902	Inf	-9.570525089548417	2.6910111936417533e-19
+Bifidobacterium longum subsp. nov. - Bifidobacterium longum subsp. infantis	-0.46048348276042383	0.04095932673655235	Inf	-11.242457321679694	6.382205681746833e-27
+Bifidobacterium longum subsp. nov. - Bifidobacterium hominis	-0.18994308478250244	0.055448615518280245	Inf	-3.425569475578379	0.15521853722631673
+Bifidobacterium longum subsp. nov. - Bifidobacterium globosum	-0.21863644582777572	0.07721016646034855	Inf	-2.8317054068269227	1
+Bifidobacterium longum subsp. nov. - Bifidobacterium gallicum	0.5064040985081525	0.29122231749582594	Inf	1.7388917953220075	1
+Bifidobacterium longum subsp. nov. - Bifidobacterium dentium	-0.3924397197623187	0.042392273757240216	Inf	-9.257340665651215	5.302552671393119e-18
+Bifidobacterium longum subsp. nov. - Bifidobacterium catenulatum subsp. kashiwanohense_A	-0.36846059171172746	0.05465966421800758	Inf	-6.740996253510435	3.9797978877160155e-9
+Bifidobacterium longum subsp. nov. - Bifidobacterium catenulatum subsp. kashiwanohense	-0.3900840060698577	0.049770522142115865	Inf	-7.837651470804407	1.1613991381023513e-12
+Bifidobacterium longum subsp. nov. - Bifidobacterium catenulatum subsp. catenulatum	0.028179636117522618	0.04951528797819046	Inf	0.569109809680086	1
+Bifidobacterium longum subsp. nov. - Bifidobacterium breve	-0.3169948081995151	0.039953119808688986	Inf	-7.93416908910766	5.36130342449951e-13
+Bifidobacterium longum subsp. nov. - Bifidobacterium bifidum	0.052751131668835494	0.04006611496099685	Inf	1.3166021142850293	1
+Bifidobacterium longum subsp. nov. - Bifidobacterium animalis subsp. lactis	0.2667312452427014	0.08331617939265486	Inf	3.2014339494090676	0.3459659170191852
+Bifidobacterium longum subsp. nov. - Bifidobacterium animalis subsp. animalis	0.1580974042399003	0.24556187465905496	Inf	0.6438190148996346	1
+Bifidobacterium longum subsp. nov. - Bifidobacterium angulatum	-0.09973170506219962	0.0951465314662929	Inf	-1.0481906541966912	1
+Bifidobacterium longum subsp. nov. - Bifidobacterium adolescentis	-0.13373587129656253	0.039555335496415676	Inf	-3.3809818477884246	0.1827351049012659
+Bifidobacterium tsurumiense - Bifidobacterium thermophilum	1.0459685551826667	0.30072677040226803	Inf	3.4781358300211314	0.1277432416157011
+Bifidobacterium tsurumiense - Bifidobacterium scardovii	0.1672998150980992	0.129260982869638	Inf	1.29427930520089	1
+Bifidobacterium tsurumiense - Bifidobacterium ruminantium	0.6664789334777583	0.16331383361528581	Inf	4.080970477049517	0.011346557137226416
+Bifidobacterium tsurumiense - Bifidobacterium pullorum	0.45818189028054096	0.1485278493768778	Inf	3.084821413645735	0.515296254206912
+Bifidobacterium tsurumiense - Bifidobacterium pseudocatenulatum	0.2641563246914713	0.1166283578540542	Inf	2.264940787574407	1
+Bifidobacterium tsurumiense - Bifidobacterium longum subsp. suis	0.23598845780266076	0.12415576585103817	Inf	1.9007450534822459	1
+Bifidobacterium tsurumiense - Bifidobacterium longum subsp. longum	0.24732479201975	0.11640244320453406	Inf	2.124738838901934	1
+Bifidobacterium tsurumiense - Bifidobacterium longum subsp. infantis	0.15912368158765888	0.11710710945929992	Inf	1.3587875434920682	1
+Bifidobacterium tsurumiense - Bifidobacterium hominis	0.4296640795655803	0.122926635039339	Inf	3.495288709628138	0.11980795281828113
+Bifidobacterium tsurumiense - Bifidobacterium globosum	0.40097071852030697	0.1341559482245778	Inf	2.9888404042218073	0.7084970626572854
+Bifidobacterium tsurumiense - Bifidobacterium gallicum	1.126011262856235	0.311202260349825	Inf	3.618261839070438	0.07503682819205981
+Bifidobacterium tsurumiense - Bifidobacterium dentium	0.22716744458576404	0.11761595773324993	Inf	1.931433871422228	1
+Bifidobacterium tsurumiense - Bifidobacterium catenulatum subsp. kashiwanohense_A	0.25114657263635526	0.12257278462867009	Inf	2.048958693377122	1
+Bifidobacterium tsurumiense - Bifidobacterium catenulatum subsp. kashiwanohense	0.229523158278225	0.1204720445310848	Inf	1.9051984978888798	1
+Bifidobacterium tsurumiense - Bifidobacterium catenulatum subsp. catenulatum	0.6477868004656053	0.12036682426135491	Inf	5.381771966161148	1.866030910933182e-5
+Bifidobacterium tsurumiense - Bifidobacterium breve	0.30261235614856763	0.11675898432946512	Inf	2.591769343373783	1
+Bifidobacterium tsurumiense - Bifidobacterium bifidum	0.6723582960169182	0.11679769778239912	Inf	5.756605727533779	2.1712975822694045e-6
+Bifidobacterium tsurumiense - Bifidobacterium animalis subsp. lactis	0.8863384095907841	0.13776064164989282	Inf	6.433901577225077	3.146546054648808e-8
+Bifidobacterium tsurumiense - Bifidobacterium animalis subsp. animalis	0.777704568587983	0.2689554664350035	Inf	2.891573757159255	0.9697935424928421
+Bifidobacterium tsurumiense - Bifidobacterium angulatum	0.5198754592858831	0.1452214553338009	Inf	3.5798805217239815	0.08696908993085174
+Bifidobacterium tsurumiense - Bifidobacterium adolescentis	0.4858712930515202	0.11662346764453058	Inf	4.166153715583732	0.007837481139874848
+Bifidobacterium thermophilum - Bifidobacterium scardovii	-0.8786687400845676	0.2830511704656604	Inf	-3.1042752398410136	0.4825868553437619
+Bifidobacterium thermophilum - Bifidobacterium ruminantium	-0.37948962170490846	0.3001349224260262	Inf	-1.2643967540912895	1
+Bifidobacterium thermophilum - Bifidobacterium pullorum	-0.5877866649021258	0.29235267306812157	Inf	-2.0105397318025027	1
+Bifidobacterium thermophilum - Bifidobacterium pseudocatenulatum	-0.7818122304911954	0.2775098867883608	Inf	-2.8172409982907527	1
+Bifidobacterium thermophilum - Bifidobacterium longum subsp. suis	-0.809980097380006	0.2807565094590209	Inf	-2.8849913362319755	0.9903038170018572
+Bifidobacterium thermophilum - Bifidobacterium longum subsp. longum	-0.7986437631629169	0.27741501796683665	Inf	-2.8788771747692117	1
+Bifidobacterium thermophilum - Bifidobacterium longum subsp. infantis	-0.8868448735950079	0.2777114302571429	Inf	-3.1934042929880366	0.3557330223070005
+Bifidobacterium thermophilum - Bifidobacterium hominis	-0.6163044756170866	0.28021513344509136	Inf	-2.1993975415958484	1
+Bifidobacterium thermophilum - Bifidobacterium globosum	-0.6449978366623598	0.28531978875218433	Inf	-2.2606137467127287	1
+Bifidobacterium thermophilum - Bifidobacterium gallicum	0.08004270767356841	0.40032038451269975	Inf	0.19994661968313818	1
+Bifidobacterium thermophilum - Bifidobacterium dentium	-0.8188011105969027	0.2779263875976248	Inf	-2.946107844147363	0.8141544592659845
+Bifidobacterium thermophilum - Bifidobacterium catenulatum subsp. kashiwanohense_A	-0.7948219825463115	0.2800600845197006	Inf	-2.838040929357787	1
+Bifidobacterium thermophilum - Bifidobacterium catenulatum subsp. kashiwanohense	-0.8164453969044418	0.2791470525064794	Inf	-2.92478602074973	0.872073673690738
+Bifidobacterium thermophilum - Bifidobacterium catenulatum subsp. catenulatum	-0.39818175471706146	0.2791016585266369	Inf	-1.4266549214327218	1
+Bifidobacterium thermophilum - Bifidobacterium breve	-0.7433561990340991	0.2775648101456735	Inf	-2.678135598831731	1
+Bifidobacterium thermophilum - Bifidobacterium bifidum	-0.3736102591657486	0.2775810973694429	Inf	-1.3459499321327955	1
+Bifidobacterium thermophilum - Bifidobacterium animalis subsp. lactis	-0.15963014559188266	0.28703232883657104	Inf	-0.5561399520357584	1
+Bifidobacterium thermophilum - Bifidobacterium animalis subsp. animalis	-0.26826398659468376	0.3684380630917845	Inf	-0.7281114886543478	1
+Bifidobacterium thermophilum - Bifidobacterium angulatum	-0.5260930958967837	0.2906868323450903	Inf	-1.8098277505471236	1
+Bifidobacterium thermophilum - Bifidobacterium adolescentis	-0.5600972621311466	0.27750783162820897	Inf	-2.01831155122691	1
+Bifidobacterium scardovii - Bifidobacterium ruminantium	0.4991791183796591	0.12787800012325484	Inf	3.903557436764156	0.023981627641491404
+Bifidobacterium scardovii - Bifidobacterium pullorum	0.29088207518244175	0.10836003278848898	Inf	2.6844037206063116	1
+Bifidobacterium scardovii - Bifidobacterium pseudocatenulatum	0.09685650959337211	0.05730225581192454	Inf	1.6902739381023875	1
+Bifidobacterium scardovii - Bifidobacterium longum subsp. suis	0.06868864270456154	0.0713864753259308	Inf	0.962208070799802	1
+Bifidobacterium scardovii - Bifidobacterium longum subsp. longum	0.08002497692165078	0.05684103666706556	Inf	1.4078732833530163	1
+Bifidobacterium scardovii - Bifidobacterium longum subsp. infantis	-0.008176133510440331	0.05827048782457864	Inf	-0.1403134556733815	1
+Bifidobacterium scardovii - Bifidobacterium hominis	0.26236426446748107	0.06922667309279537	Inf	3.789930278980662	0.03812446238407583
+Bifidobacterium scardovii - Bifidobacterium globosum	0.23367090342220778	0.08763100541154092	Inf	2.6665322658894604	1
+Bifidobacterium scardovii - Bifidobacterium gallicum	0.958711447758136	0.29415679749453716	Inf	3.259185087422433	0.28268385179227956
+Bifidobacterium scardovii - Bifidobacterium dentium	0.05986762948766483	0.059286492381583414	Inf	1.0098021839838502	1
+Bifidobacterium scardovii - Bifidobacterium catenulatum subsp. kashiwanohense_A	0.08384675753825604	0.06859637160249991	Inf	1.2223205918839057	1
+Bifidobacterium scardovii - Bifidobacterium catenulatum subsp. kashiwanohense	0.06222334318012579	0.064767956420606565	Inf	0.9607118491749852	1
+Bifidobacterium scardovii - Bifidobacterium catenulatum subsp. catenulatum	0.4804869853675061	0.06457202992136618	Inf	7.441100828836081	2.5261972907126096e-11
+Bifidobacterium scardovii - Bifidobacterium breve	0.13531254105046842	0.057567656605512364	Inf	2.3504959039363023	1
+Bifidobacterium scardovii - Bifidobacterium bifidum	0.505058480918819	0.05764613493262626	Inf	8.761358962038036	4.880633739643533e-16
+Bifidobacterium scardovii - Bifidobacterium animalis subsp. lactis	0.7190385944926849	0.09305573089924175	Inf	7.726967351116081	2.7865136491830074e-12
+Bifidobacterium scardovii - Bifidobacterium animalis subsp. animalis	0.6104047534898838	0.24903497262567803	Inf	2.4510804528943693	1
+Bifidobacterium scardovii - Bifidobacterium angulatum	0.35257564418778387	0.10378172167905599	Inf	3.39728073964817	0.17218953495824682
+Bifidobacterium scardovii - Bifidobacterium adolescentis	0.318571477953421	0.057292302020749544	Inf	5.560458677992098	6.807383857013883e-6
+Bifidobacterium ruminantium - Bifidobacterium pullorum	-0.20829704319721737	0.14732584044769204	Inf	-1.4138527400505354	1
+Bifidobacterium ruminantium - Bifidobacterium pseudocatenulatum	-0.402322608786287	0.115093679578123	Inf	-3.4956099262879112	0.11966383501188013
+Bifidobacterium ruminantium - Bifidobacterium longum subsp. suis	-0.4304904756750976	0.1227152615494753	Inf	-3.5080435003720876	0.1142080532575803
+Bifidobacterium ruminantium - Bifidobacterium longum subsp. longum	-0.41915414145800833	0.1148647465808509	Inf	-3.6491104010138957	0.06657695077776103
+Bifidobacterium ruminantium - Bifidobacterium longum subsp. infantis	-0.5073552518900994	0.1155787883177998	Inf	-4.389691735606851	0.0028718398460584552
+Bifidobacterium ruminantium - Bifidobacterium hominis	-0.23681485391217805	0.12147155562185398	Inf	-1.949549857164854	1
+Bifidobacterium ruminantium - Bifidobacterium globosum	-0.26550821495745136	0.13282394237159925	Inf	-1.998948459266806	1
+Bifidobacterium ruminantium - Bifidobacterium gallicum	0.4595323293784769	0.3106303720983165	Inf	1.4793541477426166	1
+Bifidobacterium ruminantium - Bifidobacterium dentium	-0.4393114888919943	0.11609433550612172	Inf	-3.7840906447053064	0.03903071348720535
+Bifidobacterium ruminantium - Bifidobacterium catenulatum subsp. kashiwanohense_A	-0.41533236084140307	0.12111345406157263	Inf	-3.429283427341219	0.15310983068138587
+Bifidobacterium ruminantium - Bifidobacterium catenulatum subsp. kashiwanohense	-0.4369557751995333	0.11898695195943955	Inf	-3.672299928722298	0.060815463769997836
+Bifidobacterium ruminantium - Bifidobacterium catenulatum subsp. catenulatum	-0.018692133012153	0.11888041725138003	Inf	-0.1572347527400356	1
+Bifidobacterium ruminantium - Bifidobacterium breve	-0.3638665773291907	0.11522604586093632	Inf	-3.1578500729629564	0.40211130974549675
+Bifidobacterium ruminantium - Bifidobacterium bifidum	0.0058793625391598756	0.11526527417382462	Inf	0.051007231634165574	1
+Bifidobacterium ruminantium - Bifidobacterium animalis subsp. lactis	0.2198594761130258	0.1364638252830709	Inf	1.6111191054256677	1
+Bifidobacterium ruminantium - Bifidobacterium animalis subsp. animalis	0.11122563511022468	0.26829354101127484	Inf	0.41456695040433533	1
+Bifidobacterium ruminantium - Bifidobacterium angulatum	-0.14660347419187525	0.1439918480760819	Inf	-1.018137319234999	1
+Bifidobacterium ruminantium - Bifidobacterium adolescentis	-0.18060764042623814	0.11508872415894265	Inf	-1.5692904908460967	1
+Bifidobacterium pullorum - Bifidobacterium pseudocatenulatum	-0.19402556558906964	0.09292829961443867	Inf	-2.087906121107192	1
+Bifidobacterium pullorum - Bifidobacterium longum subsp. suis	-0.2221934324778802	0.10221618857869516	Inf	-2.1737597103497537	1
+Bifidobacterium pullorum - Bifidobacterium longum subsp. longum	-0.21085709826079096	0.09264461019121584	Inf	-2.2759780393655706	1
+Bifidobacterium pullorum - Bifidobacterium longum subsp. infantis	-0.2990582086928821	0.09352844540250849	Inf	-3.1975107402443914	0.3507067004382892
+Bifidobacterium pullorum - Bifidobacterium hominis	-0.02851781071496068	0.10071967342874183	Inf	-0.2831404207752594	1
+Bifidobacterium pullorum - Bifidobacterium globosum	-0.057211171760233964	0.1141547785137931	Inf	-0.5011719395813224	1
+Bifidobacterium pullorum - Bifidobacterium gallicum	0.6678293725756943	0.3031177029807692	Inf	2.203201482488351	1
+Bifidobacterium pullorum - Bifidobacterium dentium	-0.23101444569477692	0.094164794520071	Inf	-2.4532995252863503	1
+Bifidobacterium pullorum - Bifidobacterium catenulatum subsp. kashiwanohense_A	-0.2070353176441857	0.10028749944596235	Inf	-2.064417986169273	1
+Bifidobacterium pullorum - Bifidobacterium catenulatum subsp. kashiwanohense	-0.22865873200231596	0.09770879452228051	Inf	-2.3402062539025077	1
+Bifidobacterium pullorum - Bifidobacterium catenulatum subsp. catenulatum	0.18960491018506437	0.09757903153988284	Inf	1.9430907152175247	1
+Bifidobacterium pullorum - Bifidobacterium breve	-0.15556953413197333	0.093092187830912193	Inf	-1.6711341494577583	1
+Bifidobacterium pullorum - Bifidobacterium bifidum	0.21417640573637725	0.09314073878151385	Inf	2.2994922365688386	1
+Bifidobacterium pullorum - Bifidobacterium animalis subsp. lactis	0.4281565193102432	0.11837013728676563	Inf	3.617099119121434	0.07537457958991858
+Bifidobacterium pullorum - Bifidobacterium animalis subsp. animalis	0.3195226783074421	0.25955835170298	Inf	1.2310244544667204	1
+Bifidobacterium pullorum - Bifidobacterium angulatum	0.06169356900534213	0.12697545472556765	Inf	0.4858700379430071	1
+Bifidobacterium pullorum - Bifidobacterium adolescentis	0.027689402770979227	0.09292216215162251	Inf	0.2979849169436889	1
+Bifidobacterium pseudocatenulatum - Bifidobacterium longum subsp. suis	-0.028167866888810567	0.04460718577503185	Inf	-0.6314647830703786	1
+Bifidobacterium pseudocatenulatum - Bifidobacterium longum subsp. longum	-0.016831532671721328	0.011165823422173968	Inf	-1.5074152648962682	1
+Bifidobacterium pseudocatenulatum - Bifidobacterium longum subsp. infantis	-0.10503264310381244	0.01700652564819884	Inf	-6.176020033517925	1.6631625297224578e-7
+Bifidobacterium pseudocatenulatum - Bifidobacterium hominis	0.16550775487410896	0.0410622019721938	Inf	4.030659509837935	0.01407200363985434
+Bifidobacterium pseudocatenulatum - Bifidobacterium globosum	0.13681439382883567	0.0676237034829208	Inf	2.0231721538792953	1
+Bifidobacterium pseudocatenulatum - Bifidobacterium gallicum	0.8618549381647639	0.2888286579886951	Inf	2.9839661485339772	0.719881771480736
+Bifidobacterium pseudocatenulatum - Bifidobacterium dentium	-0.03698888010570728	0.020215349173833896	Inf	-1.8297423303271212	1
+Bifidobacterium pseudocatenulatum - Bifidobacterium catenulatum subsp. kashiwanohense_A	-0.013009752055116064	0.03999042835900529	Inf	-0.32532164792844603	1
+Bifidobacterium pseudocatenulatum - Bifidobacterium catenulatum subsp. kashiwanohense	-0.03463316641324632	0.03299485326850338	Inf	-1.049653596923459	1
+Bifidobacterium pseudocatenulatum - Bifidobacterium catenulatum subsp. catenulatum	0.383630475774134	0.03260857573513886	Inf	11.764711187944815	1.5010243477071442e-29
+Bifidobacterium pseudocatenulatum - Bifidobacterium breve	0.03845603145709631	0.014415521161535227	Inf	2.667682356133478	1
+Bifidobacterium pseudocatenulatum - Bifidobacterium bifidum	0.4082019713254469	0.014725794918408714	Inf	27.720199390740778	1.00857444390738e-166
+Bifidobacterium pseudocatenulatum - Bifidobacterium animalis subsp. lactis	0.6221820848993128	0.07451940161126212	Inf	8.349263030116473	1.7378623818163995e-14
+Bifidobacterium pseudocatenulatum - Bifidobacterium animalis subsp. animalis	0.5135482438965117	0.24271833419414504	Inf	2.115819744732327	1
+Bifidobacterium pseudocatenulatum - Bifidobacterium angulatum	0.25571913459441176	0.0875466613753918	Inf	2.920946733741362	0.8828927999059075
+Bifidobacterium pseudocatenulatum - Bifidobacterium adolescentis	0.22171496836004886	0.013273282719254516	Inf	16.703853375956818	3.108539646670172e-60
+Bifidobacterium longum subsp. suis - Bifidobacterium longum subsp. longum	0.011336334217089239	0.04401313384683775	Inf	0.25756707660351547	1
+Bifidobacterium longum subsp. suis - Bifidobacterium longum subsp. infantis	-0.07686477621500187	0.045844326289600244	Inf	-1.6766475251363568	1
+Bifidobacterium longum subsp. suis - Bifidobacterium hominis	0.19367562176291953	0.059148835737736404	Inf	3.27437758236983	0.2679143767091099
+Bifidobacterium longum subsp. suis - Bifidobacterium globosum	0.16498226071764624	0.0799089832939356	Inf	2.0646272035620674	1
+Bifidobacterium longum subsp. suis - Bifidobacterium gallicum	0.8900228050535745	0.29194943742688584	Inf	3.0485511905686296	0.5817677627513642
+Bifidobacterium longum subsp. suis - Bifidobacterium dentium	-0.008821013216896711	0.04712897920117211	Inf	-0.18716750004798174	1
+Bifidobacterium longum subsp. suis - Bifidobacterium catenulatum subsp. kashiwanohense_A	0.015158114833694503	0.05840988528204127	Inf	0.2595128334955834	1
+Bifidobacterium longum subsp. suis - Bifidobacterium catenulatum subsp. kashiwanohense	-0.0064652995244357525	0.05386223798297426	Inf	-0.12003399350913381	1
+Bifidobacterium longum subsp. suis - Bifidobacterium catenulatum subsp. catenulatum	0.41179834266294457	0.05362648179583268	Inf	7.679010982498305	4.056133762387976e-12
+Bifidobacterium longum subsp. suis - Bifidobacterium breve	0.06662389834590687	0.044947609376730556	Inf	1.4822567711554013	1
+Bifidobacterium longum subsp. suis - Bifidobacterium bifidum	0.43636983821425746	0.045048078475152735	Inf	9.686758081256382	8.684258135979258e-20
+Bifidobacterium longum subsp. suis - Bifidobacterium animalis subsp. lactis	0.6503499517881234	0.08582319939751176	Inf	7.577787315710101	8.892899029177298e-12
+Bifidobacterium longum subsp. suis - Bifidobacterium animalis subsp. animalis	0.5417161107853222	0.24642376121694348	Inf	2.1983111860240334	1
+Bifidobacterium longum subsp. suis - Bifidobacterium angulatum	0.2838870014832223	0.09734936186900255	Inf	2.9161670506400728	0.896532605141243
+Bifidobacterium longum subsp. suis - Bifidobacterium adolescentis	0.24988283524885943	0.044594398442738825	Inf	5.60345792240521	5.315963701707504e-6
+Bifidobacterium longum subsp. longum - Bifidobacterium longum subsp. infantis	-0.08820111043209111	0.01538105467366581	Inf	-5.734399383099643	2.4758199480899346e-6
+Bifidobacterium longum subsp. longum - Bifidobacterium hominis	0.1823392875458303	0.040416077977170034	Inf	4.511553239995947	0.0016281720186427833
+Bifidobacterium longum subsp. longum - Bifidobacterium globosum	0.153645926500557	0.06723332656501124	Inf	2.2852643822701397	1
+Bifidobacterium longum subsp. longum - Bifidobacterium gallicum	0.8786864708364852	0.28873750813464133	Inf	3.043201683470734	0.5922107512534522
+Bifidobacterium longum subsp. longum - Bifidobacterium dentium	-0.02015734743398595	0.01886836692645864	Inf	-1.0683143651250393	1
+Bifidobacterium longum subsp. longum - Bifidobacterium catenulatum subsp. kashiwanohense_A	0.0038217806166052637	0.039326699436746354	Inf	0.09718030425493175	1
+Bifidobacterium longum subsp. longum - Bifidobacterium catenulatum subsp. kashiwanohense	-0.01780163374152499	0.032187191093065566	Inf	-0.5530657735884319	1
+Bifidobacterium longum subsp. longum - Bifidobacterium catenulatum subsp. catenulatum	0.40046200844585533	0.03179110158087854	Inf	12.596669776511362	5.572302164425321e-34
+Bifidobacterium longum subsp. longum - Bifidobacterium breve	0.055287564128817634	0.012456411144873223	Inf	4.438482600309219	0.0022920612566200344
+Bifidobacterium longum subsp. longum - Bifidobacterium bifidum	0.4250335039971682	0.012814209465686278	Inf	33.16892119918263	7.646502744260571e-239
+Bifidobacterium longum subsp. longum - Bifidobacterium animalis subsp. lactis	0.6390136175710341	0.0741653298027591	Inf	8.616069250557848	1.7530840116619676e-15
+Bifidobacterium longum subsp. longum - Bifidobacterium animalis subsp. animalis	0.530379776568233	0.2426098610572788	Inf	2.1861426994635362	1
+Bifidobacterium longum subsp. longum - Bifidobacterium angulatum	0.2725506672661331	0.08724547464613261	Inf	3.123951911220585	0.45145223167086207
+Bifidobacterium longum subsp. longum - Bifidobacterium adolescentis	0.2385465010317702	0.011114628306727652	Inf	21.4623912243092	8.850973765222329e-100
+Bifidobacterium longum subsp. infantis - Bifidobacterium hominis	0.2705403979779214	0.04240289684661134	Inf	6.380233854224086	4.4734894911652246e-8
+Bifidobacterium longum subsp. infantis - Bifidobacterium globosum	0.2418470369326481	0.06844608464276916	Inf	3.533394761656356	0.10379562470618052
+Bifidobacterium longum subsp. infantis - Bifidobacterium gallicum	0.9668875812685763	0.289022308664452	Inf	3.345373530979263	0.20789471478396987
+Bifidobacterium longum subsp. infantis - Bifidobacterium dentium	0.06804376299810516	0.022815818468754353	Inf	2.98230646826408	0.7237962139121467
+Bifidobacterium longum subsp. infantis - Bifidobacterium catenulatum subsp. kashiwanohense_A	0.09202289104869638	0.041365874709908663	Inf	2.2246088519591605	1
+Bifidobacterium longum subsp. infantis - Bifidobacterium catenulatum subsp. kashiwanohense	0.07039947669056612	0.03464912080254266	Inf	2.0317824827866913	1
+Bifidobacterium longum subsp. infantis - Bifidobacterium catenulatum subsp. catenulatum	0.48866311887794645	0.03428148832319586	Inf	14.254431262463674	1.0644110107761698e-43
+Bifidobacterium longum subsp. infantis - Bifidobacterium breve	0.14348867456090875	0.01788039374672146	Inf	8.024916933790609	2.57034501844023e-13
+Bifidobacterium longum subsp. infantis - Bifidobacterium bifidum	0.5132346144292593	0.018131471704143576	Inf	28.30628549098803	7.316829458981883e-174
+Bifidobacterium longum subsp. infantis - Bifidobacterium animalis subsp. lactis	0.7272147280031253	0.07526647624726232	Inf	9.661867597123976	1.10765570493258e-19
+Bifidobacterium longum subsp. infantis - Bifidobacterium animalis subsp. animalis	0.6185808870003241	0.2429487414747395	Inf	2.546137441360818	1
+Bifidobacterium longum subsp. infantis - Bifidobacterium angulatum	0.3607517776982242	0.0881834403284236	Inf	4.090924286404206	0.010870332089736319
+Bifidobacterium longum subsp. infantis - Bifidobacterium adolescentis	0.32674761146386133	0.016972956852722765	Inf	19.251071825557915	3.498293525596442e-80
+Bifidobacterium hominis - Bifidobacterium globosum	-0.028693361045273286	0.07798556930040013	Inf	-0.3679316738042466	1
+Bifidobacterium hominis - Bifidobacterium gallicum	0.6963471832906549	0.29142885482036973	Inf	2.3894242857999353	1
+Bifidobacterium hominis - Bifidobacterium dentium	-0.20249663497981624	0.043788629672342365	Inf	-4.624411325383779	9.504292852108671e-4
+Bifidobacterium hominis - Bifidobacterium catenulatum subsp. kashiwanohense_A	-0.17851750692922502	0.05574960185237424	Inf	-3.202130616142192	0.3451302747768451
+Bifidobacterium hominis - Bifidobacterium catenulatum subsp. kashiwanohense	-0.20014092128735528	0.05096512619989855	Inf	-3.9270170842381567	0.021759486184460386
+Bifidobacterium hominis - Bifidobacterium catenulatum subsp. catenulatum	0.21812272090002505	0.05071590438743849	Inf	4.300874124883999	0.004304179768450934
+Bifidobacterium hominis - Bifidobacterium breve	-0.12705172341701265	0.041431763137962034	Inf	-3.0665294883528853	0.5478953989910539
+Bifidobacterium hominis - Bifidobacterium bifidum	0.24269421645133793	0.04154073642029651	Inf	5.842318585684948	1.3024246427839515e-6
+Bifidobacterium hominis - Bifidobacterium animalis subsp. lactis	0.45667433002520386	0.08403526023558265	Inf	5.434318032037656	1.3916618677074237e-5
+Bifidobacterium hominis - Bifidobacterium animalis subsp. animalis	0.3480404890224027	0.24580678082661228	Inf	1.415910854257126	1
+Bifidobacterium hominis - Bifidobacterium angulatum	0.09021137972030281	0.09577683260757289	Inf	0.9418914497822929	1
+Bifidobacterium hominis - Bifidobacterium adolescentis	0.056207213485939905	0.041048310324625754	Inf	1.3692942058133877	1
+Bifidobacterium globosum - Bifidobacterium gallicum	0.7250405443359282	0.2963404094345773	Inf	2.4466475757366952	1
+Bifidobacterium globosum - Bifidobacterium dentium	-0.17380327393454295	0.06931309349987419	Inf	-2.5075099834471883	1
+Bifidobacterium globosum - Bifidobacterium catenulatum subsp. kashiwanohense_A	-0.14982414588395174	0.0774266036232961	Inf	-1.9350473722558155	1
+Bifidobacterium globosum - Bifidobacterium catenulatum subsp. kashiwanohense	-0.171447560242082	0.07405609313562486	Inf	-2.3151040378014045	1
+Bifidobacterium globosum - Bifidobacterium catenulatum subsp. catenulatum	0.24681608194529833	0.07388480087119786	Inf	3.340552847608924	0.21153776842528718
+Bifidobacterium globosum - Bifidobacterium breve	-0.09835836237173937	0.06784874235135788	Inf	-1.4496711208350186	1
+Bifidobacterium globosum - Bifidobacterium bifidum	0.27138757749661124	0.06791534159732474	Inf	3.99596867384823	0.016300854275589274
+Bifidobacterium globosum - Bifidobacterium animalis subsp. lactis	0.48536769107047717	0.0997436003200343	Inf	4.866153713252189	2.878913025713252e-4
+Bifidobacterium globosum - Bifidobacterium animalis subsp. animalis	0.376733850067676	0.25161048138398956	Inf	1.4972899697796465	1
+Bifidobacterium globosum - Bifidobacterium angulatum	0.1189047407655761	0.1098183158962101	Inf	1.0827405227917866	1
+Bifidobacterium globosum - Bifidobacterium adolescentis	0.08490057453121319	0.06761526915163124	Inf	1.255642040569544	1
+Bifidobacterium gallicum - Bifidobacterium dentium	-0.8988438182704712	0.28922885978637564	Inf	-3.1077252074165664	0.47698919585185556
+Bifidobacterium gallicum - Bifidobacterium catenulatum subsp. kashiwanohense_A	-0.87486469021988	0.29127977504702185	Inf	-3.003520206916697	0.6751958393675168
+Bifidobacterium gallicum - Bifidobacterium catenulatum subsp. kashiwanohense	-0.8964881045780102	0.2904020201949652	Inf	-3.0870587745090106	0.5114334872037325
+Bifidobacterium gallicum - Bifidobacterium catenulatum subsp. catenulatum	-0.4782244623906299	0.2903583857968996	Inf	-1.6470144682686698	1
+Bifidobacterium gallicum - Bifidobacterium breve	-0.8233989067076676	0.2888814293814429	Inf	-2.8503005834287833	1
+Bifidobacterium gallicum - Bifidobacterium bifidum	-0.453652966839317	0.288897078606008	Inf	-1.5702926766455807	1
+Bifidobacterium gallicum - Bifidobacterium animalis subsp. lactis	-0.23967285326545107	0.29798962097295856	Inf	-0.8042993325838033	1
+Bifidobacterium gallicum - Bifidobacterium animalis subsp. animalis	-0.3483066942682522	0.3770369514319354	Inf	-0.9237998900251831	1
+Bifidobacterium gallicum - Bifidobacterium angulatum	-0.6061358035703521	0.30151134457775286	Inf	-2.0103250324434927	1
+Bifidobacterium gallicum - Bifidobacterium adolescentis	-0.640139969804715	0.2888266833678152	Inf	-2.2163463650258004	1
+Bifidobacterium dentium - Bifidobacterium catenulatum subsp. kashiwanohense_A	0.023979128050591214	0.0427852079358397	Inf	0.5604536990108846	1
+Bifidobacterium dentium - Bifidobacterium catenulatum subsp. kashiwanohense	0.002355713692460959	0.03633180424898239	Inf	0.0648388854106231	1
+Bifidobacterium dentium - Bifidobacterium catenulatum subsp. catenulatum	0.4206193558798413	0.03598136836267615	Inf	11.689921062483942	3.6310545879823766e-29
+Bifidobacterium dentium - Bifidobacterium breve	0.07544491156280358	0.020955832317877	Inf	3.600186831922827	0.08045111872562519
+Bifidobacterium dentium - Bifidobacterium bifidum	0.44519085143115417	0.02117046749024073	Inf	21.028862571711304	9.034873490993592e-96
+Bifidobacterium dentium - Bifidobacterium animalis subsp. lactis	0.6591709650050201	0.07605577475955973	Inf	8.666941689686313	1.1230218215881126e-15
+Bifidobacterium dentium - Bifidobacterium animalis subsp. animalis	0.550537124002219	0.24319442718071685	Inf	2.263773600342893	1
+Bifidobacterium dentium - Bifidobacterium angulatum	0.29270801470011903	0.08885807546730813	Inf	3.294107070862789	0.24979924827968322
+Bifidobacterium dentium - Bifidobacterium adolescentis	0.2587038484657561	0.020187116978944	Inf	12.815294464068096	3.406045756307271e-35
+Bifidobacterium catenulatum subsp. kashiwanohense_A - Bifidobacterium catenulatum subsp. kashiwanohense	-0.021623414358130255	0.05010562860700467	Inf	-0.43155659272793445	1
+Bifidobacterium catenulatum subsp. kashiwanohense_A - Bifidobacterium catenulatum subsp. catenulatum	0.39664022782925007	0.04985211015962417	Inf	7.956337787091183	4.4833167914767143e-13
+Bifidobacterium catenulatum subsp. kashiwanohense_A - Bifidobacterium breve	0.05146578351221237	0.040369802157698115	Inf	1.2748584526416453	1
+Bifidobacterium catenulatum subsp. kashiwanohense_A - Bifidobacterium bifidum	0.42121172338056295	0.04048163425396822	Inf	10.40500787932675	5.951486809191375e-23
+Bifidobacterium catenulatum subsp. kashiwanohense_A - Bifidobacterium animalis subsp. lactis	0.6351918369544289	0.0835167940739681	Inf	7.605558187397139	7.177023915806255e-12
+Bifidobacterium catenulatum subsp. kashiwanohense_A - Bifidobacterium animalis subsp. animalis	0.5265579959516278	0.24563001329209283	Inf	2.1437038124712684	1
+Bifidobacterium catenulatum subsp. kashiwanohense_A - Bifidobacterium angulatum	0.2687288866495278	0.09532225130508896	Inf	2.8191621889985847	1
+Bifidobacterium catenulatum subsp. kashiwanohense_A - Bifidobacterium adolescentis	0.23472472041516493	0.03997616427370535	Inf	5.871616866692661	1.0918599590477532e-6
+Bifidobacterium catenulatum subsp. kashiwanohense - Bifidobacterium catenulatum subsp. catenulatum	0.4182636421873803	0.044437133899933694	Inf	9.41248018221095	1.2259504978147925e-18
+Bifidobacterium catenulatum subsp. kashiwanohense - Bifidobacterium breve	0.07308919787034263	0.03345365313571926	Inf	2.184789732045842	1
+Bifidobacterium catenulatum subsp. kashiwanohense - Bifidobacterium bifidum	0.4428351377386932	0.03358852026727855	Inf	13.184121664630066	2.7401941790503556e-37
+Bifidobacterium catenulatum subsp. kashiwanohense - Bifidobacterium animalis subsp. lactis	0.6568152513125591	0.08040199546197155	Inf	8.169141170423051	7.857991396607649e-14
+Bifidobacterium catenulatum subsp. kashiwanohense - Bifidobacterium animalis subsp. animalis	0.548181410309758	0.24458848994126242	Inf	2.2412396038808	1
+Bifidobacterium catenulatum subsp. kashiwanohense - Bifidobacterium angulatum	0.2903523010076581	0.0926053863214439	Inf	3.1353716294623726	0.43424041683371095
+Bifidobacterium catenulatum subsp. kashiwanohense - Bifidobacterium adolescentis	0.2563481347732952	0.03297756346232406	Inf	7.773410399654472	1.93293776460231e-12
+Bifidobacterium catenulatum subsp. catenulatum - Bifidobacterium breve	-0.3451744443170377	0.03307273465241782	Inf	-10.436828038101268	4.259049980778536e-23
+Bifidobacterium catenulatum subsp. catenulatum - Bifidobacterium bifidum	0.024571495551312876	0.0332091487847792	Inf	0.7399013961651064	1
+Bifidobacterium catenulatum subsp. catenulatum - Bifidobacterium animalis subsp. lactis	0.2385516091251788	0.08024425053255307	Inf	2.9728187071596417	0.7465490731878304
+Bifidobacterium catenulatum subsp. catenulatum - Bifidobacterium animalis subsp. animalis	0.12991776812237768	0.24453668084974747	Inf	0.5312813099078745	1
+Bifidobacterium catenulatum subsp. catenulatum - Bifidobacterium angulatum	-0.12791134117972225	0.09246846189381593	Inf	-1.383296948602934	1
+Bifidobacterium catenulatum subsp. catenulatum - Bifidobacterium adolescentis	-0.16191550741408514	0.03259108100655498	Inf	-4.968092570526255	1.7106515434131558e-4
+Bifidobacterium breve - Bifidobacterium bifidum	0.3697459398683506	0.015726906939827118	Inf	23.51040425705063	8.076923230805904e-120
+Bifidobacterium breve - Bifidobacterium animalis subsp. lactis	0.5837260534422165	0.07472367618376072	Inf	7.811795179973687	1.4263919437292945e-12
+Bifidobacterium breve - Bifidobacterium animalis subsp. animalis	0.47509221243941535	0.24278112842619304	Inf	1.9568745541268309	1
+Bifidobacterium breve - Bifidobacterium angulatum	0.21726310313731545	0.08772060467126562	Inf	2.476762488716447	1
+Bifidobacterium breve - Bifidobacterium adolescentis	0.18325893690295256	0.014375903451964806	Inf	12.74764660984878	8.128861174418304e-35
+Bifidobacterium bifidum - Bifidobacterium animalis subsp. lactis	0.21398011357386593	0.07478415318793075	Inf	2.861302889077839	1
+Bifidobacterium bifidum - Bifidobacterium animalis subsp. animalis	0.1053462725710648	0.24279974898157536	Inf	0.4338813075917097	1
+Bifidobacterium bifidum - Bifidobacterium angulatum	-0.15248283673103513	0.08777212695105908	Inf	-1.737258079846443	1
+Bifidobacterium bifidum - Bifidobacterium adolescentis	-0.18648700296539802	0.014687014185346728	Inf	-12.697407424815903	1.5463643949005198e-34
+Bifidobacterium animalis subsp. lactis - Bifidobacterium animalis subsp. animalis	-0.10863384100280113	0.25355080415182585	Inf	-0.428449995913842	1
+Bifidobacterium animalis subsp. lactis - Bifidobacterium angulatum	-0.36646295030490106	0.11419386345173888	Inf	-3.209129976233594	0.33683734761304474
+Bifidobacterium animalis subsp. lactis - Bifidobacterium adolescentis	-0.4004671165392639	0.07451174784020391	Inf	-5.374550029320155	1.942386375682445e-5
+Bifidobacterium animalis subsp. animalis - Bifidobacterium angulatum	-0.2578291093020999	0.25768059101824975	Inf	-1.000576365814993	1
+Bifidobacterium animalis subsp. animalis - Bifidobacterium adolescentis	-0.2918332755364628	0.24271598444206804	Inf	-1.202365292122399	1
+Bifidobacterium angulatum - Bifidobacterium adolescentis	-0.034004166234362906	0.08754014660530941	Inf	-0.38844081890423193	1

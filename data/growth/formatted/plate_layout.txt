@@ -5,132 +5,147 @@ blank_3	blank
 blank_ST1	blank_ST
 blank_ST2	blank_ST
 blank_ST3	blank_ST
-no_carb1	no_sugar
-no_carb2	no_sugar
-no_carb3	no_sugar
-Glc1	Glc
-Glc2	Glc
-Glc3	Glc
-Gal1	Gal
-Gal2	Gal
-Gal3	Gal
-Fru1	Fru
-Fru2	Fru
-Fru3	Fru
-Man1	Man
-Man2	Man
-Man3	Man
-Xyl1	Xyl
-Xyl2	Xyl
-Xyl3	Xyl
-Ara1	Ara
-Ara2	Ara
-Ara3	Ara
-Rib1	Rib
-Rib2	Rib
-Rib3	Rib
-GlcNAc1	GlcNAc
-GlcNAc2	GlcNAc
-GlcNAc3	GlcNAc
-GalNAc1	GalNAc
-GalNAc2	GalNAc
-GalNAc3	GalNAc
-ManNAc1	ManNAc
-ManNAc2	ManNAc
-ManNAc3	ManNAc
-Neu5Ac1	Neu5Ac
-Neu5Ac2	Neu5Ac
-Neu5Ac3	Neu5Ac
-GlcA1	GlcA
-GlcA2	GlcA
-GlcA3	GlcA
-GalA1	GalA
-GalA2	GalA
-GalA3	GalA
-Gco1	Gco
-Gco2	Gco
-Gco3	Gco
-Ino1	Ino
-Ino2	Ino
-Ino3	Ino
-Mtl1	Mtl
-Mtl2	Mtl
-Mtl3	Mtl
-Stl1	Stl
-Stl2	Stl
-Stl3	Stl
-Mal1	Mal
-Mal2	Mal
-Mal3	Mal
-IMO1	IMO
-IMO2	IMO
-IMO3	IMO
-Mlz1	Mlz
-Mlz2	Mlz
-Mlz3	Mlz
-Cld1	Cld
-Cld2	Cld
-Cld3	Cld
-Gen1	Gen
-Gen2	Gen
-Gen3	Gen
-Lam1	Lam
-Lam2	Lam
-Lam3	Lam
-Sop1	Sop
-Sop2	Sop
-Sop3	Sop
-Mel1	Mel
-Mel2	Mel
-Mel3	Mel
-RFO1	RFO
-RFO2	RFO
-RFO3	RFO
-Lac1	Lac
-Lac2	Lac
-Lac3	Lac
-Scr1	Scr
-Scr2	Scr
-Scr3	Scr
-scFOS1	scFOS
-scFOS2	scFOS
-scFOS3	scFOS
-lcFOS1	lcFOS
-lcFOS2	lcFOS
-lcFOS3	lcFOS
-bMnOS1	bMnOS
-bMnOS2	bMnOS
-bMnOS3	bMnOS
-XOS1	XOS
-XOS2	XOS
-XOS3	XOS
-aAOS1	aAOS
-aAOS2	aAOS
-aAOS3	aAOS
-LNT1	LNT
-LNT2	LNT
-LNT3	LNT
-LNnT1	LNnT
-LNnT2	LNnT
-LNnT3	LNnT
-FL1	FL
-FL2	FL
-FL3	FL
-SL1	SL
-SL2	SL
-SL3	SL
-ST1	ST
-ST2	ST
-ST3	ST
-GA1	GA
-GA2	GA
-GA3	GA
-bMAN1	bMAN
-bMAN2	bMAN
-bMAN3	bMAN
-AR1	AR
-AR2	AR
-AR3	AR
-XGL1	XGL
-XGL2	XGL
-XGL3	XGL
+no_carb1	No substrate
+no_carb2	No substrate
+no_carb3	No substrate
+Glc1	D-glucose (Glc)
+Glc2	D-glucose (Glc)
+Glc3	D-glucose (Glc)
+Gal1	D-galactose (Gal)
+Gal2	D-galactose (Gal)
+Gal3	D-galactose (Gal)
+Fru1	D-fructose (Fru)
+Fru2	D-fructose (Fru)
+Fru3	D-fructose (Fru)
+Man1	D-mannose (Man)
+Man2	D-mannose (Man)
+Man3	D-mannose (Man)
+Xyl1	D-xylose (Xyl)
+Xyl2	D-xylose (Xyl)
+Xyl3	D-xylose (Xyl)
+Ara1	L-arabinose (Ara)
+Ara2	L-arabinose (Ara)
+Ara3	L-arabinose (Ara)
+Rib1	D-ribose (Rib)
+Rib2	D-ribose (Rib)
+Rib3	D-ribose (Rib)
+GlcNAc1	N-acetyl-D-glucosamine (GlcNAc)
+GlcNAc2	N-acetyl-D-glucosamine (GlcNAc)
+GlcNAc3	N-acetyl-D-glucosamine (GlcNAc)
+GalNAc1	N-acetyl-D-galactosamine (GalNAc)
+GalNAc2	N-acetyl-D-galactosamine (GalNAc)
+GalNAc3	N-acetyl-D-galactosamine (GalNAc)
+ManNAc1	N-acetyl-D-mannosamine (ManNAc)
+ManNAc2	N-acetyl-D-mannosamine (ManNAc)
+ManNAc3	N-acetyl-D-mannosamine (ManNAc)
+Neu5Ac1	N-acetylneuraminic acid (Neu5Ac)
+Neu5Ac2	N-acetylneuraminic acid (Neu5Ac)
+Neu5Ac3	N-acetylneuraminic acid (Neu5Ac)
+GlcA1	D-glucuronate (GlcA)
+GlcA2	D-glucuronate (GlcA)
+GlcA3	D-glucuronate (GlcA)
+GalA1	D-galacturonate (GalA)
+GalA2	D-galacturonate (GalA)
+GalA3	D-galacturonate (GalA)
+Gco1	D-gluconate (Gco)
+Gco2	D-gluconate (Gco)
+Gco3	D-gluconate (Gco)
+Ino1	Myo-inositol (Ino)
+Ino2	Myo-inositol (Ino)
+Ino3	Myo-inositol (Ino)
+Mtl1	D-mannitol (Mtl)
+Mtl2	D-mannitol (Mtl)
+Mtl3	D-mannitol (Mtl)
+Stl1	D-sorbitol (Stl)
+Stl2	D-sorbitol (Stl)
+Stl3	D-sorbitol (Stl)
+Mal1	Maltose (Mal)
+Mal2	Maltose (Mal)
+Mal3	Maltose (Mal)
+MOS1	Maltotriose (MOS)
+MOS2	Maltotriose (MOS)
+MOS3	Maltotriose (MOS)
+Pan1	Panose (IMO)
+Pan2	Panose (IMO)
+Pan3	Panose (IMO)
+IMO1	Isomaltotriose (IMO)
+IMO2	Isomaltotriose (IMO)
+IMO3	Isomaltotriose (IMO)
+Mlz1	Melezitose (Mlz)
+Mlz2	Melezitose (Mlz)
+Mlz3	Melezitose (Mlz)
+Cld1	Cellobiose (BglOS)
+Cld2	Cellobiose (BglOS)
+Cld3	Cellobiose (BglOS)
+Gen1	Gentiobiose (BglOS)
+Gen2	Gentiobiose (BglOS)
+Gen3	Gentiobiose (BglOS)
+Lam1	Laminaritriose (BglOS)
+Lam2	Laminaritriose (BglOS)
+Lam3	Laminaritriose (BglOS)
+Sop1	Sophorose (BglOS)
+Sop2	Sophorose (BglOS)
+Sop3	Sophorose (BglOS)
+Mel1	Melibiose (Mel)
+Mel2	Melibiose (Mel)
+Mel3	Melibiose (Mel)
+RFO1	Raffinose (RFO)
+RFO2	Raffinose (RFO)
+RFO3	Raffinose (RFO)
+Lac1	Lactose (Lac)
+Lac2	Lactose (Lac)
+Lac3	Lactose (Lac)
+Scr1	Sucrose (Scr)
+Scr2	Sucrose (Scr)
+Scr3	Sucrose (Scr)
+scFOS1	Fructooligosaccharide DP=3 (scFOS)
+scFOS2	Fructooligosaccharide DP=3 (scFOS)
+scFOS3	Fructooligosaccharide DP=3 (scFOS)
+lcFOS1	Chicory fructooligosaccharides (lcFOS)
+lcFOS2	Chicory fructooligosaccharides (lcFOS)
+lcFOS3	Chicory fructooligosaccharides (lcFOS)
+bMnOS1	Mannotriose (bMnOS)
+bMnOS2	Mannotriose (bMnOS)
+bMnOS3	Mannotriose (bMnOS)
+XOS1	Xylotriose (XOS)
+XOS2	Xylotriose (XOS)
+XOS3	Xylotriose (XOS)
+aAOS1	Arabinotriose (aAOS)
+aAOS2	Arabinotriose (aAOS)
+aAOS3	Arabinotriose (aAOS)
+LNT1	Lacto-N-tetraose (LNT)
+LNT2	Lacto-N-tetraose (LNT)
+LNT3	Lacto-N-tetraose (LNT)
+LNnT1	Lacto-N-neotetraose (LNnT)
+LNnT2	Lacto-N-neotetraose (LNnT)
+LNnT3	Lacto-N-neotetraose (LNnT)
+2FL1	2'-fucosyllactose (2'FL)
+2FL2	2'-fucosyllactose (2'FL)
+2FL3	2'-fucosyllactose (2'FL)
+3SL1	3'-sialyllactose (SHMO)
+3SL2	3'-sialyllactose (SHMO)
+3SL3	3'-sialyllactose (SHMO)
+6SL1	6'-sialyllactose (SHMO)
+6SL2	6'-sialyllactose (SHMO)
+6SL3	6'-sialyllactose (SHMO)
+ST1	Potato soluble starch (ST)
+ST2	Potato soluble starch (ST)
+ST3	Potato soluble starch (ST)
+PUL1	Pullulan (PUL)
+PUL2	Pullulan (PUL)
+PUL3	Pullulan (PUL)
+GA1	Gum arabic from acacia tree (GA)
+GA2	Gum arabic from acacia tree (GA)
+GA3	Gum arabic from acacia tree (GA)
+bMAN1	Konjac glucomannan (bMAN)
+bMAN2	Konjac glucomannan (bMAN)
+bMAN3	Konjac glucomannan (bMAN)
+AX1	Wheat flour arabinoxylan (AX)
+AX2	Wheat flour arabinoxylan (AX)
+AX3	Wheat flour arabinoxylan (AX)
+AR1	Sugar beet arabinan (AR)
+AR2	Sugar beet arabinan (AR)
+AR3	Sugar beet arabinan (AR)
+XGL1	Tamarind xyloglucan (XGL)
+XGL2	Tamarind xyloglucan (XGL)
+XGL3	Tamarind xyloglucan (XGL)

@@ -1,0 +1,9 @@
+genome_name	Glc	Gal	Fru	Xyl	Ara	Fuc	GlcNAc	Mal	IMO	BglOS	Lac	GOS	Scr	scFOS	XOS	2'FL	3FL	ST	PG	AGII	XL	AX	AR	XGL
+Bifidobacterium adolescentis ATCC 15703	1	1	1	0	0	0	0	1	1	1	1	1	1	1	1	0	0	1	0	0	0	0	0	0
+Bifidobacterium bifidum ATCC 29521 = JCM 1255 = DSM 20456	1	1	1	0	0	0	1	0	0	0	1	1	0	0	0	1	1	0	0	0	0	0	0	0
+Bifidobacterium breve DSM 20213 = JCM 1192	1	1	1	0	0	1	1	1	1	1	1	1	1	1	0	0	0	1	0	0	0	0	0	0
+Bifidobacterium catenulatum subsp. catenulatum DSM 16992	1	1	1	0	0	0	0	1	1	1	1	1	1	1	1	0	0	0	0	0	0	0	0	0
+Bifidobacterium catenulatum subsp. kashiwanohense JCM 15439 = DSM 21854	1	1	1	1	1	0	0	1	1	1	1	1	1	1	1	1	1	0	0	0	1	1	0	0
+Bifidobacterium longum subsp. infantis ATCC 15697 = JCM 1222	1	1	1	0	0	1	1	1	1	0	1	1	1	1	0	1	1	0	0	0	0	0	0	0
+Bifidobacterium longum subsp. longum JCM 1217	1	1	1	1	1	0	0	1	1	0	1	1	1	1	0	0	0	0	0	1	0	1	1	0
+Bifidobacterium pseudocatenulatum DSM 20438 = JCM 1200 = LMG 10505	1	1	1	1	1	0	0	1	1	1	1	1	1	1	1	1	1	1	0	0	0	0	0	0

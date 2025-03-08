@@ -1,20 +1,20 @@
-genome_name	Glc	Gal	Man	Xyl	Ara	Fuc	GlcNAc	GalNAc	ManNAc	Neu5Ac	Lac	GOS	Scr	XOS	FL	LNnT	Muc	ST	AGI	AGII	XL	AX	AR
-Bifidobacterium longum subsp. longum APC1462	+	+	-	+	+	-	-	-	-	-	+	+	+	-	-	-	-	-	+	+	-	+	+
-Bifidobacterium longum subsp. longum APC1464	+	+	-	+	+	-	-	-	-	-	+	+	w	+	-	-	-	-	-	+	-	+	+
-Bifidobacterium longum subsp. longum APC1465	+	+	-	+	+	-	-	-	-	-	+	+	+	+	-	-	-	-	+	+	-	+	-
-Bifidobacterium longum subsp. longum APC1466	+	+	-	+	+	-	-	-	-	-	+	+	+	+	-	-	-	-	+	+	-	+	-
-Bifidobacterium longum subsp. longum APC1468	+	+	-	+	+	-	-	-	-	-	+	+	w	+	-	-	-	-	+	+	-	-	-
-Bifidobacterium longum subsp. longum APC1472	+	+	-	+	+	-	-	-	-	-	+	+	+	-	-	-	-	-	+	+	-	+	+
-Bifidobacterium longum subsp. longum APC1473	+	+	-	+	+	-	-	-	-	-	+	+	w	w	-	-	-	-	+	+	-	+	-
-Bifidobacterium longum subsp. longum APC1476	+	+	-	+	+	-	-	-	-	-	+	+	w	+	-	-	-	-	+	+	-	+	+
-Bifidobacterium longum subsp. longum APC1478	+	+	-	+	+	-	-	-	-	-	+	+	w	-	+	-	-	-	+	+	-	-	+
-Bifidobacterium longum subsp. longum APC1480	+	-	-	+	+	-	-	-	-	-	+	+	w	-	-	-	-	-	+	+	-	-	+
-Bifidobacterium longum subsp. longum APC1482	+	+	-	+	+	-	-	-	-	-	+	+	w	-	-	-	-	-	+	+	-	+	+
-Bifidobacterium longum subsp. longum APC1503	+	-	-	w	+	-	-	-	-	-	+	+	-	w	-	-	-	-	+	w	-	+	-
-Bifidobacterium longum subsp. longum APC1504	+	+	-	+	+	-	-	-	-	-	+	+	+	-	-	-	-	-	+	w	-	+	-
-Bifidobacterium longum subsp. longum DPC6316	+	+	-	+	+	-	-	-	-	-	+	+	+	-	-	-	-	-	+	+	-	+	+
-Bifidobacterium longum subsp. longum DPC6317	+	+	-	+	+	-	-	-	-	-	+	+	w	+	-	-	-	-	-	+	-	+	+
-Bifidobacterium longum subsp. longum DPC6320	w	-	-	+	+	-	-	-	-	-	+	+	+	+	-	-	-	-	+	+	-	+	+
-Bifidobacterium longum subsp. longum DPC6321	+	-	w	+	+	-	-	-	-	-	+	+	w	+	-	-	-	-	-	+	-	+	+
-Bifidobacterium longum subsp. longum DPC6323	+	+	-	+	+	-	-	-	-	-	+	+	w	-	+	-	-	-	w	+	-	+	-
-Bifidobacterium longum subsp. suis APC1461	+	+	w	-	w	-	-	-	-	-	+	+	-	-	-	-	-	-	+	+	-	-	-
+genome_name	Glc	Gal	Xyl	Ara	Fuc	GlcNAc	Neu5Ac	Lac	GOS	Scr	XOS	2'FL	3FL	LNnT	Muc	ST	PUL	PG	AGII	XL	AX	AR
+Bifidobacterium longum subsp. longum APC1462	+	+	+	+	-	-	-	+	+	+	-	-	NT	-	-	-	-	+	+	-	+	+
+Bifidobacterium longum subsp. longum APC1464	+	+	+	+	-	-	-	+	+	w	+	-	NT	-	-	-	-	-	+	-	+	+
+Bifidobacterium longum subsp. longum APC1465	+	+	+	+	-	-	-	+	+	+	+	-	NT	-	-	-	-	+	+	-	+	-
+Bifidobacterium longum subsp. longum APC1466	+	+	+	+	-	-	-	+	+	+	+	-	NT	-	-	-	-	+	+	-	+	-
+Bifidobacterium longum subsp. longum APC1468	+	+	+	+	-	-	-	+	+	w	+	-	NT	-	-	-	-	+	+	-	-	-
+Bifidobacterium longum subsp. longum APC1472	+	+	+	+	-	-	-	+	+	+	-	-	NT	-	-	-	-	+	+	-	+	+
+Bifidobacterium longum subsp. longum APC1473	+	+	+	+	-	-	-	+	+	w	w	-	NT	-	-	-	-	+	+	-	+	-
+Bifidobacterium longum subsp. longum APC1476	+	+	+	+	-	-	-	+	+	w	+	-	NT	-	-	-	-	+	+	-	+	+
+Bifidobacterium longum subsp. longum APC1478	+	+	+	+	-	-	-	+	+	w	-	+	+	-	-	-	-	+	+	-	-	+
+Bifidobacterium longum subsp. longum APC1480	+	-	+	+	-	-	-	+	+	w	-	-	NT	-	-	-	-	+	+	-	-	+
+Bifidobacterium longum subsp. longum APC1482	+	+	+	+	-	-	-	+	+	w	-	-	NT	-	-	-	-	+	+	-	+	+
+Bifidobacterium longum subsp. longum APC1503	+	-	w	+	-	-	-	+	+	-	w	-	NT	-	-	-	-	+	w	-	+	-
+Bifidobacterium longum subsp. longum APC1504	+	+	+	+	-	-	-	+	+	+	-	-	NT	-	-	-	-	+	w	-	+	-
+Bifidobacterium longum subsp. longum DPC6316	+	+	+	+	-	-	-	+	+	+	-	-	NT	-	-	-	-	+	+	-	+	+
+Bifidobacterium longum subsp. longum DPC6317	+	+	+	+	-	-	-	+	+	w	+	-	NT	-	-	-	-	-	+	-	+	+
+Bifidobacterium longum subsp. longum DPC6320	w	-	+	+	-	-	-	+	+	+	+	-	NT	-	-	-	-	+	+	-	+	+
+Bifidobacterium longum subsp. longum DPC6321	+	-	+	+	-	-	-	+	+	w	+	-	NT	-	-	-	-	-	+	-	+	+
+Bifidobacterium longum subsp. longum DPC6323	+	+	+	+	-	-	-	+	+	w	-	+	+	-	-	-	-	w	+	-	+	-
+Bifidobacterium longum subsp. suis APC1461	+	+	-	w	-	-	-	+	+	-	-	-	-	-	-	-	-	+	+	-	-	-

@@ -2,52 +2,53 @@ phenotype	description	type_group	detailed_group	origin
 Glc	D-glucose utilization	monosaccharides_and_derivatives	monosaccharides	universal
 Gal	D-galactose utilization	monosaccharides_and_derivatives	monosaccharides	universal
 Rib	D-ribose utilization	monosaccharides_and_derivatives	monosaccharides	universal
-GlcNAc	N-acetylglucosamine utilization	monosaccharides_and_derivatives	aminosugars	universal
-Chb	Diacetylchitobiose utilization	di_and_oligosaccharides	disaccharides	universal
+GlcNAc	N-acetyl-D-glucosamine utilization	monosaccharides_and_derivatives	aminosugars	universal
+Chb	N,N'-diacetylchitobiose utilization	di_and_oligosaccharides	disaccharides	universal
+GlcNAc6S	N-acetyl-D-glucosamine-6-sulfate utilization	monosaccharides_and_derivatives	aminosugars	host (animal)
 Fuc	L-fucose utilization	monosaccharides_and_derivatives	deoxymonosaccharides	universal
-Neu5Ac	N-acetylneuraminic acid utilization	monosaccharides_and_derivatives	sialic_acids	animal
-ManNAc	N-acetylmannosamine utilization	monosaccharides_and_derivatives	aminosugars	animal
-LNB	Lacto-N-biose utilization	di_and_oligosaccharides	disaccharides	animal
-LNT	LNT utilization	di_and_oligosaccharides	oligosaccharides	animal
-LNnT	LNnT utilization	di_and_oligosaccharides	oligosaccharides	animal
-FL	2'FL and 3FL utilization	di_and_oligosaccharides	oligosaccharides	animal
-LDFT	LDFT utilization	di_and_oligosaccharides	oligosaccharides	animal
-LNFPI	LNFP I utilization	di_and_oligosaccharides	oligosaccharides	animal
-SL	Sialyllactose utilization	di_and_oligosaccharides	oligosaccharides	animal
-lcHMO	Long-chain HMO utilization 	di_and_oligosaccharides	oligosaccharides	animal
+Neu5Ac	N-acetylneuraminic acid utilization	monosaccharides_and_derivatives	sialic_acids	host (animal)
+ManNAc	N-acetyl-D-mannosamine utilization	monosaccharides_and_derivatives	aminosugars	host (animal)
+LNB	Lacto-N-biose utilization	di_and_oligosaccharides	disaccharides	host (animal)
+LNT	Lacto-N-tetraose utilization	di_and_oligosaccharides	oligosaccharides	host (animal)
+LNnT	Lacto-N-neotetraose utilization	di_and_oligosaccharides	oligosaccharides	host (animal)
+2'FL	2'-fucosyllactose utilization	di_and_oligosaccharides	oligosaccharides	host (animal)
+3FL	3-fucosyllactose utilization	di_and_oligosaccharides	oligosaccharides	host (animal)
+LDFT	Lactodifucotetraose utilization	di_and_oligosaccharides	oligosaccharides	host (animal)
+LNFPI	Lacto-N-fucopentaose I utilization	di_and_oligosaccharides	oligosaccharides	host (animal)
+lcFHMO	Long-chain fucosylated HMO utilization	di_and_oligosaccharides	oligosaccharides	host (animal)
+SHMO	Sialylated HMO utilization	di_and_oligosaccharides	oligosaccharides	host (animal)
 Nglyc	N-glycan utilization	di_and_oligosaccharides	N-glycans	universal
 Ncore	N-glycan core utilization	di_and_oligosaccharides	N-glycans	universal
-GalNAc	N-acetylgalactosamine utilization	monosaccharides_and_derivatives	aminosugars	animal
-GNB	Galacto-N-biose utilization	di_and_oligosaccharides	disaccharides	animal
-Tan	T antigen degradation	di_and_oligosaccharides	O-glycans	animal
-Muc	Mucin O-glycan degradation	di_and_oligosaccharides	O-glycans	animal
-GlcNAc6S	N-acetylglucosamine-6-sulfate utilization	monosaccharides_and_derivatives	aminosugars	animal
+GalNAc	N-acetyl-D-galactosamine utilization	monosaccharides_and_derivatives	aminosugars	host (animal)
+GNB	Galacto-N-biose utilization	di_and_oligosaccharides	disaccharides	host (animal)
+Tan	T antigen degradation	di_and_oligosaccharides	O-glycans	host (animal)
+Muc	Mucin O-glycan degradation	di_and_oligosaccharides	O-glycans	host (animal)
 Mal	Maltose utilization	di_and_oligosaccharides	disaccharides	universal
 MOS	Maltooligosaccharide utilization	di_and_oligosaccharides	oligosaccharides	universal
-ST	Starch degradation	polysaccharides	homopolysaccharides	plant
+ST	Souble starch degradation	polysaccharides	homopolysaccharides	plant
 RST	Resistant starch degradation	polysaccharides	homopolysaccharides	plant
+PUL	Pullulan degradation	polysaccharides	homopolysaccharides	fungal
 IMO	Panose and isomaltooligosaccharide utilization	di_and_oligosaccharides	disaccharides;oligosaccharides	plant
-Mlz	Melezitose utilization	di_and_oligosaccharides	oligosaccharides	animal
-Cld	Cellobiose and cellodextrin utilization	di_and_oligosaccharides	disaccharides;oligosaccharides	plant
-Bgl	Beta-glucose oligosaccharide utilization	di_and_oligosaccharides	disaccharides;oligosaccharides	plant
-BGL12	"1,2-beta-oligoglucan utilization"	di_and_oligosaccharides	oligosaccharides	bacterial
+Mlz	Melezitose utilization	di_and_oligosaccharides	oligosaccharides	host (animal)
+BglOS	Beta-glucose di- and oligosaccharide utilization	di_and_oligosaccharides	disaccharides;oligosaccharides	universal
+BGL12	1,2-beta-oligoglucan utilization	di_and_oligosaccharides	oligosaccharides	bacterial
 Mel	Melibiose utilization	di_and_oligosaccharides	disaccharides	plant
 RFO	Raffinose family oligosaccharide utilization	di_and_oligosaccharides	oligosaccharides	plant
-Lac	Lactose utilization	di_and_oligosaccharides	disaccharides	animal
+Lac	Lactose utilization	di_and_oligosaccharides	disaccharides	host (animal)
 GOS	Galactooligosaccharide utilization	di_and_oligosaccharides	disaccharides;oligosaccharides	universal
-AGI	Type I galactan and arabinogalactan degradation	polysaccharides	homopolysaccharides;heteropolysaccharides	plant
-AGII	Type II arabinogalactan degradation	polysaccharides	heteropolysaccharides	plant
+PG	Pectic galactan degradation	polysaccharides	homopolysaccharides;heteropolysaccharides	plant
+AGII	Type II arabinogalactan degradation	polysaccharides	heteropolysaccharides;O-glycans	plant
 GalAf	Galactosylarabinose utilization	di_and_oligosaccharides	disaccharides	plant
-GA	Gum arabic degradation	polysaccharides	heteropolysaccharides	plant
+GA	Gum arabic from Acacia senegal degradation	polysaccharides	heteropolysaccharides;O-glycans	plant
 Fru	D-fructose utilization	monosaccharides_and_derivatives	monosaccharides	plant
 Scr	Sucrose utilization	di_and_oligosaccharides	disaccharides	plant
 scFOS	Short-chain fructooligosaccharide utilization	di_and_oligosaccharides	oligosaccharides	plant
 lcFOS	Long-chain fructooligosaccharide utilization	di_and_oligosaccharides	oligosaccharides	plant
-DFA	Difructose dianhydride utilization (production)	di_and_oligosaccharides	disaccharides	plant
+DFA	Difructose dianhydride metabolism	di_and_oligosaccharides	disaccharides	plant
 Man	D-mannose utilization	monosaccharides_and_derivatives	monosaccharides	universal
 bMnOS	Beta-mannose oligosaccharide utilization	di_and_oligosaccharides	disaccharides;oligosaccharides	plant
 GmOS	Glucomannan oligosaccharide utilization	di_and_oligosaccharides	disaccharides;oligosaccharides	plant
-bMAN	Beta-mannan family polysaccharide degradation	polysaccharides	homopolysaccharides;heteropolysaccharides	plant
+bMAN	Beta-mannan degradation	polysaccharides	homopolysaccharides;heteropolysaccharides	plant
 Xyl	D-xylose utilization	monosaccharides_and_derivatives	monosaccharides	universal
 XOS	Xylooligosaccharide utilization	di_and_oligosaccharides	disaccharides;oligosaccharides	plant
 AXOS	Arabinoxylooligosaccharide utilization	di_and_oligosaccharides	oligosaccharides	plant
@@ -55,17 +56,18 @@ XL	Xylan degradation	polysaccharides	homopolysaccharides	plant
 AX	Arabinoxylan degradation	polysaccharides	heteropolysaccharides	plant
 Ara	L-arabinose utilization	monosaccharides_and_derivatives	monosaccharides	plant
 aAOS	Alpha-arabinooligosaccharide utilization	di_and_oligosaccharides	disaccharides;oligosaccharides	plant
-bAOS	Beta-arabinooligosaccharide utilization	di_and_oligosaccharides	disaccharides;oligosaccharides	plant
+bAOS	Beta-arabinose di- and oligosaccharide utilization	di_and_oligosaccharides	disaccharides;oligosaccharides	plant
 AR	Arabinan degradation	polysaccharides	homopolysaccharides	plant
 HRGP	Hydroxyproline-rich glycoprotein oligoarabinofuranoside degradation	di_and_oligosaccharides	O-glycans	plant
-XGlOS	Xyloglucan oligosaccharide utilization	di_and_oligosaccharides	disaccharides;oligosaccharides	plant
+XglOS	Xyloglucan oligosaccharide utilization	di_and_oligosaccharides	disaccharides;oligosaccharides	plant
 XGL	Xyloglucan degradation	polysaccharides	heteropolysaccharides	plant
 GlcA	D-glucuronate utilization	monosaccharides_and_derivatives	uronic_acids	universal
 GluA	Glucuronide utilization	di_and_oligosaccharides	oligosaccharides	universal
 GalA	D-galacturonate utilization	monosaccharides_and_derivatives	uronic_acids	plant
 Gco	D-gluconate utilization	monosaccharides_and_derivatives	sugar_acids	universal
-Glt	D-galactonate utilization	monosaccharides_and_derivatives	sugar_acids	animal
+Glt	D-galactonate utilization	monosaccharides_and_derivatives	sugar_acids	host (animal)
 Ino	Inositol utilization	monosaccharides_and_derivatives	sugar_alcohols	universal
-Mtl	D-mannitol utilization	monosaccharides_and_derivatives	sugar_alcohols	plant
+Mtl	D-mannitol utilization	monosaccharides_and_derivatives	sugar_alcohols	universal
 Stl	D-sorbitol utilization	monosaccharides_and_derivatives	sugar_alcohols	plant
-Asc	L-ascorbate utilization	monosaccharides_and_derivatives	uronic_acids	universal
+Asc	L-ascorbate utilization	monosaccharides_and_derivatives	sugar_acids	universal
+L-Xul	L-xylulose utilization	monosaccharides_and_derivatives	monosaccharides	universal

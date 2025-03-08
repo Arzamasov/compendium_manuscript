@@ -1,0 +1,31 @@
+genome_ID	D-glucose (Glc)	D-galactose (Gal)	D-fructose (Fru)	D-xylose (Xyl)	L-arabinose (Ara)	D-ribose (Rib)	N-acetyl-D-glucosamine (GlcNAc)	N-acetylneuraminic acid (Neu5Ac)	D-glucuronate (GlcA)	D-gluconate (Gco)	Myo-inositol (Ino)	D-mannitol (Mtl)	D-sorbitol (Stl)	Maltose (Mal)	Maltotriose (MOS)	Panose (IMO)	Isomaltotriose (IMO)	Melezitose (Mlz)	Cellobiose (BglOS)	Gentiobiose (BglOS)	Laminaritriose (BglOS)	Sophorose (BglOS)	Melibiose (Mel)	Raffinose (RFO)	Lactose (Lac)	Sucrose (Scr)	Fructooligosaccharide DP=3 (scFOS)	Chicory fructooligosaccharides (lcFOS)	Mannotriose (bMnOS)	Xylotriose (XOS)	Arabinotriose (aAOS)	Lacto-N-tetraose (LNT)	Lacto-N-neotetraose (LNnT)	2'-fucosyllactose (2'FL)	3'-sialyllactose (SHMO)	6'-sialyllactose (SHMO)	Potato soluble starch (ST)	Pullulan (PUL)	Gum arabic from acacia tree (GA)	Konjac glucomannan (bMAN)	Wheat flour arabinoxylan (AX)	Sugar beet arabinan (AR)	Tamarind xyloglucan (XGL)	country	dataset
+B. adolescentis LFYP80	+	+	+	-	+	-	-	-	-	+	-	-	+	+	+	+	+	-	+	+	+	+	+	+	+	+	+	+	-	+	w	-	-	-	-	-	+	+	-	-	-	-	-	US	ref
+B. adolescentis M56B_1C3	w	+	w	-	-	w	-	-	-	-	-	+	-	+	+	NT	+	+	+	+	NT	+	+	+	-	-	-	-	-	-	w	-	-	+	-	-	+	+	-	-	-	-	-	Malawi	ext
+B. bifidum Bg41221_3D10	+	+	+	-	-	-	+	-	-	-	-	-	-	-	-	-	-	-	-	+	-	-	-	-	+	-	-	-	-	-	-	+	+	+	+	+	-	-	-	-	-	-	-	Bangladesh	ref
+B. bifidum M138B_2A5	+	+	+	-	-	-	+	-	-	-	-	-	-	-	NT	NT	-	-	-	-	NT	NT	-	-	+	-	-	-	-	-	-	+	+	+	+	+	-	-	-	-	-	-	-	Malawi	ext
+B. bifidum M257B_A12	w	w	+	-	-	-	+	-	-	-	-	-	-	-	NT	NT	-	-	-	+	NT	NT	-	-	+	-	-	-	-	-	-	+	+	+	+	+	-	-	-	-	NT	-	-	Malawi	ext
+B. breve Bg131.S11_D6	+	+	+	-	-	-	-	-	-	-	-	-	-	+	+	NT	+	+	w	+	NT	NT	+	+	+	w	+	-	-	-	-	+	+	-	-	-	-	+	-	-	-	-	-	Bangladesh	ext
+B. breve Bg155.S08_4F7	+	+	+	-	-	-	-	+	-	-	-	+	+	+	+	+	+	+	+	+	+	+	+	+	+	+	+	-	-	-	-	+	+	-	-	-	+	+	-	-	-	-	-	Bangladesh	ref
+B. breve Bg41721_1C11	+	+	+	-	-	+	+	-	-	-	-	+	+	+	+	+	+	+	-	+	w	+	+	+	+	+	+	-	+	-	-	+	+	-	-	-	+	+	-	-	-	-	-	Bangladesh	ref
+B. breve JG_Bg463	+	+	+	-	-	+	-	+	-	-	-	+	+	+	+	+	+	+	+	-	-	-	+	+	+	+	+	-	-	-	-	+	+	-	-	-	-	+	-	-	-	-	-	Bangladesh	ref
+B. breve LFYP81	+	+	+	-	-	+	+	+	-	-	-	+	+	+	+	+	+	-	-	+	+	+	+	+	+	+	+	-	+	-	-	+	+	-	-	-	-	+	-	-	-	-	-	US	ref
+B. breve M257B_A4	+	+	+	-	-	+	-	+	w	-	-	+	+	+	+	NT	+	+	-	+	NT	-	+	+	+	-	-	-	-	-	-	+	+	-	-	-	-	+	-	-	-	-	-	Malawi	ext
+Bc. kashiwanohense Bg42221_1E1	+	+	w	-	-	w	-	-	-	+	-	-	+	+	+	+	+	+	+	+	w	+	+	+	+	+	+	w	-	+	w	+	+	-	-	-	-	-	-	-	+	-	+	Bangladesh	ref
+Bc. kashiwanohense_A Bg42221_1D3	+	+	+	-	-	-	-	-	-	+	-	+	+	+	NT	NT	+	w	w	+	NT	NT	+	+	+	+	+	+	-	+	+	w	-	+	-	-	-	-	-	-	+	-	+	Bangladesh	ref
+B. dentium LFYP24	+	+	+	+	+	+	-	+	-	+	-	+	-	+	+	+	+	-	w	+	+	+	+	+	+	+	+	-	+	+	-	-	-	-	-	-	+	+	-	+	-	-	+	US	ref
+B. hominis Bg064.11_2H10	+	+	+	+	+	-	-	-	-	-	-	-	+	+	+	NT	+	-	-	+	NT	NT	+	+	+	+	+	+	+	-	+	+	-	-	-	-	-	-	-	-	-	-	-	Bangladesh	ext
+B. hominis Bg155.08_4B11	+	+	+	+	+	-	-	-	-	-	-	-	+	+	+	NT	+	-	w	+	NT	+	+	+	+	+	+	+	-	-	-	+	w	+	-	-	-	-	-	-	-	-	-	Bangladesh	ext
+B. hominis M264_MC1	+	+	+	+	+	+	+	-	-	+	-	-	+	+	NT	NT	+	-	-	+	NT	NT	+	+	+	+	+	+	-	+	+	+	-	+	-	-	-	-	-	-	-	-	-	Malawi	ext
+Bl. infantis ATCC 15697 = JCM 1222	+	+	+	-	-	+	-	+	+	-	-	-	-	+	+	+	+	-	-	-	-	-	+	+	+	+	+	+	-	-	-	+	+	+	-	-	-	-	-	-	-	-	-	Europe	ref
+Bl. infantis Bg064.S07_13.C6	+	+	+	+	-	+	+	+	-	+	-	+	+	+	+	+	+	+	-	-	-	-	+	+	+	w	+	+	-	+	-	+	+	+	+	-	-	-	-	-	-	-	-	Bangladesh	ref
+Bl. infantis Bg40721_2D9	+	+	+	-	-	w	-	w	-	-	-	+	+	+	+	+	+	-	-	-	-	-	+	+	+	+	+	-	-	-	-	+	+	+	+	w	-	-	-	-	-	-	-	Bangladesh	ref
+Bl. infantis JG_Bg463	+	+	+	-	-	+	w	w	+	-	+	-	-	+	+	+	+	-	-	-	-	-	+	+	+	+	+	-	-	-	-	+	+	+	-	-	-	-	-	-	-	-	-	Bangladesh	ref
+Bl. infantis Malawi264A_MC2	+	+	+	-	-	-	-	+	-	+	-	-	-	w	+	+	+	-	-	-	-	-	+	+	+	+	-	-	-	-	-	+	+	+	+	-	-	-	-	-	-	-	-	Malawi	ref
+Bl. longum Bg115.S08_3A11	+	+	+	+	+	-	-	-	-	-	-	-	-	+	+	+	+	-	-	-	-	-	+	+	+	+	+	+	-	+	+	+	-	-	-	-	-	-	-	-	-	-	-	Bangladesh	ref
+Bl. suis Bg131.S11_17.F6	+	+	+	-	-	w	-	w	-	-	-	-	-	+	+	+	+	-	-	-	-	-	+	+	+	+	+	-	-	-	-	+	+	+	+	+	-	-	-	-	-	-	-	Bangladesh	ref
+Bl. suis Bg41121_2E1	+	+	-	+	+	w	-	-	-	-	-	-	-	+	NT	NT	+	+	-	-	NT	-	+	+	+	+	+	+	-	+	+	w	-	+	-	-	-	-	-	-	-	w	-	Bangladesh	ref
+Bl. suis M257B_A6	+	+	+	+	+	-	-	-	-	-	-	-	-	+	+	NT	+	-	-	w	NT	-	+	+	+	+	-	-	-	+	w	+	-	+	-	-	-	-	-	-	-	w	-	Malawi	ext
+Bl. nov. LFYP82	w	w	+	+	-	-	-	-	-	-	-	-	-	+	+	NT	+	-	-	-	NT	w	+	+	+	+	+	+	-	-	-	-	-	-	-	-	w	+	-	-	-	-	-	US	ref
+B. pseudocatenulatum LFYP29	+	+	+	+	+	w	-	-	-	-	-	-	+	+	+	+	+	-	+	+	+	+	+	+	+	+	+	-	-	+	-	-	-	-	-	-	+	-	-	-	-	-	-	US	ref
+B. pseudocatenulatum M26A_2F1	w	w	+	+	+	-	-	-	-	-	-	-	+	+	+	NT	+	w	-	+	NT	NT	+	+	+	+	+	-	-	w	w	w	-	-	-	-	+	+	-	-	-	-	-	Malawi	ext
+B. scardovii JCM 12489 = DSM 13734	+	+	+	+	+	+	-	w	-	+	-	-	-	+	NT	NT	+	+	-	-	NT	-	+	+	+	+	+	-	+	-	+	w	w	-	-	-	-	-	-	+	NT	-	-	Europe	ref

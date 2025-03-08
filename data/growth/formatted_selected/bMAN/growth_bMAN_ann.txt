@@ -2,26 +2,32 @@ well	carbon_source	strain
 blank_1	blank	NA
 blank_2	blank	NA
 blank_3	blank	NA
-1C11_1	bMnOS	B. breve Bg41721_1C11
-1C11_2	bMnOS	B. breve Bg41721_1C11
-4F7_1	bMnOS	B. breve Bg155.S08_4F7
-4F7_2	bMnOS	B. breve Bg155.S08_4F7
-4F7_3	bMnOS	B. breve Bg155.S08_4F7
-LFYP81_1	bMnOS	B. breve STL_TW14.1_LFYP24
-LFYP81_2	bMnOS	B. breve STL_TW14.1_LFYP24
-LFYP81_3	bMnOS	B. breve STL_TW14.1_LFYP24
-dent_1	bMnOS	B. dentium STL_TW14.1_LFYP24
-dent_2	bMnOS	B. dentium STL_TW14.1_LFYP24
-dent_3	bMnOS	B. dentium STL_TW14.1_LFYP24
-1C11_4	bMAN	B. breve Bg41721_1C11
-1C11_5	bMAN	B. breve Bg41721_1C11
-1C11_6	bMAN	B. breve Bg41721_1C11
-4F7_4	bMAN	B. breve Bg155.S08_4F7
-4F7_5	bMAN	B. breve Bg155.S08_4F7
-4F7_6	bMAN	B. breve Bg155.S08_4F7
-LFYP81_4	bMAN	B. breve STL_TW14.1_LFYP24
-LFYP81_5	bMAN	B. breve STL_TW14.1_LFYP24
-LFYP81_6	bMAN	B. breve STL_TW14.1_LFYP24
-dent_4	bMAN	B. dentium STL_TW14.1_LFYP24
-dent_5	bMAN	B. dentium STL_TW14.1_LFYP24
-dent_6	bMAN	B. dentium STL_TW14.1_LFYP24
+1C11_1	Mannotriose (bMnOS)	B. breve Bg41721_1C11
+1C11_2	Mannotriose (bMnOS)	B. breve Bg41721_1C11
+4F7_1	Mannotriose (bMnOS)	B. breve Bg155.S08_4F7
+4F7_2	Mannotriose (bMnOS)	B. breve Bg155.S08_4F7
+4F7_3	Mannotriose (bMnOS)	B. breve Bg155.S08_4F7
+LFYP81_1	Mannotriose (bMnOS)	B. breve LFYP81
+LFYP81_2	Mannotriose (bMnOS)	B. breve LFYP81
+LFYP81_3	Mannotriose (bMnOS)	B. breve LFYP81
+dent_1	Mannotriose (bMnOS)	B. dentium LFYP24
+dent_2	Mannotriose (bMnOS)	B. dentium LFYP24
+dent_3	Mannotriose (bMnOS)	B. dentium LFYP24
+scard_1	Mannotriose (bMnOS)	B. scardovii JCM 12489
+scard_2	Mannotriose (bMnOS)	B. scardovii JCM 12489
+scard_3	Mannotriose (bMnOS)	B. scardovii JCM 12489
+1C11_4	Konjac glucomannan (bMAN)	B. breve Bg41721_1C11
+1C11_5	Konjac glucomannan (bMAN)	B. breve Bg41721_1C11
+1C11_6	Konjac glucomannan (bMAN)	B. breve Bg41721_1C11
+4F7_4	Konjac glucomannan (bMAN)	B. breve Bg155.S08_4F7
+4F7_5	Konjac glucomannan (bMAN)	B. breve Bg155.S08_4F7
+4F7_6	Konjac glucomannan (bMAN)	B. breve Bg155.S08_4F7
+LFYP81_4	Konjac glucomannan (bMAN)	B. breve LFYP81
+LFYP81_5	Konjac glucomannan (bMAN)	B. breve LFYP81
+LFYP81_6	Konjac glucomannan (bMAN)	B. breve LFYP81
+dent_4	Konjac glucomannan (bMAN)	B. dentium LFYP24
+dent_5	Konjac glucomannan (bMAN)	B. dentium LFYP24
+dent_6	Konjac glucomannan (bMAN)	B. dentium LFYP24
+scard_4	Konjac glucomannan (bMAN)	B. scardovii JCM 12489
+scard_5	Konjac glucomannan (bMAN)	B. scardovii JCM 12489
+scard_6	Konjac glucomannan (bMAN)	B. scardovii JCM 12489

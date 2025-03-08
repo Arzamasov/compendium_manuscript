@@ -2,18 +2,18 @@ well	carbon_source	strain
 blank_1	blank	NA
 blank_2	blank	NA
 blank_3	blank	NA
-kash_1	XGL	B. catenulatum subsp. kashiwanohense Bg42221_1E1
-kash_2	XGL	B. catenulatum subsp. kashiwanohense Bg42221_1E1
-kash_3	XGL	B. catenulatum subsp. kashiwanohense Bg42221_1E1
-pse_1	XGL	B. pseudocatenulatum STL_TW14.1_LFYP29
-pse_2	XGL	B. pseudocatenulatum STL_TW14.1_LFYP29
-pse_3	XGL	B. pseudocatenulatum STL_TW14.1_LFYP29
-dent_1	XGL	B. dentium STL_TW14.1_LFYP24
-dent_2	XGL	B. dentium STL_TW14.1_LFYP24
-dent_3	XGL	B. dentium STL_TW14.1_LFYP24
-lon_1	XGL	B. longum subsp. longum Bg115.S08_3A11
-lon_2	XGL	B. longum subsp. longum Bg115.S08_3A11
-lon_3	XGL	B. longum subsp. longum Bg115.S08_3A11
-ado_1	XGL	B. adolescentis STL_TW14.1_LFYP80
-ado_2	XGL	B. adolescentis STL_TW14.1_LFYP80
-ado_3	XGL	B. adolescentis STL_TW14.1_LFYP80
+kash_1	XGL	B. catenulatum ssp. kashiwanohense Bg42221_1E1
+kash_2	XGL	B. catenulatum ssp. kashiwanohense Bg42221_1E1
+kash_3	XGL	B. catenulatum ssp. kashiwanohense Bg42221_1E1
+pse_1	XGL	B. pseudocatenulatum LFYP29
+pse_2	XGL	B. pseudocatenulatum LFYP29
+pse_3	XGL	B. pseudocatenulatum LFYP29
+kash_A_1	XGL	B. catenulatum subsp. kashiwanohense_A Bg42221_1D3
+kash_A_2	XGL	B. catenulatum subsp. kashiwanohense_A Bg42221_1D3
+kash_A_3	XGL	B. catenulatum subsp. kashiwanohense_A Bg42221_1D3
+lon_1	XGL	B. longum ssp. longum Bg115.S08_3A11
+lon_2	XGL	B. longum ssp. longum Bg115.S08_3A11
+lon_3	XGL	B. longum ssp. longum Bg115.S08_3A11
+ado_1	XGL	B. adolescentis LFYP80
+ado_2	XGL	B. adolescentis LFYP80
+ado_3	XGL	B. adolescentis LFYP80

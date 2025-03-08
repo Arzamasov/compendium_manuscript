@@ -2,15 +2,15 @@ well	carbon_source	strain
 blank_1	blank	NA
 blank_2	blank	NA
 blank_3	blank	NA
-ATCC_1	GlcA	B. longum subsp. infantis ATCC15697
-ATCC_2	GlcA	B. longum subsp. infantis ATCC15697
-ATCC_3	GlcA	B. longum subsp. infantis ATCC15697
-Bg463_1	GlcA	B. longum subsp. infantis JG_Bg463
-Bg463_2	GlcA	B. longum subsp. infantis JG_Bg463
-Bg463_3	GlcA	B. longum subsp. infantis JG_Bg463
-2D9_1	GlcA	B. longum subsp. infantis Bg40721_2D9
-2D9_2	GlcA	B. longum subsp. infantis Bg40721_2D9
-2D9_3	GlcA	B. longum subsp. infantis Bg40721_2D9
+ATCC_1	GlcA	B. longum ssp. infantis ATCC15697
+ATCC_2	GlcA	B. longum ssp. infantis ATCC15697
+ATCC_3	GlcA	B. longum ssp. infantis ATCC15697
+Bg463_1	GlcA	B. longum ssp. infantis JG_Bg463
+Bg463_2	GlcA	B. longum ssp. infantis JG_Bg463
+Bg463_3	GlcA	B. longum ssp. infantis JG_Bg463
+2D9_1	GlcA	B. longum ssp. infantis Bg40721_2D9
+2D9_2	GlcA	B. longum ssp. infantis Bg40721_2D9
+2D9_3	GlcA	B. longum ssp. infantis Bg40721_2D9
 1C11_1	GlcA	B. breve Bg41721_1C11
 1C11_2	GlcA	B. breve Bg41721_1C11
 1C11_3	GlcA	B. breve Bg41721_1C11

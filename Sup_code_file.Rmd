@@ -1,14 +1,16 @@
 ---
-title: "Integrative genomic reconstruction of carbohydrate utilization networks in bifidobacteria: global trends, local variability, and dietary adaptation"
+title: "Integrative genomic reconstruction of carbohydrate utilization networks in bifidobacteria reveals global trends, local variability, and dietary adaptation"
 author: 
 - Aleksandr A. Arzamasov
 - Dmitry A. Rodionov
 - Matthew C. Hibberd
 - Janaki L. Guruge
+- James E. Kent
 - Marat D. Kazanov
 - Semen A. Leyn
-- James E. Kent
+- Marinela Elane
 - Kristija Sejane
+- Annalee Furst
 - Lars Bode
 - Michael J. Barratt
 - Jeffrey I. Gordon
@@ -51,19 +53,21 @@ knitr::opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE, linewidth=60)
 
 2.  Phylogenetic analysis of reference *Bifidobacterium* genomes
 
-3.  Representation of predicted carbohydrate utilization phenotypes in 263 reference *Bifidobacterium* strains
+3.  Comparison of gene annotations
 
-4.  Analysis of CAZyme representation in 263 *Bifidobacterium* genomes
+4.  Analysis of CAZyme representation in 263 *Bifidobacterium* strains
 
-5.  Representation of predicted metabolic pathways in 26 *Bifidobacterium longum* genomes
+5.  Representation of predicted carbohydrate utilization phenotypes in 263 reference *Bifidobacterium* strains
 
-6.  Representation of predicted metabolic pathways in 2967 *Bifidobacterium* genomes
+6.  Representation of predicted metabolic pathways in 28 *Bifidobacterium longum* genomes
 
-7.  Analysis of *in vitro* growth data
+7.  Representation of predicted metabolic pathways in 3083 *Bifidobacterium* genomes
 
-8.  Analysis of human milk oligosaccharide (HMO) consumption data
+8.  Analysis of *in vitro* growth data
 
-9.  Analysis of RNA-seq data
+9.  Analysis of human milk oligosaccharide (HMO) consumption data
+
+10. Analysis of RNA-seq data
 
 ------------------------------------------------------------------------
 
@@ -74,25 +78,26 @@ Once the GitHub repo has been downloaded, navigate to `compendium_manuscript/` t
 This should be your working directory for executing code.
 
 1.  To fully reproduce the phylogenetic analysis of 263 reference *Bifidobacterium* genomes, you will need to download FNA files from [**Figshare**](https://doi.org/10.6084/m9.figshare.26053936). Downloaded FNA files should be placed in `data/genomes/263_NR_ref_genomes/fna/`
-2.  To fully reproduce the analysis of the CAZyme representation in 263 reference *Bifidobacterium* genomes, you will need to download FAA files from [**Figshare**](https://doi.org/10.6084/m9.figshare.26053936). Downloaded FAA files should be placed in `data/genomes/263_NR_ref_genomes/faa/`
+2.  To fully reproduce the analysis of the CAZyme representation in 263 reference *Bifidobacterium* genomes, you will need to predict CDS using tools like [**Prodigal**](https://github.com/hyattpd/Prodigal) or [**Prokka**](https://github.com/tseemann/prokka). The resulting FAA files should be placed in `data/genomes/263_NR_ref_genomes/faa/`
 3.  To fully reproduce the RNA-seq data analysis, you will need to download raw FASTQ files from Gene Expression Omnibus under accession [**GSE239955**](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE239955). Downloaded FASTQ files should be placed in `data/rnaseq/fastq/`. Otherwise, `data/rnaseq/kallisto/` already contains Kallisto mapping outputs
+4.  The pathway prediction pipeline **glycobif** used for additional 2820 isolate genomes and MAGs is available in another GitHub [**repository**](https://github.com/Arzamasov/glycobif)
 
 ------------------------------------------------------------------------
 
 # R packages and external functions
 
 A set of R packages was used for this analysis.
-The [pacman](https://cran.r-project.org/web/packages/pacman/index.html) package was used to simplify downloading and loading the required packages.
-All graphics and data wrangling were handled using the [tidyverse suite of packages](https://www.tidyverse.org/).
-To fully reproduce the R environment used in the analysis, use the [renv](https://rstudio.github.io/renv/articles/renv.html) package and `renv::restore()` to restore the environment from `renv.lock`.
+The [**pacman**](https://cran.r-project.org/web/packages/pacman/index.html) package was used to simplify downloading and loading the required packages.
+All graphics and data wrangling were handled using the [**tidyverse suite of packages**](https://www.tidyverse.org/).
 
 ```{r packages}
-# install/load the pacman package for the rapid installation of required packages 
+# install or load the pacman package for the rapid installation of required packages 
 if (!require("pacman")) install.packages("pacman")
-# use pacman to install/load all packages needed for the analysis
-pacman::p_load("tidyverse", "patchwork", "ComplexHeatmap", "ggbeeswarm", "ggrepel",
+# use pacman to install or load all required packages
+pacman::p_load("tidyverse", "readxl", "patchwork", "ComplexHeatmap", "ggbeeswarm", "ggrepel",
                "circlize", "ggpubr", "tximport", "rhdf5", "gt", "edgeR", "cowplot", "limma",
-               "vegan", "car", "AER", "emmeans")
+               "vegan", "car", "AER", "emmeans", "gcplyr", "ape", "phytools", "dendextend",
+               "ggfortify", "ggordiplots")
 set.seed(1992)
 ```
 
@@ -113,72 +118,89 @@ source("code/deg_list.R") # selects differentially expressed genes (DEGs) based 
 
 ------------------------------------------------------------------------
 
-# Summary of reference genomes and functional roles
+# Summary of genomes and functional roles
 
 ## Introduction
 
-This block contains code used for summarizing information about (i) 263 reference non-redundant *Bifidobacterium* genomes and (ii) functional roles.
+This block contains code used for summarizing information about (i) 3083 non-redundant *Bifidobacterium* genomes and (ii) 589 functional metabolic roles.
 
 ## Load data
 
 ```{r general_info_load_data}
-# table with data on 263 genomes
-info263.df <- read_tsv("data/tables/BPM_263_NR_genomes_carbs.txt") %>%
-  dplyr::select(genome_ID, curated_taxonomy, country)
-# table with functional roles
-fr.df <- read_tsv("data/tables/2024-04-15_functional_roles.txt")
+# read table with data on reference genomes
+info_ref.df <- read_tsv("data/tables/BPM_263_NR_genomes_carbs.txt") %>%
+  dplyr::select(genome_ID, curated_taxonomy, continent, country)
+# read table with data on additional genomes
+info_add.df <- read_tsv("data/tables/BPM_2820_NR_genomes_carbs.txt") %>%
+  dplyr::select(genome_ID, curated_taxonomy, continent, country)
+# read table with functional roles
+fr.df <- read_tsv("data/tables/functional_roles.txt")
 ```
 
-## Summary of 263 reference *Bifidobacterium* genomes
+## Table with summary of 3083 *Bifidobacterium* genomes
 
-Here we summarize information about the set of 263 reference genomes: (i) number per species/subspecies, (ii) number per country.
+Here, we summarize information about 3083 genomes (isolate and assembled from metagenomes) of human-colonizing bifidobacteria.
 
-```{r summary_263, fig.align='center', fig.dim=c(10,5)}
-# replace specific strings in curated_taxonomy column
-info263.df <- info263.df %>%
-  mutate(curated_taxonomy = str_replace_all(curated_taxonomy, "Bifidobacterium", "B."),
-                             curated_taxonomy = str_replace_all(curated_taxonomy, "subsp.", "ssp."))
-# change data type from character to (sorted) factor
-info263.df$curated_taxonomy <- factor(info263.df$curated_taxonomy, 
-                                      levels = names(sort(table(info263.df$curated_taxonomy),
-                                      increasing = TRUE)))
-info263.df$country <- factor(info263.df$country, 
-                            levels = names(sort(table(info263.df$country),
-                            increasing = TRUE)))
+First, the number of genomes per species/subspecies.
 
-# barplot depicting the number of genomes per taxon
-theme_set(theme_classic())
-bp_taxa <- ggplot(info263.df, aes(x = curated_taxonomy)) +
-  geom_bar(fill = "#79d400", colour = "black", alpha = 0.8, size = 0.5) +
-  # count the number of genomes in each group and plot it
-  stat_count(aes(label = ..count..), geom = "text", hjust = 1, size = 3) +
-  labs(title = "Number of genomes per taxon") +
-  # remove the axes labels
-  xlab("") +
-  ylab("") +
-  coord_flip() +
-  theme(axis.text.x = element_text(size = 10, color = "black"),  
-        axis.text.y = element_text(size = 10, color = "black"))
+```{r summary_taxonomy, fig.align='center', fig.dim=c(10,5)}
+# summarize genome counts per curated_taxonomy
+ref_summary_tax <- info_ref.df %>%
+  group_by(curated_taxonomy) %>%
+  summarise(ref_genomes = n(), .groups = "drop")
+add_summary_tax <- info_add.df %>%
+  group_by(curated_taxonomy) %>%
+  summarise(add_genomes = n(), .groups = "drop")
 
-# barplot depicting the number of genomes per country
-bp_country <- ggplot(info263.df, aes(x = country)) +
-  geom_bar(fill = "#ffd12a", colour = "black", alpha = 0.8, size = 0.5) +
-  # count the number of genomes in each group and plot it
-  stat_count(aes(label = ..count..), geom = "text", hjust = 1, size = 3) +
-  labs(title = "Number of genomes per country") +
-  # remove the axes labels
-  xlab("") +
-  ylab("") +
-  coord_flip() +
-  theme(axis.text.x = element_text(size = 10, color = "black"),  
-        axis.text.y = element_text(size = 10, color = "black"))
+# merge summaries
+summary_table_tax <- full_join(ref_summary_tax, add_summary_tax, by = "curated_taxonomy") %>%
+  replace_na(list(ref_genomes = 0, add_genomes = 0)) %>%
+  mutate(total_genomes = ref_genomes + add_genomes)
 
-# combine barplots using the patchwork package
-bp_combined <- bp_taxa + bp_country
-plot(bp_combined)
+# add a summary row at the bottom
+summary_row_tax <- tibble(
+  curated_taxonomy = "TOTAL",
+  ref_genomes = sum(summary_table_tax$ref_genomes, na.rm = TRUE),
+  add_genomes = sum(summary_table_tax$add_genomes, na.rm = TRUE),
+  total_genomes = sum(summary_table_tax$total_genomes, na.rm = TRUE)
+)
 
-# save the figure to a file
-ggsave("results/phylogeny/summary_263_genomes.pdf", device = "pdf", width = 15, height = 5)
+# combine the main summary table with the summary row
+summary_table_tax <- bind_rows(summary_table_tax, summary_row_tax)
+
+# print the summary table
+gt(summary_table_tax)
+```
+
+Second, the number of genomes per region.
+
+```{r summary_region, fig.align='center', fig.dim=c(10,5)}
+# summarize genome counts per continent
+ref_summary_cont <- info_ref.df %>%
+  group_by(continent) %>%
+  summarise(ref_genomes = n(), .groups = "drop")
+add_summary_cont <- info_add.df %>%
+  group_by(continent) %>%
+  summarise(add_genomes = n(), .groups = "drop")
+
+# merge summaries
+summary_table_cont <- full_join(ref_summary_cont, add_summary_cont, by = "continent") %>%
+  replace_na(list(ref_genomes = 0, add_genomes = 0)) %>%
+  mutate(total_genomes = ref_genomes + add_genomes)
+
+# add a summary row at the bottom
+summary_row_cont <- tibble(
+  continent = "TOTAL",
+  ref_genomes = sum(summary_table_cont$ref_genomes, na.rm = TRUE),
+  add_genomes = sum(summary_table_cont$add_genomes, na.rm = TRUE),
+  total_genomes = sum(summary_table_cont$total_genomes, na.rm = TRUE)
+)
+
+# combine the main summary table with the summary row
+summary_table_cont <- bind_rows(summary_table_cont, summary_row_cont)
+
+# print the summary table
+gt(summary_table_cont)
 ```
 
 ## Summary of functional roles
@@ -187,57 +209,72 @@ Here we calculate:
 
 -   The number of unique functional roles (total and stratified by (i) experimental evidence and (ii) type)
 
--   The number of publications from which data about functional roles were collected
+    -   Total number of roles
+
+    -   Roles stratified by (i) experimental evidence and (ii) type
+
+-   The number of publications from which the data about functional roles were collected
 
 ```{r functional_role_summary}
 # calculate the total number of unique functional roles
 num_roles <- fr.df %>% 
-  distinct(annotation) %>% 
+  distinct(functional_role_description) %>% 
   nrow()
-# calculate the total number of unique characterized functional roles
+# calculate the total number of unique functional roles characterized in bifidobacteria
 num_characterized_roles <- fr.df %>% 
-  filter(evidence == "characterized") %>%
-  distinct(annotation) %>% 
+  filter(evidence == "characterized_bifido") %>%
+  distinct(functional_role_description) %>% 
   nrow()
-# calculate the total number of unique predicted functional roles
-num_predicted_roles <- fr.df %>% 
-  filter(evidence == "predicted") %>%
-  distinct(annotation) %>% 
+# calculate the total number of unique functional roles that have homology
+# with roles characterized in other microbial taxa
+num_homology_roles <- fr.df %>% 
+  filter(evidence == "homology_with_characterized") %>%
+  distinct(functional_role_description) %>% 
+  nrow()
+# calculate the total number of unique previosly predicted functional roles
+num_predicted_before_roles <- fr.df %>% 
+  filter(evidence == "predicted_previously") %>%
+  distinct(functional_role_description) %>% 
   nrow()
 # calculate the total number of unique novel predicted functional roles
 num_predicted_new_roles <- fr.df %>% 
   filter(evidence == "predicted_new") %>%
-  distinct(annotation) %>% 
+  distinct(functional_role_description) %>% 
   nrow()
 
 # stratify the functional roles by type
 num_transporters <- fr.df %>% 
-  filter(type == "transporter") %>%
-  distinct(annotation) %>% 
+  filter(functional_role_type == "transporter") %>%
+  distinct(functional_role_description) %>% 
   nrow()
 num_donwstream <- fr.df %>% 
-  filter(type == "downstream_catabolism") %>%
-  distinct(annotation) %>% 
+  filter(functional_role_type == "downstream_catabolism") %>%
+  distinct(functional_role_description) %>% 
   nrow()
 num_cazy <- fr.df %>% 
-  filter(type == "CAZyme") %>%
-  distinct(annotation) %>% 
+  filter(functional_role_type == "CAZyme") %>%
+  distinct(functional_role_description) %>% 
   nrow()
 num_reg <- fr.df %>% 
-  filter(type == "regulator") %>%
-  distinct(annotation) %>% 
+  filter(functional_role_type == "regulator") %>%
+  distinct(functional_role_description) %>% 
   nrow()
 
 # calculate the total number of publications 
 # split PMID values and extract unique values
-unique_pmids <- unique(unlist(strsplit(fr.df$PMID, ";")))
+unique_pmids <- unique(unlist(strsplit(fr.df$reference, ";")))
 num_unique_pmids <- length(unique_pmids)
 
 # print the counts
-fr_output <- paste("Total functional roles:", num_roles, "\n",
-                "Total characterized functional roles:", num_characterized_roles, "\n",
-                "Total predicted functional roles:", num_predicted_roles - 1, "\n",
-                "Total novel predicted functional roles:", num_predicted_new_roles, "\n",
+fr_output <- paste("Total number of functional roles:", num_roles, "\n",
+                "Total number of roles characterized in bifidobacteria:",
+                num_characterized_roles, "\n",
+                "Total number of roles homologous that characterized in other taxa:",
+                num_homology_roles, "\n",
+                "Total number of roles predicted previosly:",
+                num_predicted_before_roles - 1, "\n",
+                "Total number of functional roles predicted in this work:",
+                num_predicted_new_roles, "\n",
                 "Transporters and their components:", num_transporters, "\n",
                 "Downstream catabolic enzymes:", num_donwstream, "\n",
                 "CAZymes:", num_cazy, "\n",
@@ -254,21 +291,22 @@ cat(fr_output)
 
 This block contains the code for building:
 
-1.  Phylogenetic tree of 263 reference *Bifidobacterium* genomes.
+1.  Phylogenetic tree of 263 reference *Bifidobacterium* genomes based on 487 core genes.
     The topology of the resulting tree was manually inspected to check (and correct if needed) taxonomic assignments of genomes based on their co-clustering with branches corresponding to the type or well-characterized strains of various *Bifidobacterium* taxa
 
 2.  Average Nucleotide Identity (ANI) matrices for select strains belonging to *Bifidobacterium longum* and *Bifidobacterium catenulatum* species
 
 The following software is required:
 
-1.  [Prokka (v1.14.6)](https://github.com/tseemann/prokka)
-2.  [Panaroo (v1.3.2)](https://github.com/gtonkinhill/panaroo)
-3.  [CD-HIT (v4.8.1)](https://github.com/weizhongli/cdhit)
-4.  [MAFFT (v7.515)](https://mafft.cbrc.jp/alignment/software/)
-5.  [IQ-TREE (v2.2.0.3)](http://www.iqtree.org/)
-6.  [pyani (v0.2.12)](https://github.com/widdowquinn/pyani)
+1.  [**Prokka (v1.14.6)**](https://github.com/tseemann/prokka)
+2.  [**Panaroo (v1.3.2)**](https://github.com/gtonkinhill/panaroo)
+3.  [**CD-HIT (v4.8.1)**](https://github.com/weizhongli/cdhit)
+4.  [**MAFFT (v7.515)**](https://mafft.cbrc.jp/alignment/software/)
+5.  [**IQ-TREE (v2.2.0.3)**](http://www.iqtree.org/)
+6.  [**pyani (v0.2.12)**](https://github.com/widdowquinn/pyani)
 
-To install these tools, you can use [mamba](https://github.com/mamba-org/mamba) and yml files in `envs` to create respective environments.
+To install these tools, you can use [**mamba**](https://github.com/mamba-org/mamba) and yml files in `envs` to create respective environments.
+
 **Note**: installation via `mamba` was tested on macOS and may not always work on Linux-based operating systems.
 In the latter case, you may need to install the required software manually.
 
@@ -278,13 +316,13 @@ In the latter case, you may need to install the required software manually.
 4.  `mamba env create -f envs/pyani.yml` \# pyani (v0.2.12)
 
 **Note**: FNA files could not be stored in the GitHub repo due to size limitations.
-Thus, you will need to download them from [**Figshare**](https://doi.org/10.6084/m9.figshare.26053936).
+Thus, you will need to download them from Figshare under [**accession**](doi.org/10.6084/m9.figshare.26053936).
 Put downloaded FNA files to `data/genomes/263_NR_ref_genomes/fna/`.
 
 ## Annotating genomes using Prokka
 
-We used Prokka for annotating genomes.
-Prokka takes contig nucleotide fasta (FNA) and outputs annotated genomes in a standardized format (GFF3), which is recognized by many pangenome calculating tools.
+We used [**Prokka**](https://github.com/tseemann/prokka) for annotating genomes.
+Prokka takes contig nucleotide fasta (FNA) and outputs annotated genomes in a standardized format (GFF3), which is recognized by many tools used to calculate pangenomes.
 The script that performs annotation can be found in `code/run_prokka.sh/`.
 A simple bash operation at the end of the script collects all created GFF3 files and puts them in the `data/genomes/263_NR_ref_genomes/gff/` folder.
 
@@ -295,7 +333,7 @@ source code/run_prokka.sh
 
 ## Calculating pangenome using Panaroo
 
-We used Panaroo to identify core genes shared among 263 reference *Bifidobacterium* genomes.
+We used [**Panaroo**](https://github.com/gtonkinhill/panaroo) to identify core genes shared among 263 reference *Bifidobacterium* genomes.
 Prokka-annotated GFF3 files were used as input.
 Since genomes of multiple different *Bifidobacterium* species were used, we relaxed the sequence identity threshold (`--threshold 0.8`) and length difference cutoff (`--len_dif_percent 0.9`).
 As part of the Panaroo pipeline, concatenated nucleotide sequences of 487 identified core genes were aligned via MAFFT.
@@ -327,7 +365,7 @@ panaroo -i data/genomes/263_NR_ref_genomes/gff/*.gff \
 
 ## Building phylogenetic tree using IQ-TREE
 
-We used a maximum-likelihood-based algorithm with ultrafast bootstrap approximation (UFBoot) implemented in IQ-TREE to build a phylogenetic tree based on the alignment of the core genes.
+We used a maximum-likelihood-based algorithm with ultrafast bootstrap approximation (UFBoot) implemented in [**IQ-TREE**](http://www.iqtree.org/) to build a phylogenetic tree based on the alignment of the core genes.
 Depending on your computing power, this process may take multiple days; you can use the prebuilt tree (`data/phylogeny/tree_263_NR_ref_genomes/tree_263_NR_genomes.treefile`) as an alternative.
 
 ```{bash run_iqtree, eval=FALSE}
@@ -348,7 +386,7 @@ conda info|egrep "conda version|active environment"
 mkdir -p data/phylogeny/tree_263_NR_ref_genomes
 cp data/pangenome/panaroo_strict_i80_l90/core_gene_alignment.aln \
 data/phylogeny/tree_263_NR_ref_genomes/core_gene_alignment.aln
-cd data/phylogeny/tree_263_NR_ref_genomes
+cd data/phylogeny/tree_263_NR_ref_genome
 
 # build the tree
 iqtree -s core_gene_alignment.aln -o 561180.4 -m GTR+F+R10 -B 1000 -T 16
@@ -358,17 +396,17 @@ iqtree -s core_gene_alignment.aln -o 561180.4 -m GTR+F+R10 -B 1000 -T 16
 
 ## Visualizing phylogenetic tree
 
-The pheylogentic tree of 263 *Bifidobacterium* genomes was manually visualized in [iTOL](https://itol.embl.de/).
+The phylogenetic tree of 263 *Bifidobacterium* genomes was manually visualized in [**iTOL**](https://itol.embl.de/).
 
 ## Calculating ANI of *Bifidobacterium longum* genomes
 
 The phylogenomic analysis indicated that the *Bifidobacterium longum* species might have a more complex subspecies structure than previously described.
-To investigate it further, we computed pairwise ANI indices of 15 reference and 11 additional *Bifidobacterium longum* genomes using the ANIb algorithm implemented in [pyani](https://github.com/widdowquinn/pyani).
-For comparative purposes, the 11 additional genomes included isolates of non-human origin, such as type strains of *Bifidobacterium longum* subsp.
+To investigate it further, we computed pairwise ANI indices of 15 reference and 13 additional *Bifidobacterium longum* genomes using the ANIb algorithm implemented in [**pyani**](https://github.com/widdowquinn/pyani).
+For comparative purposes, the 13 additional genomes included isolates of non-human origin, such as type strains of *Bifidobacterium longum* subsp.
 *suis* and *Bifidobacterium longum* subsp.
 *suillum*.
 
-To run the analysis, put the 26 corresponding FNA files to `data/genomes/26_Blongum_genomes/`.
+To run the analysis, put the 28 corresponding FNA files to `data/genomes/Blongum_genomes/`.
 
 ```{bash pyani_ANIb_Blon, eval=FALSE}
 source ~/.bash_profile
@@ -385,50 +423,36 @@ conda activate ${environment_name}
 conda info|egrep "conda version|active environment"
 
 # run pyani
-average_nucleotide_identity.py -i data/genomes/26_Blongum_genomes/ \
--o data/phylogeny/ANIb_Blongum \
+average_nucleotide_identity.py -i data/genomes/Blongum_genomes/ \
+-o data/phylogeny/ANIb_28_Blongum_genomes \
 -m ANIb
 ```
 
-Load data to R.
+Load data.
 
 ```{r ANIb_Blon_load_data}
-# read the table with calculated ANI values for 26 Bifidobacterium longum genomes
-ANIb_Blon <- read_tsv("data/phylogeny/ANIb_26_Blongum_genomes/ANIb_percentage_identity.tab") %>% 
+# read the table with calculated ANI values for 28 Bifidobacterium longum genomes
+ANIb_Blon <- read_tsv("data/phylogeny/ANIb_28_Blongum_genomes/ANIb_percentage_identity.tab") %>% 
   # use the first column as row names
   column_to_rownames(var="...1")
 ```
 
-The following code chunk below creates a heatmap based on calculated ANI values.
+The code chunk below creates a heatmap based on calculated ANI values.
 
 Hierarchical clustering options:
 
--   **Distance metric**: Maximum distance
+-   Maximum distance
 
--   **Linkage method**:Average method
+-   Average method
 
 ```{r ANIb_Blon, fig.align='center', fig.dim=c(8,8)}
 # convert the tibble with ANI values to a matrix
 ANIb_Blon_mat <- as.matrix(ANIb_Blon)
 ANIb_Blon_mat <- round(ANIb_Blon_mat, digits = 3)
-old_to_new_names <- c("216816.186" = "APC1461",
-                      "216816.1989" = "Bg155.S08_5B11",
-                      "1682.76" = "Bg41121_2E1",
-                      "216816.378" = "BgEED06",
-                      "759350.3" = "JDM301",
-                      "Bsuis_BSM11-5" = "BSM11-5",
-                      "391904.5" = "ATCC 15697 = JCM 1222",
-                      "1682.151" = "Bg40721_2D9",
-                      "1682.24" = "BT1",
-                      "565042.3" = "JCM 1217",
-                      "206672.9" = "NCC2705",
-                      "216816.144" = "1897B",
-                      "216816.1981" = "STL_TW14.1_LFYP82",
-                      "216816.262" = "239-2",
-                      "1679.217" = "SC596",
-                      "1695.38" = "Bg131.S11_17.F6")
+old_to_new_names <- c("ATCC15697" = "ATCC 15697 = JCM 1222",
+                      "JCM1217" = "JCM 1217")
 
-# update row names only for specified genomes, preserving the rest
+# update row names only for specified ones, preserving the rest
 rownames(ANIb_Blon_mat) <- ifelse(rownames(ANIb_Blon_mat) %in% names(old_to_new_names), 
                                   old_to_new_names[rownames(ANIb_Blon_mat)], 
                                   rownames(ANIb_Blon_mat))
@@ -462,12 +486,12 @@ col_dist <- dist(ANIb_Blon_mat, method = dist_method)
 col_clust <- hclust(col_dist, method = clust_method)
 
 # specify the name of the output
-pdf("results/phylogeny/ANIb_26_Blongum.pdf", width=8, height=8)
+pdf("results/phylogeny/ANIb_28_Blongum.pdf", width=8.3, height=8)
 # plot the heatmap
 ANIb_Blon_ht <- ComplexHeatmap::Heatmap(ANIb_Blon_mat,
                              rect_gp = gpar(type = "none"),
                              column_dend_side = "bottom",
-                             column_title = "ANI of Bifidobacterium longum strains",
+                             column_title = "ANI of Bifidobacterium longum genomes",
                              name = "ANI", 
                              col = ANI_col_fun,
                              cell_fun = ANI_cell_fun,
@@ -477,7 +501,7 @@ ANIb_Blon_ht <- ComplexHeatmap::Heatmap(ANIb_Blon_mat,
 
 draw(ANIb_Blon_ht)
 # save the heatmap to a file
-invisible(dev.off())
+dev.off()
 # draw the heatmap again to show it in the compiled markdown file
 draw(ANIb_Blon_ht)
 ```
@@ -485,10 +509,10 @@ draw(ANIb_Blon_ht)
 ## Calculating ANI of *Bifidobacterium catenulatum* genomes
 
 The phylogenetic analysis indicated that the *Bifidobacterium catenulatum* species might have a more complex subspecies structure than previously described.
-To investigate it further, we computed pairwise ANI indices of 10 reference *Bifidobacterium catenulatum* genomes using the ANIb algorithm implemented in [pyani](https://github.com/widdowquinn/pyani).
-To run the analysis, put the 10 corresponding FNA files to `data/genomes/10_Bcatenulatum_genomes/`.
+To investigate it further, we computed pairwise ANI indices of 11 reference genomes using the ANIb algorithm implemented in [pyani](https://github.com/widdowquinn/pyani).
+To run the analysis, put the 11 corresponding FNA files to `data/genomes/Bcatenulatum_group_genomes/`.
 
-```{bash run pyani_ANIm, eval=FALSE}
+```{bash run pyani_ANIb_Bcat, eval=FALSE}
 source ~/.bash_profile
 #set -ex
 
@@ -503,27 +527,27 @@ conda activate ${environment_name}
 conda info|egrep "conda version|active environment"
 
 # run pyani
-average_nucleotide_identity.py -i data/genomes/10_Bcatenulatum_genomes/ \
--o data/phylogeny/ANIb_Bcat \
+average_nucleotide_identity.py -i data/genomes/Bcatenulatum_group_genomes/ \
+-o data/phylogeny/ANIb_11_Bcatenulatum_genomes \
 -m ANIb
 ```
 
-Load data into R.
+Load data.
 
 ```{r ANIb_Bcat_load_data}
-# read the file with calculated ANI values for 10 Bifidobacterium catenulatum genomes
-ANIb_Bcat <- read_tsv("data/phylogeny/ANIb_10_ref_Bcatenulatum_genomes/ANIb_percentage_identity.tab") %>% 
+# read the file with calculated ANI values for 11 Bifidobacterium catenulatum-like genomes
+ANIb_Bcat <- read_tsv("data/phylogeny/ANIb_11_Bcatenulatum_genomes/ANIb_percentage_identity.tab") %>% 
   # use the first column as row names
   column_to_rownames(var="...1")
 ```
 
-The following code chunk below creates a heatmap based on calculated ANI values.
+The code chunk below creates a heatmap based on calculated ANI values.
 
 Hierarchical clustering options:
 
--   **Distance metric**: Maximum distance
+-   Maximum distance
 
--   **Linkage method**:Average method
+-   Average method
 
 ```{r ANIb_Bcat, fig.align='center', fig.dim=c(8,8)}
 # convert the tibble with ANI values to a matrix
@@ -536,7 +560,7 @@ ANI_col_fun <- circlize::colorRamp2(c(0.935, 1), c("white", "tomato2"))
 ANI_cell_fun = function(j, i, x, y, w, h, fill){
   grid.rect(x, y, w, h, gp = gpar(fill = fill, col = fill))
   # add ANI values to each cell
-   if(ANIb_Blon_mat[j, i] <= 1){
+   if(ANIb_Bcat_mat[j, i] <= 1){
     grid.text(sprintf("%.3f", ANIb_Bcat_mat[j, i]), x, y, gp = gpar(fontsize = 8))
   }
 }
@@ -554,12 +578,12 @@ col_dist <- dist(ANIb_Bcat_mat, method = dist_method)
 col_clust <- hclust(col_dist, method = clust_method)
 
 # specify the name of the output
-pdf("results/phylogeny/ANb_10_Bcatenulatum.pdf", width=8, height=8)
+pdf("results/phylogeny/ANb_11_Bcatenulatum.pdf", width=8, height=8)
 # plot the heatmap
 ANIb_Bcat_ht <- ComplexHeatmap::Heatmap(ANIb_Bcat_mat,
                              rect_gp = gpar(type = "none"),
                              column_dend_side = "bottom",
-                             column_title = "ANI of Bifidobacterium catenulatum strains",
+                             column_title = "ANI of Bifidobacterium catenulatum group genomes",
                              name = "ANI", 
                              col = ANI_col_fun,
                              cell_fun = ANI_cell_fun,
@@ -569,164 +593,195 @@ ANIb_Bcat_ht <- ComplexHeatmap::Heatmap(ANIb_Bcat_mat,
 
 draw(ANIb_Bcat_ht)
 # save the heatmap to a file
-invisible(dev.off())
+dev.off()
 # draw the heatmap again to show it in the compiled markdown file
 draw(ANIb_Bcat_ht)
 ```
 
-------------------------------------------------------------------------
-
-# Representation of predicted carbohydrate utilization phenotypes in 263 reference *Bifidobacterium* strains
+# Comparison of gene annotations
 
 ## Introduction
 
-The block describes the various analyses of Binary Phenotype Matrix (BPM) containing 66 binary carbohydrate utilization phenotypes predicted for 263 reference *Bifidobacterium* strains.
-Four additional phenotypes (GalNAc, ManNAc, Man, GalA) were excluded from the analysis since, for these glycans, all strains had predicted binary phenotype **0**.
+This block contains code used for comparing curated gene annotations used in this work with annotations produced by commonly used automated tools [**Prokka (v1.14.5)**](https://github.com/tseemann/prokka) and [**EggNOG-mapper (v2.1.12)**](https://github.com/eggnogdb/eggnog-mapper) for 263 reference *Bifidobacterium* genomes.
 
 ## Load data
 
-```{r BPM_263_load_data}
-# read the BPM (carbs)
-bpm_263_carb_df <- read_tsv("data/tables/BPM_263_NR_genomes_carbs.txt", 
-                            col_types = cols(.default = "c")) %>%
-                            mutate_at(c(4:73), as.numeric) %>%
-                            dplyr::select(-c(ManNAc, GalNAc, Man, GalA)) %>%
-                            arrange(genome_ID)
-# read the table with metadata for predicted carbohydrate utilization phenotypes
-phenotype_metadata <- read_tsv("data/tables/phenotype_metadata_carbs.txt", 
-                      col_types = cols(.default = "c")) %>%
-                      filter(!(phenotype %in% c("ManNAc", "GalNAc", "Man", "GalA")))
+```{r annotations_load_data}
+# read table with annotations
+annotations.df <- read_xlsx("data/tables/annotation_comparison.xlsx")
 ```
 
-## Hierarchical clustering of the BPM for 263 *Bifidobacterium* genomes
+## Gene annotations: manual curation vs. Prokka/EggNOG
 
-The following heatmap shows the hierarchical clustering of the BPM for 263 *Bifidobacterium* genomes.
+We compared gene annotations obtained via manual curation with annotations produced by Prokka and EggNOG-mapper.
+EggNOG-mapper outputs multiple annotation fields (description, EC number, KEGG_ko numbers).
+We aggregated information from these fields, prioritizing the descriptions of EC and KEGG_ko numbers.
 
-Hierarchical clustering options:
+This comparison has four categories:
 
--   **Distance metric**: Hamming distance (equivalent to Manhattan distance for binary data)
+-   new = manually curated annotations update **general (non-specific)** annotations produced by Prokka/EggNOG-mapper.
+    Example:
 
--   **Linkage method**: Average
+    -   Putative fructose MFS permease (TC 2.A.1.7) vs. hypothetical protein (Prokka) or Major Facilitator Superfamily (EggNOG)
 
-```{r heatmap_263, fig.align='center', fig.dim=c(15,10)}
-# extract the binary matrix
-bpm_263_mat <- as.matrix((bpm_263_carb_df[, 4:69]))
-# add rownames to the matrix
-rownames(bpm_263_mat) <- bpm_263_carb_df$genome_ID
+    -   2'FL, 3FL ABC transporter substrate-binding component (TC 3.A.1.1) vs. hypothetical protein (Prokka) or multiple sugar transport system substrate-binding protein (EggNOG)
 
-# create a vector with taxonomy (group)
-taxonomy <- bpm_263_carb_df$curated_taxonomy
-# extract vectors containing data about glycan type and origin
-glycan_type <- phenotype_metadata$type_group
-glycan_origin <- phenotype_metadata$origin
-# create a coloring function
-col_fun <- structure(c("white", "#08306b"), names = c("0", "1"))
-# create a row annotation specifying taxonomy
-ha_263_1 <- HeatmapAnnotation(
-  which = c("row"),
-  Taxonomy = taxonomy, 
-  col = list(Taxonomy = c("Bifidobacterium adolescentis" = "tomato2",
-                          "Bifidobacterium angulatum" = "#b2964b",
-                          "Bifidobacterium animalis subsp. lactis" = "black",
-                          "Bifidobacterium bifidum" = "#c5c2f0",
-                          "Bifidobacterium breve" = "#00a2ff",
-                          "Bifidobacterium catenulatum subsp. catenulatum" = "#f8f88b",
-                          "Bifidobacterium catenulatum subsp. kashiwanohense" = "#E6E7E8",
-                          "Bifidobacterium catenulatum subsp. kashiwanohense_A" = "#BCBEC0",
-                          "Bifidobacterium dentium" = "#8e063c",
-                          "Bifidobacterium gallicum" = "#ffffff",
-                          "Bifidobacterium longum subsp. infantis" = "#81FF74",
-                          "Bifidobacterium longum subsp. longum" = "#51796f",
-                          "Bifidobacterium longum subsp. suis" = "#00b400",
-                          "Bifidobacterium longum subsp. nov." = "#c6dec7",
-                          "Bifidobacterium pseudocatenulatum" = "#ffa600",
-                          "Bifidobacterium pseudolongum subsp. globosum" = "#2032ab",
-                          "Bifidobacterium scardovii" = "#f79cd4",
-                          "Bifidobacterium sp002742445" = "#808285",
-                          "Bifidobacterium thermophilum" = "#ffd22d")),
-  show_annotation_name = FALSE,
-  simple_anno_size = unit(3, "mm"))
-# create two column annotations specifying glycan type and origin
-ha_263_2 <- HeatmapAnnotation(
-  type = glycan_type, 
-  origin = glycan_origin,
-  col = list(type = c("monosaccharides_and_derivatives" = "#E6E7E8",
-                      "di_and_oligosaccharides" = "#BCBEC0",
-                      "polysaccharides" = "#808285"),
-             origin = c("universal" = "#ffd22d",
-                        "animal" = "#cbbedd",
-                        "plant" = "#79d400",
-                        "bacterial" = "#603913")),
-  show_annotation_name = FALSE,
-  simple_anno_size = unit(3, "mm"))
+-   corrected = manually curated annotations update **incorrect specific** annotations produced by Prokka/EggNOG-mapper.
+    Examples:
 
-# plot the heatmap
-pdf("results/phenotypes/BPM_263_heatmap.pdf", width=15, height=10)
-ht_263_all <- ComplexHeatmap::Heatmap(bpm_263_mat,
-                              name = "Predicted phenotype",
-                              right_annotation = ha_263_1,
-                              bottom_annotation = ha_263_2,
-                              col = col_fun,
-                              clustering_distance_rows = function(m) 
-                                dist(m, method = "manhattan"),
-                              clustering_distance_columns = function(m) 
-                                dist(m, method = "manhattan"),
-                              clustering_method_rows = "average",
-                              clustering_method_columns = "average",
-                              rect_gp = gpar(col = "grey", lwd = 0.05),
-                              # do not show row names
-                              show_row_names = FALSE,
-                              row_names_gp = gpar(fontsize = 3),
-                              column_names_gp = gpar(fontsize = 5),
-                              column_names_rot = 70,
-                              width = unit(200, "mm"), 
-                              height = unit(200, "mm"))
-draw(ht_263_all)
-# save the heatmap to a file
-invisible(dev.off())
-# draw the heatmap again to show it in the compiled markdown file
-draw(ht_263_all)
+    -   D-mannose isomerase (EC 5.3.1.7) vs. Sulfoquinovose isomerase (Prokka) or N-acylglucosamine 2-epimerase (EggNOG)
+
+    -   Arabinoxylooligosaccharide ABC transporter permease component 1 (TC 3.A.1.1) vs. Melibiose/raffinose/stachyose import permease protein MelD (Prokka) or xylobiose transport system permease protein (EggNOG)
+
+-   refined = annotations are similar in principle, but manually curated ones are more precise.\
+    Examples:
+
+    -   Adding linkage specificity to glycoside hydrolases: alpha-1,6-L-fucosidase (GH29) vs. alpha-L-fucosidase [EC:3.2.1.51] (EggNOG)
+    -   Specific annotation vs. list with many activities including the correct one: D-mannonate oxidoreductase (EC 1.1.1.57) vs. fructuronate reductase; mannonate oxidoreductase; mannonic dehydrogenase; D-mannonate dehydrogenase; D-mannonate:NAD+ oxidoreductase; tagaturonate reductase; altronic oxidoreductase; altronate oxidoreductase; TagUAR; altronate dehydrogenase; D-tagaturonate reductase (EggNOG)
+
+-   same = annotations are identical
+
+Plot the results of the comparison.
+
+First, what percentage of 589 functional roles is constituted by each comparison group.
+
+```{r annotations_fr_number, fig.align='center', fig.dim=c(10,5)}
+# convert prokka_comparison and eggnog_comparison 
+# into a single column "comparison" with a source column
+comparison_by_role <- annotations.df %>%
+  pivot_longer(cols = c(prokka_comparison, eggnog_comparison), 
+               names_to = "source", values_to = "comparison") %>%
+  # recode source before grouping
+  mutate(source = dplyr::recode(source, 
+                         "prokka_comparison" = "Prokka", 
+                         "eggnog_comparison" = "EggNOG")) %>%
+  group_by(functional_role_type, source, comparison) %>%
+  summarise(n = n(), .groups = "drop")
+
+# add a "total" category by summing counts across all functional_role_type
+comparison_by_role <- comparison_by_role %>%
+  bind_rows(comparison_by_role %>%
+              group_by(source, comparison) %>%
+              summarise(n = sum(n), .groups = "drop") %>%
+              mutate(functional_role_type = "total"))  # add a new category total
+
+# ensure factor ordering
+comparison_by_role <- comparison_by_role %>%
+  mutate(comparison = factor(comparison, levels = c("new", "corrected", "refined", "same")),
+                             source = factor(source, levels = c("Prokka", "EggNOG")),
+                            functional_role_type = factor(functional_role_type,
+                             levels = c("transporter", "CAZyme", "downstream_catabolism",
+                                        "regulator", "total")))
+
+# create a stacked barplot
+ggplot(comparison_by_role,               
+       aes(x = source, y = n, fill = comparison)) +  
+  geom_bar(stat = "identity", position = "fill") +  
+  scale_fill_manual(values = c("new" = "#5e9155", "corrected" = "#ffa600",
+                               "refined" = "#4f8fe6", "same" = "#d1d3d4")) +  
+  theme_bw() +  
+  facet_grid(~ functional_role_type) +  
+  labs(title = "total",  
+       x = "%  of 589 functional roles", y = "") %>%
+  scale_y_continuous(breaks = seq(0, 1, 0.1), 
+                     labels = scales::percent_format(accuracy = 1)) +
+ theme(axis.text.x = element_text(angle = 60, hjust = 1))
+
+# save the figure to a file
+ggsave("results/annotations/percent_fr.pdf", device = "pdf", width = 10, height = 5)
 ```
 
-## Conservation of predicted carbohydrate utilization phenotypes within taxonomic groups
+Second, what percentage of 39589 annotated genes is constituted by each comparsion group.
 
-```{r heatmap_263_numbers}
-# calcualte "average" phenotypes for each taxon
-bpm_263_mean <- bpm_263_carb_df %>%
-  group_by(curated_taxonomy) %>%
-  summarise_at(vars(Glc:Asc), list(mean))
+```{r annotations_gene_number, fig.align='center', fig.dim=c(10,5)}
+# split "mcseed_IDs" into multiple rows
+annotations.df_expanded <- annotations.df %>%
+  separate_rows(mcseed_IDs, sep = "; ")
 
-# count columns with only 0s and 1s
-#  i.e., phenotypes that are always conserved within taxonomic groups
-binary_columns <- sum(apply(bpm_263_mean , 2, function(col) all(col %in% c(0, 1))))
+# convert prokka_comparison and eggnog_comparison
+# into a single column "comparison" with a source column
+comparison_by_role_expanded <- annotations.df_expanded %>%
+  pivot_longer(cols = c(prokka_comparison, eggnog_comparison),
+               names_to = "source", values_to = "comparison") %>%
+  mutate(source = dplyr::recode(source,
+                         "prokka_comparison" = "Prokka",
+                         "eggnog_comparison" = "EggNOG")) %>%
+  group_by(functional_role_type, source, comparison) %>%
+  summarise(n = n(), .groups = "drop")
 
-# count columns with intermediate values in the [0,1] range
-# i.e., phenotypes that vary within taxonomic groups
-range_columns <- sum(apply(bpm_263_mean, 2, function(col) any(col > 0 & col < 1)))
+# add a "total" category by summing counts across all functional_role_type
+comparison_by_role_expanded <- comparison_by_role_expanded %>%
+  bind_rows(comparison_by_role_expanded %>%
+              group_by(source, comparison) %>%
+              summarise(n = sum(n), .groups = "drop") %>%
+              mutate(functional_role_type = "total"))
+
+# ensure factor ordering
+comparison_by_role_expanded <- comparison_by_role_expanded %>%
+  mutate(comparison = factor(comparison, levels = c("new", "corrected", "refined", "same")),
+         source = factor(source, levels = c("Prokka", "EggNOG")),
+         functional_role_type = factor(functional_role_type,
+                                       levels = c("transporter", "CAZyme",
+                                                  "downstream_catabolism", "regulator",
+                                                  "total")))
+
+# create a stacked barplot
+ggplot(comparison_by_role_expanded,               
+       aes(x = source, y = n, fill = comparison)) +  
+  geom_bar(stat = "identity", position = "fill") +  
+  scale_fill_manual(values = c("new" = "#5e9155", "corrected" = "#ffa600",
+                               "refined" = "#4f8fe6", "same" = "#d1d3d4")) +  
+  theme_bw() +  
+  facet_grid(~ functional_role_type) +  
+  labs(title = "total",  
+       x = "%  of annotations of 39589 genes", y = "") %>%
+  scale_y_continuous(breaks = seq(0, 1, 0.1), 
+                     labels = scales::percent_format(accuracy = 1)) +
+ theme(axis.text.x = element_text(angle = 60, hjust = 1))
+
+# save the figure to a file
+ggsave("results/annotations/percent_genes.pdf", device = "pdf", width = 10, height = 5)
+
 ```
 
-Number of predicted phenotypes that are always conserved within taxonomic groups: **`r binary_columns`**
+Calculate the percentage of updated annotations for each tool:
 
-Number of predicted phenotypes for which there is variability at least in one taxon: **`r range_columns`**
+```{r annotations_gene_number_percentage, fig.align='center', fig.dim=c(10,5)}
+# sum counts for new + corrected + refined + same
+subset_counts <- comparison_by_role_expanded %>%
+  filter(comparison %in% c("new", "corrected", "refined")) %>%
+  group_by(source, functional_role_type) %>%
+  summarise(sum_n = sum(n), .groups = "drop")
+
+# sum all counts
+total_counts <- comparison_by_role_expanded %>%
+  filter(comparison %in% c("new", "corrected", "refined", "same")) %>%
+  group_by(source, functional_role_type) %>%
+  summarise(sum_all = sum(n), .groups = "drop") %>%
+  dplyr::select(-source, -functional_role_type)
+
+# join with subset_counts and calculate percentages
+percentage_results <- cbind(subset_counts, total_counts) %>%
+  mutate(percentage = round((sum_n / sum_all) * 100, 1))
+
+# plot the table:
+gt(percentage_results)
+```
 
 ------------------------------------------------------------------------
 
-# Analysis of CAZyme representation in 263 *Bifidobacterium* genomes
+# CAZyme representation in 263 *Bifidobacterium* genomes
 
 ## Introduction
 
 This block contains the code used to analyze the representation of genes encoding Carbohydrate Active Enzymes (CAZymes, specifically glycoside hydrolases (GHs), carbohydrate esterases (CEs), and polysaccharide lyases (PLs)) in 263 *Bifidobacterium* genomes.
-In addition, we checked how many of these CAZymes were captured in the curated mcSEED subsystems.
+Specifically, we checked how many of these CAZymes were captured in our metabolic reconstruction.
 
 The following software is required:
 
-1.  [dbCAN (v4.0.0)](https://github.com/linnabrown/run_dbcan)
+1.  [**dbCAN (v4.0.0)**](https://github.com/linnabrown/run_dbcan)
 
-**Note**: Given the potential challenges with installing and running dbCAN, we provide processed dbCAN outputs in `data/CAZyme`.
-If you wish to run dbCAN by yourself: (i) install dbCAN and its associated databases, check the installation instructions [here](https://github.com/linnabrown/run_dbcan), (ii) download FAA files from [**Figshare**](https://doi.org/10.6084/m9.figshare.26053936).
-Put downloaded FAA files to `data/genomes/263_NR_ref_genomes/faa/`.
-
-Processed dbCAN outputs:
+**Note**: Given the potential challenges with installing and running dbCAN, we provide processed dbCAN outputs in `data/CAZyme`:
 
 1.  `GH_output_subfamilies` \# concatenated dbCAN output
 2.  `CAZyme_families` \# representation of GH/CE/PL families in 263 *Bifidobacterium* genomes. GH subfamilies are collapsed (e.g., GH43_22 and GH_43_24 are treated as GH43)
@@ -738,7 +793,6 @@ Processed dbCAN outputs:
 # read the table with metadata for 263 genomes
 bpm_263_join <- read_tsv("data/tables/BPM_263_NR_genomes_carbs.txt", 
                          col_types = cols(.default = "c")) %>%
-                         mutate_at(c(4:73), as.numeric) %>%
                          arrange(genome_ID) %>%
                          dplyr::select(genome_ID, genome_name, curated_taxonomy)
 # read the table with CAZyme representation
@@ -759,10 +813,10 @@ Define point colors and shapes used throughout this block.
 
 ```{r CAZyme_263_colors_shapes}
 # arguments for scale_shape_manual
-genomes_263_shapes <- c(21,21,21,21,21,
+genomes_263_shapes <- c(21,24,21,21,21,
                         21,24,23,21,21,
-                        21,21,21,21,21,
-                        21,21,22,24)
+                        21,22,21,21,21,
+                        21,21,21,23)
 # arguments for scale_fill_manual
 # breaks (how groups are encoded in the table)
 genomes_263_breaks <- c("Bifidobacterium adolescentis",
@@ -775,35 +829,36 @@ genomes_263_breaks <- c("Bifidobacterium adolescentis",
                         "Bifidobacterium catenulatum subsp. kashiwanohense_A",
                         "Bifidobacterium dentium",
                         "Bifidobacterium gallicum",
+                        "Bifidobacterium globosum",
+                        "Bifidobacterium hominis",
                         "Bifidobacterium longum subsp. infantis",
                         "Bifidobacterium longum subsp. longum",
                         "Bifidobacterium longum subsp. nov.",
                         "Bifidobacterium longum subsp. suis",
                         "Bifidobacterium pseudocatenulatum",
-                        "Bifidobacterium pseudolongum subsp. globosum",
                         "Bifidobacterium scardovii",
-                        "Bifidobacterium sp002742445",
                         "Bifidobacterium thermophilum")
 # values (color codes)
-genomes_263_colors <- c("tomato2", # Bifidobacterium adolescentis
-                        "#b2964b", # Bifidobacterium angulatum
-                        "black", # Bifidobacterium animalis subsp. lactis
-                        "#c5c2f0", # Bifidobacterium bifidum
+genomes_263_colors <- c("#9b91c1", # Bifidobacterium adolescentis
+                        "#ffff7f", # Bifidobacterium angulatum
+                        "grey", # Bifidobacterium animalis subsp. lactis
+                        "#222c80", # Bifidobacterium bifidum
                         "#00a2ff", # Bifidobacterium breve
-                        "#ffff7f", # Bifidobacterium catenulatum subsp. catenulatum
-                        "#ffff7f", # Bifidobacterium catenulatum subsp. kashiwanohense
-                        "#ffff7f", # Bifidobacterium catenulatum subsp. kashiwanohense_A
+                        "tomato2", # Bifidobacterium catenulatum subsp. catenulatum
+                        "tomato2", # Bifidobacterium catenulatum subsp. kashiwanohense
+                        "tomato2", # Bifidobacterium catenulatum subsp. kashiwanohense_A
                         "#8e063c", # Bifidobacterium dentium
                         "#ffffff", # Bifidobacterium gallicum
-                        "#81FF74", # Bifidobacterium longum subsp. infantis
+                        "#d0a079", # Bifidobacterium globosum
+                        "#a2d2de", # Bifidobacterium hominis
+                        "#c0d28b", # Bifidobacterium longum subsp. infantis
                         "#51796f", # Bifidobacterium longum subsp. longum
-                        "#c6dec7", # Bifidobacterium longum subsp. nov.
+                        "black", # Bifidobacterium longum subsp. nov.
                         "#00b400", # Bifidobacterium longum subsp. suis
                         "#ffa600", # Bifidobacterium pseudocatenulatum
-                        "#2032ab", # Bifidobacterium pseudolongum subsp. globosum
                         "#f79cd4", # Bifidobacterium scardovii
-                        "#ffff7f", # Bifidobacterium sp002742445
                         "#ffffff") # Bifidobacterium thermophilum)
+
 # labels (what will appear in the legend)
 genomes_263_species <- c("B. adolescentis",
                          "B. angulatum",
@@ -815,23 +870,22 @@ genomes_263_species <- c("B. adolescentis",
                          "B. catenulatum ssp. kashiwanohense_A",
                          "B. dentium",
                          "B. gallicum",
+                         "B. globosum",
+                         "B. hominis",
                          "B. longum ssp. infantis",
                          "B. longum ssp. longum",
                          "B. longum ssp. nov.",
                          "B. longum ssp. suis",
                          "B. pseudocatenulatum",
-                         "B. pseudolongum ssp. globosum",
                          "B. scardovii",
-                         "B. sp002742445",
                          "B. thermophilum")
 ```
 
 ## Ordination
 
-Ordination techniques summarize the data in a reduced number of dimensions while accounting for as much of the variability in the original data set as possible.
-We used Principal Component Analysis (PCA) for ordination of a table containing the representation of GH/CE/PL (sub)families in 263 genomes.
+We used Principal Component Analysis (PCA) for the ordination of a table containing the representation of GH/CE/PL (sub)families in 263 genomes.
 
-```{r CAZyme_263_PCA, fig.align='center', fig.dim=c(7,5)}
+```{r CAZyme_263_PCA, fig.align='center', fig.dim=c(7,7)}
 # extract the matrix from the CAZyme tibble
 cazy_subfam_mat <- as.matrix((cazy_subfam_df[, 2:108]))
 # do PCA
@@ -850,11 +904,11 @@ cazy.species <- cazy_subfam_df$curated_taxonomy
 cazy.genomes <- cazy_subfam_df$Organism
 # select points (genomes) that will be labeled 
 cazy.genomes_short <- ifelse(cazy.genomes == 
-                             "Bifidobacterium longum subsp. suis Bg131.S11_17.F6", 
-                             "Bg131.S11_17.F6",
-                      ifelse(cazy.genomes == 
-                             "Bifidobacterium catenulatum subsp. kashiwanohense Bg42221_1E1",
-                             "Bg42221_1E1", ""))
+                        "Bifidobacterium longum subsp. suis Bg131.S11_17.F6",
+                        "Bg131.S11_17.F6",
+                        ifelse(cazy.genomes == 
+                        "Bifidobacterium catenulatum subsp. kashiwanohense Bg42221_1E1",
+                        "Bg42221_1E1", ""))
 # plot
 ggplot(cazy.pca.res.df) +
   aes(x=PC1, y=PC2, fill=cazy.species, shape=cazy.species, stroke = 0.15) +
@@ -867,8 +921,8 @@ ggplot(cazy.pca.res.df) +
                     labels=genomes_263_species) +
   guides(fill = guide_legend(override.aes=list(shape=genomes_263_shapes))) + 
   # add text labels for selected genomes
-  geom_text_repel(aes(label = cazy.genomes_short), size = 3, fontface=1, 
-                  color="black", min.segment.length = 0,
+  geom_text_repel(aes(label = cazy.genomes_short), size = 3, fontface=1, color="black",
+                  min.segment.length = 0,
                   seed = 42, box.padding = 1, max.overlaps = 100) +
   labs(title= "PCA of GH/CE/PL (sub)families representation") +
   xlab(paste0("PC1 (",cazy.pc.per[1],"%",")")) + 
@@ -883,9 +937,9 @@ ggplot(cazy.pca.res.df) +
 ggsave("results/CAZyme/CAZyme_263_PCA.pdf", width = 7, height = 5)
 ```
 
-## Percent of CAZymes captured by metabolic reconstruction
+## Percent of CAZymes captured in the metabolic reconstruction
 
-For each genome, we calculated the percentage of CAZymes (GHs/CEs/PLs) captured by the metabolic reconstruction (i.e., ratio: number of GHs/CEs/PLs captured in mcSEED subsystems / total number of GHs/CEs/PLs identified by dbCAN).
+For each genome, we calculated the percentage of CAZymes (GHs/CEs/PLs) captured in the metabolic reconstruction (i.e., ratio: number of GHs/CEs/PLs captured in mcSEED subsystems / total number of GHs/CEs/PLs identified by dbCAN).
 
 ```{r CAZymes_in_mcSEED, fig.align='center', fig.dim=c(6,7)}
 # calculate the ratio of CAZymes (GHs/CEs/PLs) captured in mcSEED subsystems
@@ -905,7 +959,7 @@ ggplot() +
                outlier.shape = NA, width=0.9, lwd = 0.3) +
   ggbeeswarm::geom_quasirandom(data = cazy_captured_mcseed,
                                aes(x="", y=ratio, fill=cazy_species, shape=cazy_species),
-                               color = "black", stroke = 0.15, size = 3) +
+                               color = "black", stroke = 0.15, size = 4) +
   scale_shape_manual(values=genomes_263_shapes) +
   guides(shape="none") +
   scale_fill_manual(name = "Taxonomy",
@@ -917,16 +971,16 @@ ggplot() +
   theme(plot.title = element_text(face="bold"),
         axis.title = element_text(color = "black"),
         axis.text = element_text(color = "black")) +
-  coord_cartesian(ylim = c(50, 100)) +
+  coord_cartesian(ylim = c(60, 100)) +
   labs(x = "", y = "% CAZymes captured in metabolic reconstruction")
 
 # save the plot to a file
-ggsave("results/CAZyme/percent_captured_in_mcSEED.pdf", width = 6, height = 7)
+ggsave("results/CAZyme/percent_captured_in_mcSEED.pdf", width = 7, height = 7)
 ```
 
 The total and average (across all 263 genomes) percentages of captured CAZymes:
 
-```{r CAZymes_numbers}
+```{r CAZymes_numers}
 # calculate the total % of captured CAZymes
 not_captured <- cazy_df %>%
   filter(Subsystem == "-") %>%
@@ -942,25 +996,290 @@ print(paste0("Mean ± SD percentage of captured CAZymes:"," ",ratio_mean," ","±
 
 ------------------------------------------------------------------------
 
-# Representation of predicted metabolic phenotypes in 26 *Bifidobacterium longum* genomes
+# Representation of predicted carbohydrate utilization phenotypes in 263 reference *Bifidobacterium* strains
 
 ## Introduction
 
-This block describes the analysis of the representation of various metabolic pathways in 26 *Bifidobacterium longum* genomes.
-This genomic dataset included 15 genomes from the reference set + 11 additional *Bifidobacterium longum* genomes.
-For comparative purposes, the 11 additional genomes included isolates of non-human origin, such as type strains of *Bifidobacterium longum* subsp.
+The block describes the analysis of Binary Phenotype Matrix (BPM) containing 68 carbohydrate utilization phenotypes predicted in 263 reference *Bifidobacterium* strains.
+Four additional phenotypes (GalNAc, ManNAc, Man, GalA) were excluded from the analysis since, for these glycans, all strains had **predicted binary phenotype 0**.
+
+## Load data
+
+```{r BPM_263_load_data}
+# read the BPM (carbs)
+bpm_263_carb_df <- read_tsv("data/tables/BPM_263_NR_genomes_carbs.txt", 
+                            col_types = cols(.default = "c")) %>%
+                            mutate_at(c(4:75), as.numeric) %>%
+                            dplyr::select(-c(ManNAc, GalNAc, Man, GalA)) %>%
+                            arrange(genome_ID)
+# read the table with metadata for predicted carbohydrate utilization phenotypes
+phenotype_metadata <- read_tsv("data/tables/phenotype_metadata_carbs.txt", 
+                      col_types = cols(.default = "c")) %>%
+                      filter(!(phenotype %in% c("ManNAc", "GalNAc", "Man", "GalA")))
+```
+
+## Hierarchical clustering of the BPM of 263 *Bifidobacterium* genomes
+
+The following heatmap shows the hierarchical clustering of the BPM for 263 *Bifidobacterium* genomes.
+
+Hierarchical clustering options:
+
+-   **Distance metric**: Hamming distance (equivalent to Manhattan distance for binary data)
+
+-   **Linkage method**: Average
+
+```{r heatmap_263, fig.align='center', fig.dim=c(15,10)}
+# extract the binary matrix
+bpm_263_mat <- as.matrix((bpm_263_carb_df[, 4:71]))
+# add rownames to the matrix
+rownames(bpm_263_mat) <- bpm_263_carb_df$genome_ID
+
+# create a vector with taxonomy (group)
+taxonomy <- bpm_263_carb_df$curated_taxonomy
+# extract vectors containing data about glycan type and origin
+glycan_type <- phenotype_metadata$type_group
+glycan_origin <- phenotype_metadata$origin
+# create a coloring function
+col_fun <- structure(c("white", "#08306b"), names = c("0", "1"))
+# create a row annotation specifying taxonomy
+ha_263_1 <- HeatmapAnnotation(
+  which = c("row"),
+  Taxonomy = taxonomy, 
+  col = list(Taxonomy = c("Bifidobacterium adolescentis" = "#9b91c1",
+                          "Bifidobacterium angulatum" = "#ffff7f",
+                          "Bifidobacterium animalis subsp. lactis" = "#bebebe",
+                          "Bifidobacterium bifidum" = "#222c80",
+                          "Bifidobacterium breve" = "#00a2ff",
+                          "Bifidobacterium catenulatum subsp. catenulatum" = "#ee5c42",
+                          "Bifidobacterium catenulatum subsp. kashiwanohense" = "#ee5c42",
+                          "Bifidobacterium catenulatum subsp. kashiwanohense_A" = "#ee5c42",
+                          "Bifidobacterium dentium" = "#8e063c",
+                          "Bifidobacterium gallicum" = "#ffffff",
+                          "Bifidobacterium globosum" = "#d0a079",
+                          "Bifidobacterium hominis" = "#a2d2de",
+                          "Bifidobacterium longum subsp. infantis" = "#c0d28b",
+                          "Bifidobacterium longum subsp. longum" = "#51796f",
+                          "Bifidobacterium longum subsp. suis" = "#00b400",
+                          "Bifidobacterium longum subsp. nov." = "black",
+                          "Bifidobacterium pseudocatenulatum" = "#ffa600",
+                          "Bifidobacterium scardovii" = "#f79cd4",
+                          "Bifidobacterium thermophilum" = "#ffffff")),
+  show_annotation_name = FALSE,
+  simple_anno_size = unit(3, "mm"))
+# create two column annotations specifying glycan type and origin
+ha_263_2 <- HeatmapAnnotation(
+  type = glycan_type, 
+  origin = glycan_origin,
+  col = list(type = c("monosaccharides_and_derivatives" = "#E6E7E8",
+                      "di_and_oligosaccharides" = "#BCBEC0",
+                      "polysaccharides" = "#808285"),
+             origin = c("universal" = "#ffd22d",
+                        "host (animal)" = "#cbbedd",
+                        "plant" = "#79d400",
+                        "bacterial" = "#603913",
+                        "fungal" = "#008aa1" )),
+  show_annotation_name = FALSE,
+  simple_anno_size = unit(3, "mm"))
+
+# plot the heatmap
+pdf("results/phenotypes/BPM_263_heatmap.pdf", width=15, height=10)
+ht_263_all <- ComplexHeatmap::Heatmap(bpm_263_mat,
+                              name = "Predicted phenotype",
+                              right_annotation = ha_263_1,
+                              bottom_annotation = ha_263_2,
+                              col = col_fun,
+                              clustering_distance_rows = function(m) 
+                                dist(m, method = "manhattan"),
+                              clustering_distance_columns = function(m) 
+                                dist(m, method = "manhattan"),
+                              clustering_method_rows = "average",
+                              clustering_method_columns = "average",
+                              rect_gp = gpar(col = "grey", lwd = 0.05),
+                              # do not show row names
+                              show_row_names = TRUE,
+                              row_names_gp = gpar(fontsize = 3),
+                              column_names_gp = gpar(fontsize = 5),
+                              column_names_rot = 70,
+                              width = unit(200, "mm"), 
+                              height = unit(200, "mm"))
+draw(ht_263_all)
+# save the heatmap to a file
+dev.off()
+# draw the heatmap again to show it in the compiled markdown file
+draw(ht_263_all)
+```
+
+## Conservation of predicted carbohydrate utilization phenotypes
+
+```{r heatmap_263_numbers}
+# calcualte "average" phenotypes for each taxon
+bpm_263_mean <- bpm_263_carb_df %>%
+  group_by(curated_taxonomy) %>%
+  summarise_at(vars(Glc:`L-Xul`), list(mean))
+
+# count columns with only 0 and 1
+# i.e., binary phenotypes that are always conserved within taxonomic groups
+binary_columns <- sum(apply(bpm_263_mean , 2, function(col) all(col %in% c(0, 1))))
+
+# count columns with intermediate values in the [0,1] range
+# i.e., binary phenotypes that vary within taxonomic groups
+range_columns <- sum(apply(bpm_263_mean, 2, function(col) any(col > 0 & col < 1)))
+
+# print the counts
+print(paste0("Number of predicted phenotypes conserved within taxonomic groups: ", binary_columns))
+print(paste0("Number of variable predicted phenotypes: ", range_columns))
+```
+
+## Comparison between phylogenetic and metabolic distances
+
+Here, we generate a tanglegram to compare the **p**hylogenetic relationships and "metabolic distance" among *Bifidobacterium* genomes.
+The phylogenetic tree is constructed from 263 genomes and rooted using an outgroup.
+Metabolic distance is calculated using a Hamming distance matrix based on the presence or absence of carbohydrate utilization pathways.
+
+```{r tanglegram}
+# read the file with the phylogenetic tree
+tree_263 <- read.tree("data/phylogeny/tree_263_NR_ref_genomes/tree_263_NR_genomes.treefile")
+# force the tree to be ultrametric using penalized likelihood
+tree_263_ultra <- chronos(tree_263, lambda = 1)
+# define an outgroup
+outgroup <- "561180.4"
+# check if the outgroup exists in the tree
+if (outgroup %in% tree_263_ultra$tip.label) {
+  tree_263_ultra_rooted <- root(tree_263_ultra, outgroup = outgroup, resolve.root = TRUE)
+} else {
+  stop("Outgroup not found in the tree. Choose a different outgroup.")
+}
+# convert hclust to dendrogram
+dend1 <- as.dendrogram(as.hclust(tree_263_ultra_rooted))
+
+# extract the binary matrix
+bpm_263_mat <- as.matrix((bpm_263_carb_df[, 4:71]))
+# add rownames to the matrix
+rownames(bpm_263_mat) <- bpm_263_carb_df$genome_ID
+# compute the hamming distance matrix
+hamming_dist <- as.matrix(dist(bpm_263_mat, method = "manhattan"))
+# convert the distance matrix into an hclust object
+hclust_hamming <- hclust(as.dist(hamming_dist), method = "average")
+# convert hclust to dendrogram
+dend2 <- as.dendrogram(hclust_hamming)
+
+# plot the tanglegram
+# set tanglegram link colors
+taxonomy_colors <- c(
+  "Bifidobacterium adolescentis" = "#9b91c1",
+  "Bifidobacterium angulatum" = "#ffff7f",
+  "Bifidobacterium animalis subsp. lactis" = "#bebebe",
+  "Bifidobacterium bifidum" = "#222c80",
+  "Bifidobacterium breve" = "#00a2ff",
+  "Bifidobacterium catenulatum subsp. catenulatum" = "#ee5c42",
+  "Bifidobacterium catenulatum subsp. kashiwanohense" = "#ee5c42",
+  "Bifidobacterium catenulatum subsp. kashiwanohense_A" = "#ee5c42",
+  "Bifidobacterium dentium" = "#8e063c",
+  "Bifidobacterium gallicum" = "#ffffff",
+  "Bifidobacterium globosum" = "#d0a079",
+  "Bifidobacterium hominis" = "#a2d2de",
+  "Bifidobacterium longum subsp. infantis" = "#c0d28b",
+  "Bifidobacterium longum subsp. longum" = "#51796f",
+  "Bifidobacterium longum subsp. suis" = "#00b400",
+  "Bifidobacterium longum subsp. nov." = "black",
+  "Bifidobacterium pseudocatenulatum" = "#ffa600",
+  "Bifidobacterium scardovii" = "#f79cd4",
+  "Bifidobacterium thermophilum" = "#ffffff"
+)
+
+labels <- dend1 %>%
+  set("labels_to_char") %>%
+  labels
+
+metadata <- bpm_263_carb_df %>%
+  dplyr::select(genome_ID, curated_taxonomy) %>%
+  mutate(taxonomy_color = taxonomy_colors[curated_taxonomy]) %>%
+  mutate(genome_ID = factor(genome_ID, levels = labels)) %>%
+  arrange(genome_ID)
+
+# create a coloring vector
+cols <- as.character(metadata$taxonomy_color) 
+
+# save the tanglegram 
+pdf("results/phenotypes/tanglegram.pdf", width = 10, height = 10)
+tanglegram(dend1, dend2,
+           highlight_distinct_edges = TRUE, 
+           common_subtrees_color_lines = TRUE,
+           margin_inner = 2,  
+           fast = TRUE,  
+           lwd = 1,  
+           dLeaf = 0.1,  
+           type = "r",
+           color_lines = cols,
+           lab.cex = 0.1)  
+
+# save the tanglegram to a file
+dev.off()
+```
+
+We next calculate the **cophenetic correlation coefficient (CCC)** between two dendrograms and tests its statistical significance using a permutation test.
+The CCC measures how well a hierarchical clustering preserves the original pairwise distances between observations.
+
+```{r coph_corr}
+# function to perform permutation test
+permutation_test_cophenetic <- function(dend1, dend2, n_perm = 1000) {
+  
+  # step 1: compute observed cophenetic correlation
+  observed_cor <- cor_cophenetic(dend1, dend2)
+  
+  # step 2: initialize vector to store permuted correlations
+  permuted_cor <- numeric(n_perm)
+  
+  # step 3: perform permutations
+  for (i in seq_len(n_perm)) {
+    # shuffle labels in one dendrogram
+    dend2_shuffled <- dend2
+    labels(dend2_shuffled) <- sample(labels(dend2))
+    
+    # compute cophenetic correlation for permuted tree
+    permuted_cor[i] <- cor_cophenetic(dend1, dend2_shuffled)
+  }
+  
+  # step 4: compute p-value
+  p_value <- mean(permuted_cor >= observed_cor)
+  
+  # step 5: return results
+  list(
+    observed_correlation = observed_cor,
+    permuted_correlations = permuted_cor,
+    p_value = p_value
+  )
+}
+
+# run the permutation test with 1000 permutations
+result <- permutation_test_cophenetic(dend1, dend2, n_perm = 1000)
+
+# print the results
+print(paste0("Cophenetic correlation coefficient: ", round((result$observed_correlation), digits = 3)))
+print(paste0("p-value: ", result$p_value))
+```
+
+------------------------------------------------------------------------
+
+# Representation of reconstructed metabolic pathways in 28 *Bifidobacterium longum* genomes
+
+## Introduction
+
+This block describes the analysis of the representation of various metabolic pathways in 28 *Bifidobacterium longum* genomes.
+This genomic dataset included 15 genomes from the reference set + 13 additional *Bifidobacterium longum* genomes.
+For comparative purposes, the 13 additional genomes included isolates of non-human origin, such as type strains of *Bifidobacterium longum* subsp.
 *suis* and *Bifidobacterium longum* subsp.
 *suillum*.
 
 ## Load data
 
-```{r BPM_26_load_data}
-# read the table with BPM (carbohydrate utilization) for 26 B. longum genomes
-bpm_26_Blon_df <- read_tsv("data/tables/BPM_26_Blongum_genomes_carbs.txt", 
+```{r BPM_28_load_data}
+# read the table with BPM (carbohydrate utilization) for 28 B. longum genomes
+bpm_28_Blon_df <- read_tsv("data/tables/BPM_28_Blongum_genomes_carbs.txt", 
                            col_types = cols(.default = "c")) %>%
-                            mutate_at(c(4:69), as.numeric)
+                            mutate_at(c(4:71), as.numeric)
 # read the table with BPM (other pathways) for 26 B.longum genomes
-bpm_26_Blon_df2 <- read_tsv("data/tables/BPM_26_Blongum_genomes_other.txt",
+bpm_28_Blon_df2 <- read_tsv("data/tables/BPM_28_Blongum_genomes_other.txt",
                             col_types = cols(.default = "c")) %>%
                             mutate_at(c(4:32), as.numeric)
 # read the table with metadata for predicted carbohydrate utilization phenotypes
@@ -972,9 +1291,9 @@ phenotype_metadata_other <- read_tsv("data/tables/phenotype_metadata_other.txt",
                                col_types = cols(.default = "c"))
 ```
 
-## Hierarchical clustering of the BPM (carbohydrate utilization) of 26 *Bifidobacterium longum* genomes
+## Hierarchical clustering of the BPM (carbohydrate utilization) of 28 *Bifidobacterium longum* genomes
 
-The following heatmap shows the hierarchical clustering of BPM with the representation of carbohydrate utilization phenotypes predicted for 26 *Bifidobacterium longum* strains.
+The following heatmap shows the hierarchical clustering of BPM with the representation of carbohydrate utilization phenotypes predicted for 28 *Bifidobacterium longum* strains.
 
 Hierarchical clustering options:
 
@@ -984,14 +1303,14 @@ Hierarchical clustering options:
 
 ```{r heatmap_Blon_carb, fig.align='center', fig.dim=c(15,10)}
 # extract the binary matrix
-bpm_Blon_mat <- as.matrix((bpm_26_Blon_df[, 4:69]))
+bpm_Blon_mat <- as.matrix((bpm_28_Blon_df[, 4:71]))
 # add rownames to the matrix
-genome_id_Blon <- bpm_26_Blon_df$genome_ID
+genome_id_Blon <- bpm_28_Blon_df$genome_ID
 rownames(bpm_Blon_mat) <- genome_id_Blon
 
 # create vectors with taxonomy
-Blon_tax1 <- bpm_26_Blon_df$group
-Blon_tax2 <- bpm_26_Blon_df$add_tax
+Blon_tax1 <- bpm_28_Blon_df$group
+Blon_tax2 <- bpm_28_Blon_df$add_tax
 # extract vectors containing data about glycan type and origin
 glycan_type <- phenotype_metadata$type_group
 glycan_origin <- phenotype_metadata$origin
@@ -1003,11 +1322,11 @@ ha_Blon1 <- HeatmapAnnotation(
   which = c("row"),
   Taxonomy1 = Blon_tax1,
   Taxonomy2 = Blon_tax2,
-  col = list(Taxonomy1 = c("longum_infantis" = "#81FF74",
+  col = list(Taxonomy1 = c("longum_infantis" = "#c0d28b",
                            "longum_longum" = "#51796f",
                            "longum_suis" = "#00b400",
-                           "longum_nov" = "#c6dec7"),
-             Taxonomy2 = c("suis" = "black",
+                           "longum_nov" = "black"),
+             Taxonomy2 = c("suis" = "#ffff91",
                            "spp" = "#ffa600",
                            "suillum" = "#8e063c",
                            "iuvenis" = "#00a2ff",
@@ -1024,8 +1343,9 @@ ha_Blon2 <- HeatmapAnnotation(
                       "di_and_oligosaccharides" = "#BCBEC0",
                       "polysaccharides" = "#808285"),
              origin = c("universal" = "#ffd22d",
-                        "animal" = "#cbbedd",
+                        "host (animal)" = "#cbbedd",
                         "plant" = "#8dc63f",
+                        "fungal" = "#008aa1",
                         "bacterial" = "#603913")),
              show_annotation_name = FALSE,
              simple_anno_size = unit(3, "mm"))
@@ -1041,6 +1361,8 @@ ht_Blon_carb <- ComplexHeatmap::Heatmap(bpm_Blon_mat,
                                 dist(m, method = "manhattan"),
                               clustering_distance_columns = function(m) 
                                 dist(m, method = "manhattan"),
+                              clustering_method_rows = "average",
+                              clustering_method_columns = "average",
                               rect_gp = gpar(col = "grey", lwd = 0.05),
                               show_row_names = TRUE,
                               row_names_gp = gpar(fontsize = 3),
@@ -1050,14 +1372,14 @@ ht_Blon_carb <- ComplexHeatmap::Heatmap(bpm_Blon_mat,
                               height = unit(100, "mm"))
 draw(ht_Blon_carb)
 # save the heatmap to a file
-invisible(dev.off())
+dev.off()
 # draw the heatmap again to show it in the compiled markdown file
 draw(ht_Blon_carb)
 ```
 
-## Hierarchical clustering of the BPM (other pathways) of 26 *Bifidobacterium longum* genomes
+## Hierarchical clustering of the BPM (other pathways) of 28 *Bifidobacterium longum* genomes
 
-The following heatmap shows the hierarchical clustering of BPM with the representation of select metabolic pathways (amino acid/vitamin biosynthesis, urea utilization) predicted for 26 *Bifidobacterium longum* genomes.
+The following heatmap shows the hierarchical clustering of BPM with the representation of select metabolic pathways (amino acid/vitamin biosynthesis, urea utilization) predicted in 28 *Bifidobacterium longum* genomes.
 
 Hierarchical clustering options:
 
@@ -1067,14 +1389,14 @@ Hierarchical clustering options:
 
 ```{r heatmap_Blon_vit, fig.align='center', fig.dim=c(15,7)}
 # extract the binary matrix
-bpm_Blon_mat2 <- as.matrix((bpm_26_Blon_df2[, 4:32]))
+bpm_Blon_mat2 <- as.matrix((bpm_28_Blon_df2[, 4:32]))
 # add rownames to the matrix
-genome_id_Blon <- bpm_26_Blon_df2$genome_ID
+genome_id_Blon <- bpm_28_Blon_df2$genome_ID
 rownames(bpm_Blon_mat2) <- genome_id_Blon
 
 # create a vector with taxonomy (group)
-Blon_tax1 <- bpm_26_Blon_df$group
-Blon_tax2 <- bpm_26_Blon_df$add_tax
+Blon_tax1 <- bpm_28_Blon_df2$group
+Blon_tax2 <- bpm_28_Blon_df2$add_tax
 # extract vectors containing data about glycan type and origin
 pathway_type <- phenotype_metadata_other$type
 # create a coloring function
@@ -1084,11 +1406,11 @@ ha_Blon1 <- HeatmapAnnotation(
   which = c("row"),
   Taxonomy1 = Blon_tax1,
   Taxonomy2 = Blon_tax2,
-  col = list( Taxonomy1 = c("longum_infantis" = "#81FF74",
+  col = list( Taxonomy1 = c("longum_infantis" = "#c0d28b",
                             "longum_longum" = "#51796f",
                             "longum_suis" = "#00b400",
-                            "longum_nov" = "#c6dec7"),
-              Taxonomy2 = c("suis" = "black",
+                            "longum_nov" = "black"),
+              Taxonomy2 = c("suis" = "#ffff91",
                             "spp" = "#ffa600",
                             "suillum" = "#8e063c",
                             "iuvenis" = "#00a2ff",
@@ -1100,7 +1422,9 @@ ha_Blon1 <- HeatmapAnnotation(
 # create a column annotation specifying the pathway type 
 ha_Blon3 <- HeatmapAnnotation(
   type = pathway_type, 
-  col = list(type = c("vitamin" = "#8dc63f", "amino_acid" = "#cbbedd", "other" = "#808285")),
+  col = list(type = c("vitamin" = "#8dc63f",
+                      "amino_acid" = "#cbbedd",
+                      "other" = "#808285")),
   show_annotation_name = FALSE,
   simple_anno_size = unit(3, "mm"))
 
@@ -1126,19 +1450,19 @@ ht_Blon_vit <- ComplexHeatmap::Heatmap(bpm_Blon_mat2,
                               height = unit(80, "mm"))
 draw(ht_Blon_vit)
 # save the heatmap to a file
-invisible(dev.off())
+dev.off()
 # draw the heatmap again to show it in the compiled markdown file
 draw(ht_Blon_vit)
 ```
 
 ------------------------------------------------------------------------
 
-# Representation of predicted metabolic phenotypes in 2967 *Bifidobacterium* genomes
+# Representation of predicted metabolic pathways in 3083 *Bifidobacterium* genomes
 
 ## Introduction
 
-This section describes various analyses of two binary BPM for 2973 *Bifidobacterium* genomes.
-This genomic dataset was assembled by merging 263 reference and 2710 additional non-redundant genomes.
+This section describes various analyses of two binary BPM for 3083 non-redundant *Bifidobacterium* genomes.
+This genomic dataset was assembled by merging 263 reference and 2820 additional genomes.
 
 1.  The first BPM depicts the presence/absence of carbohydrate utilization pathways
 2.  The second BPM depicts the presence/absence of biosynthetic pathways + urea utilization
@@ -1149,32 +1473,31 @@ This genomic dataset was assembled by merging 263 reference and 2710 additional 
 # read BPM (carbs) for 263 reference genomes
 bpm_263_df <- read_tsv("data/tables/BPM_263_NR_genomes_carbs.txt", 
                             col_types = cols(.default = "c")) %>%
-                            mutate_at(c(4:73), as.numeric) %>%
+                            mutate_at(c(4:75), as.numeric) %>%
                             dplyr::select(-c(ManNAc, GalNAc, Man, GalA)) %>%
                             arrange(genome_ID)
-# read BPM (carbs) for 2710 additional genomes
-bpm_2710_df <- read_tsv("data/tables/BPM_2710_genomes_carbs.txt", 
+# read BPM (carbs) for additional genomes
+bpm_2820_df <- read_tsv("data/tables/BPM_2820_NR_genomes_carbs.txt", 
                         col_types = cols(.default = "c")) %>%
-                        mutate_at(c(3:68), as.numeric) %>%
+                        mutate_at(c(3:70), as.numeric) %>%
                         arrange(genome_ID)
-# read the table with metadata for predicted carbohydrate utilization phenotypes
+# read the table with metadata for carbohydrate utilization pathways
 phenotype_metadata <- read_tsv("data/tables/phenotype_metadata_carbs.txt", 
                       col_types = cols(.default = "c")) %>%
                       filter(!(phenotype %in% c("ManNAc", "GalNAc", "Man", "GalA")))
 # extract BPM for 263 genomes for merging
 bpm_263_carb_df <- bpm_263_df %>%
-  dplyr::select(genome_ID, curated_taxonomy, c(Glc:Asc))
-# extract BPM for 2710 genomes for merging
-bpm_2710_carb_df <- bpm_2710_df %>%
-  dplyr::select(genome_ID, curated_taxonomy, c(Glc:Asc))
+  dplyr::select(genome_ID, curated_taxonomy, c(Glc:`L-Xul`))
+# extract BPM for 2820 genomes for merging
+bpm_2820_carb_df <- bpm_2820_df %>%
+  dplyr::select(genome_ID, curated_taxonomy, c(Glc:`L-Xul`))
 # check that column names in both BPMs are identical
-# colnames(bpm_263_carb_df) == colnames(bpm_2710_carb_df)
+colnames(bpm_263_carb_df) == colnames(bpm_2820_carb_df)
 # merge the BPMs
-bpm_2973_carb_df <- merge(bpm_263_carb_df, bpm_2710_carb_df, all=TRUE)
-
-# read the table with BPM for 2973 genomes with predicted presence/absence of biosynthetic pathways
-bpm_2973_other_df <- read_tsv("data/tables/BPM_2973_genomes_other.txt",
-                              col_types = cols(.default = "c")) %>%
+bpm_3083_carb_df <- as_tibble(merge(bpm_263_carb_df, bpm_2820_carb_df, all=TRUE) %>%
+  arrange(genome_ID))
+# read the table with BPM for 3083 genomes with predicted presence/absence of biosynthetic pathways
+bpm_3083_other_df <- read_xlsx("data/tables/BPM_3083_genomes_other.xlsx") %>%
                      mutate_at(c(3:31), as.numeric) %>%
                      arrange(genome_ID)
 # read the table with metadata for biosynthetic pathways
@@ -1186,16 +1509,16 @@ phenotype_metadata_other <- read_tsv("data/tables/phenotype_metadata_other.txt",
 
 Defines point colors and shapes used throughout this block.
 
-```{r bpm_2973_colors_shapes}
+```{r bpm_3083_colors_shapes}
 # arguments for scale_shape_manual
-genomes_2973_shapes <- c(21,21,24,21,21,
+genomes_3083_shapes <- c(21,24,24,21,21,
                          21,21,24,23,21,
-                         21,21,21,21,21,
-                         21,21,21,22,21,
-                         22,24,23)
+                         21,21,22,21,21,
+                         21,21,21,24,22,
+                         21,23,25)
 # arguments for scale_fill_manual
 # breaks (how groups are encoded in the table)
-genomes_2973_breaks <- c("Bifidobacterium adolescentis",
+genomes_3083_breaks <- c("Bifidobacterium adolescentis",
                          "Bifidobacterium angulatum",
                          "Bifidobacterium animalis subsp. animalis",
                          "Bifidobacterium animalis subsp. lactis",
@@ -1206,113 +1529,113 @@ genomes_2973_breaks <- c("Bifidobacterium adolescentis",
                          "Bifidobacterium catenulatum subsp. kashiwanohense_A",
                          "Bifidobacterium dentium",
                          "Bifidobacterium gallicum",
+                         "Bifidobacterium globosum",
+                         "Bifidobacterium hominis",
                          "Bifidobacterium longum subsp. infantis",
                          "Bifidobacterium longum subsp. longum",
                          "Bifidobacterium longum subsp. nov.",
                          "Bifidobacterium longum subsp. suis",
                          "Bifidobacterium pseudocatenulatum",
-                         "Bifidobacterium pseudolongum subsp. globosum",
                          "Bifidobacterium pullorum",
                          "Bifidobacterium ruminantium",
                          "Bifidobacterium scardovii",
-                         "Bifidobacterium sp002742445",
                          "Bifidobacterium thermophilum",
                          "Bifidobacterium tsurumiense")
 # values (color codes)
-genomes_2973_colors <- c("tomato2", # Bifidobacterium adolescentis
-                         "#b2964b", # Bifidobacterium angulatum
-                         "black" , # Bifidobacterium animalis subsp. animalis
-                         "black", # Bifidobacterium animalis subsp. lactis
-                         "#c5c2f0", # Bifidobacterium bifidum
+genomes_3083_colors <- c("#9b91c1", # Bifidobacterium adolescentis
+                         "#ffff7f", # Bifidobacterium angulatum
+                         "grey" , # Bifidobacterium animalis subsp. animalis
+                         "grey", # Bifidobacterium animalis subsp. lactis
+                         "#222c80", # Bifidobacterium bifidum
                          "#00a2ff", # Bifidobacterium breve
-                         "#ffff7f", # Bifidobacterium catenulatum subsp. catenulatum
-                         "#ffff7f", # Bifidobacterium catenulatum subsp. kashiwanohense
-                         "#ffff7f", # Bifidobacterium catenulatum subsp. kashiwanohense_A
+                         "tomato2", # Bifidobacterium catenulatum subsp. catenulatum
+                         "tomato2", # Bifidobacterium catenulatum subsp. kashiwanohense
+                         "tomato2", # Bifidobacterium catenulatum subsp. kashiwanohense_A
                          "#8e063c", # Bifidobacterium dentium
                          "#ffffff", # Bifidobacterium gallicum
-                         "#81FF74", # Bifidobacterium longum subsp. infantis
+                         "#d0a079", # Bifidobacterium globosum
+                         "#a2d2de", # Bifidobacterium hominis
+                         "#c0d28b", # Bifidobacterium longum subsp. infantis
                          "#51796f", # Bifidobacterium longum subsp. longum
-                         "#c6dec7", # Bifidobacterium longum subsp. nov.
+                         "black", # Bifidobacterium longum subsp. nov.
                          "#00b400", # Bifidobacterium longum subsp. suis
                          "#ffa600", # Bifidobacterium pseudocatenulatum
-                         "#2032ab", # Bifidobacterium pseudolongum subsp. globosum
-                         "#00FFF7", # Bifidobacterium pullorum
+                         "#ffffff", # Bifidobacterium pullorum
                          "#ffffff", # Bifidobacterium ruminantium
                          "#f79cd4", # Bifidobacterium scardovii
-                         "#ffff7f", # Bifidobacterium sp002742445
                          "#ffffff", # Bifidobacterium thermophilum
                          "#ffffff") # Bifidobacterium tsurumiense
 # labels (what will appear in the legend)
-genomes_2973_species <- c("B. adolescentis",
+genomes_3083_species <- c("B. adolescentis",
                           "B. angulatum",
-                          "B. animalis ssp. animalis",
-                          "B. animalis ssp. lactis",
+                          "Ba. animalis",
+                          "Ba. lactis",
                           "B. bifidum",
                           "B. breve",
-                          "B. catenulatum ssp. catenulatum",
-                          "B. catenulatum ssp. kashiwanohense",
-                          "B. catenulatum ssp. kashiwanohense_A",
+                          "Bc. catenulatum",
+                          "Bc. kashiwanohense",
+                          "Bc. kashiwanohense_A",
                           "B. dentium",
                           "B. gallicum",
-                          "B. longum ssp. infantis",
-                          "B. longum ssp. longum",
-                          "B. longum ssp. nov.",
-                          "B. longum ssp. suis",
+                          "B. globosum",
+                          "B. hominis",
+                          "Bl. infantis",
+                          "Bl. longum",
+                          "Bl. nov.",
+                          "Bl. suis",
                           "B. pseudocatenulatum",
-                          "B. pseudolongum ssp. globosum",
                           "B. pullorum",
                           "B. ruminantium",
                           "B. scardovii",
-                          "B. sp002742445",
                           "B. thermophilum",
                           "B. tsurumiense")
 ```
 
 ## Statistical analysis
 
-The code chunks below describe the multivariate analysis of the BPM.
+The code chunks below describe various statistical analyses.
 
 ### PERMANOVA
 
 We used the Hamming distance (equivalent to Manhattan distance for binary data) to create a distance matrix from the BPM.
-We then performed a PERMANOVA (using the adonis2 function from the [vegan](https://cran.r-project.org/web/packages/vegan/index.html)) to assess the effect of taxonomic groupings on the constructed dissimilarity matrix.
+We then performed a PERMANOVA (using the adonis2 function) to assess the effect of taxonomy on the constructed dissimilarity matrix (differences in group centroids).
 
 ```{r PERMANOVA}
 # extract the binary matrix
-bpm_2973_mat <- as.matrix((bpm_2973_carb_df[, 3:68]))
+bpm_3083_mat <- as.matrix((bpm_3083_carb_df[, 3:70]))
 # calculate Hamming distance
-bpm_2973_mat_dist <- vegdist(bpm_2973_mat, method ="manhattan")
+bpm_3083_mat_dist <- vegdist(bpm_3083_mat, method ="manhattan")
 # create a vector with taxonomy
-taxonomy <- as.factor(bpm_2973_carb_df$curated_taxonomy)
+taxonomy <- as.factor(bpm_3083_carb_df$curated_taxonomy)
 # perform PERMANOVA
-permanova_result <- adonis2(bpm_2973_mat_dist ~ taxonomy, permutations = 999, parallel = 8)
+permanova_result <- adonis2(bpm_3083_mat_dist ~ taxonomy, permutations = 999, parallel = 8)
 permanova_result
 ```
 
-The PERMANOVA results show a significant effect of taxonomy on the dissimilarity matrix (bpm_2973_mat_dist), explaining 89.99% of the variation (R² = 0.89987, F = 1205, p = 0.001), indicating that taxonomy significantly influences the differences observed in the data.
+The PERMANOVA results show a significant effect of taxonomy on the dissimilarity matrix (bpm_3083_mat_dist), explaining 91% of the variation (R² = 0.91, F = 1394.7, p = 0.001), indicating that taxonomy significantly influences the differences observed in the data.
 
 ### Homogeneity of multivariate dispersions
 
-We assessed the homogeneity of multivariate dispersions using the betadisper function from the [vegan](https://cran.r-project.org/web/packages/vegan/index.html) package followed by a permutation test with permutest.
+We assessed the homogeneity of multivariate dispersions using the betadisper function followed by a permutation test with permutest.
 
 ```{r betadisper}
-betadisper_result <- betadisper(bpm_2973_mat_dist, taxonomy)
+betadisper_result <- betadisper(bpm_3083_mat_dist, taxonomy)
 permutest(betadisper_result)
 ```
 
-The test for homogeneity of multivariate dispersions shows a significant difference between groups (F = 94.422, p = 0.001), indicating that the variation in dispersion among taxonomic groups is not equal.
+The test for homogeneity of multivariate dispersions shows a significant difference between groups (F = 81.056, p = 0.001), indicating that the variation in dispersion among taxonomic groups is not equal.
 This result, combined with the significant effect of taxonomy in the PERMANOVA analysis, suggests that the observed differences in the dissimilarity matrix are influenced by both the central tendency and dispersion of the groups.
 
 ## Ordination
 
 Ordination techniques summarize the data in a reduced number of dimensions while accounting for as much of the variability in the original data set as possible.
-Here we use Non-metric MultiDimensional Scaling (NMDS) to visualize the level of similarity or dissimilarity between genomes based on a Hamming distance matrix.
+Here, we use Non-metric MultiDimensional Scaling (NMDS) to visualize the level of similarity or dissimilarity between genomes based on a Hamming distance matrix.
 
-```{r NMDS_2973, fig.align='center', fig.dim=c(14,10)}
+```{r NMDS, fig.align='center', fig.dim=c(14,10)}
 # extract the binary matrix
-bpm_2973_mat <- as.matrix((bpm_2973_carb_df[, 3:68]))
+bpm_3083_mat <- as.matrix((bpm_3083_carb_df[, 3:70]))
 # do NMDS
-nmds <- metaMDS(bpm_2973_mat,
+nmds <- metaMDS(bpm_3083_mat,
              autotransform = FALSE,
              distance = "manhattan",
              engine = "monoMDS",
@@ -1321,29 +1644,35 @@ nmds <- metaMDS(bpm_2973_mat,
              model = "global",
              maxit = 300,
              try = 40,
-             trymax = 100)
+             trymax = 100,
+             parallel = 8)
 # extract NMDS results to a tibble
 nmds.df <- as_tibble(nmds$points)
 
 # plot the NMDS results
 # create a vector with taxonomy
-taxonomy <- as.factor(bpm_2973_carb_df$curated_taxonomy)
+taxonomy <- as.factor(bpm_3083_carb_df$curated_taxonomy)
 # create a vector with genome names
-IDs <- bpm_2973_carb_df$genome_ID
+IDs <- bpm_3083_carb_df$genome_ID
 # select genomes that will be marked by text 
-genomes_short <- ifelse(IDs == "1695.38", "Bg131.S11_17.F6",
-                        ifelse(IDs == "630129.38", "Bg42221_1E1", ""))
+genomes_short <- dplyr::case_when(
+  IDs == "1695.38" ~ "Bg131.S11_17.F6",
+  IDs == "630129.38" ~ "Bg42221_1E1",
+  IDs == "M56B_1C3" ~ "M56B_1C3",
+  IDs == "Map_139_001" ~ "Map_139_001",
+  TRUE ~ NA_character_
+)
 # plot
 ggplot(nmds.df) +
   aes(x=MDS1, y=MDS2, fill=taxonomy, shape = taxonomy) +
   geom_point(size=2.5) +
-  scale_shape_manual(values=genomes_2973_shapes) +
+  scale_shape_manual(values=genomes_3083_shapes) +
   guides(shape="none") +
   scale_fill_manual(name = "Taxonomy",
-                    breaks=genomes_2973_breaks,
-                    values=genomes_2973_colors,
-                    labels=genomes_2973_species) +
-  guides(fill = guide_legend(override.aes=list(shape=genomes_2973_shapes))) +
+                    breaks=genomes_3083_breaks,
+                    values=genomes_3083_colors,
+                    labels=genomes_3083_species) +
+  guides(fill = guide_legend(override.aes=list(shape=genomes_3083_shapes))) +
   geom_text_repel(aes(label = genomes_short), size = 3, fontface=1, color="black",
                   min.segment.length = 0, seed = 20, box.padding = 1, 
                   max.overlaps = 100) +
@@ -1352,22 +1681,64 @@ ggplot(nmds.df) +
   theme_bw() +
   theme(plot.title = element_text(face="bold"))
 # save the file
-ggsave("results/phenotypes/dim_reduction_testing/BPM_2973_Hamming_NMDS_weak_true.pdf",
-       width = 14, height = 10)
+ggsave("results/phenotypes/bpm_3083_NMDS_Hamming_weak_TRUE.pdf", width = 14, height = 10)
 ```
 
-The stress value of 0.1 indicated a good fit of the 2-dimensional model to the data, with stress type 1 and weak ties applied.
+The stress value achieved was 0.107, indicating a good fit of the 2-dimensional model to the data, with stress type 1 and weak ties applied.
+
+Alternative visualization: show centroids + lines connecting centroids with individual points ("spiders").
+
+```{r NMDS_spiders, fig.align='center', fig.dim=c(14,10)}
+# plot ordination using gg_ordiplot
+# this function creates several data.frames
+nmds_ord <- gg_ordiplot(ord = nmds,
+                        groups = taxonomy,
+                        ellipse = FALSE,
+                        hull = FALSE,
+                        spiders = TRUE,
+                        plot = FALSE)
+# save the data frame with spiders
+nmds_spiders.df <- nmds_ord$df_spiders
+
+# plot
+ggplot(nmds_spiders.df) +
+  geom_segment(aes(x=cntr.x, y=cntr.y,
+                     xend=x, yend=y,
+                     color = Group),
+                     size = 0.4,
+                     alpha = 0.5) +
+  geom_point(aes(x=cntr.x, cntr.y,
+                 fill = Group,
+                 shape = Group),
+                 size = 4) +
+  scale_color_manual(breaks=genomes_3083_breaks,
+                     values=genomes_3083_colors,
+                     labels=genomes_3083_species) +
+  scale_shape_manual(values=genomes_3083_shapes) +
+  guides(shape="none") +
+  scale_fill_manual(name = "Taxonomy",
+                    breaks=genomes_3083_breaks,
+                    values=genomes_3083_colors,
+                    labels=genomes_3083_species) +
+  guides(fill = guide_legend(override.aes=list(shape=genomes_3083_shapes))) +
+  labs(title= "NMDS") +
+  coord_fixed(1) +
+  theme_bw() +
+  theme(plot.title = element_text(face="bold"))
+# save the file
+ggsave("results/phenotypes/bpm_3083_NMDS_Hamming_spiders.pdf", width = 14, height = 10)
+```
 
 ## Predicted phenotypic richness
 
-Here, we calculate predicted phenotypic richness, i.e., the total number of different predicted binary phenotypes "1" (utilizer) for each strain.
+Here, we calculate predicted phenotypic richness, i.e., the total number of different carbohydrate utilization pathways predicted in each genome.
 
-```{r richness_2973, fig.align='center', fig.dim=c(10,10)}
+```{r richness, fig.align='center', fig.dim=c(10,10)}
 # create a new tibble
-phenotype_richness <- bpm_2973_carb_df %>%
-  mutate(curated_taxonomy = factor(curated_taxonomy, levels = genomes_2973_breaks)) %>%
+phenotype_richness <- bpm_3083_carb_df %>%
+  mutate(curated_taxonomy = factor(curated_taxonomy, levels = rev(genomes_3083_breaks))) %>%
   group_by(genome_ID, curated_taxonomy) %>%
-  summarize(total_phenotypes = sum(across(Glc:Asc)))
+  summarize(total_phenotypes = sum(across(Glc:`L-Xul`)))
 
 # plot boxplot + swarmplot for each species/subspecies
 ggplot() +
@@ -1376,16 +1747,15 @@ ggplot() +
                outlier.shape = NA, width=0.9, lwd = 0.3) +
   ggbeeswarm::geom_quasirandom(data = phenotype_richness,
                                aes(y=curated_taxonomy, x=total_phenotypes,
-                                   fill=curated_taxonomy,
-                                   shape=curated_taxonomy),
-                               color = "black", stroke = 0.1, size = 3) +
-  scale_shape_manual(values=genomes_2973_shapes) +
+                                   fill=curated_taxonomy, shape=curated_taxonomy),
+                               color = "black", stroke = 0.1, size = 4) +
+  scale_shape_manual(values=rev(genomes_3083_shapes)) +
   guides(shape="none") +
   scale_fill_manual(name = "Taxonomy",
-                    breaks=c(genomes_2973_breaks),
-                    values=c(genomes_2973_colors),
-                    labels=c(genomes_2973_species)) +
-  guides(fill = guide_legend(override.aes=list(shape=genomes_2973_shapes))) +
+                    breaks=rev(c(genomes_3083_breaks)),
+                    values=rev(c(genomes_3083_colors)),
+                    labels=rev(c(genomes_3083_species))) +
+  guides(fill = guide_legend(override.aes=list(shape=rev(genomes_3083_shapes)))) +
   theme_bw() +
   theme(plot.title = element_text(face="bold"),
         axis.title = element_text(color = "black"),
@@ -1396,12 +1766,12 @@ ggplot() +
   scale_x_continuous(breaks = seq(0, max(phenotype_richness$total_phenotypes), by = 5))
 
 # save the plot to a file
-ggsave("results/phenotypes/BPM_2973_phenotypic_richness.pdf", width = 10, height = 10)
+ggsave("results/phenotypes/bpm_3083_phenotypic_richness.pdf", width = 10, height = 12)
 ```
 
 ### Statistics for predicted phenotypic richness: generalized linear model (GLM)
 
-Here we compare predicted phenotypic richness of diffrent *Bifidobacterum* clades using a generalized linear model (GLM) that assumes Poisson distribution.
+Here, we compare the predicted phenotypic richness of different *Bifidobacterum* clades using a generalized linear model (GLM) that assumes Poisson distribution.
 The phenotypic richness of *B. longum* subsp.
 *nov.* serves as a reference group.
 
@@ -1451,20 +1821,21 @@ print(lr_test)
 ```
 
 The likelihood ratio test comparing the full model to the null model indicated a significant improvement in model fit when including the taxonomic groups as predictors.
-The full model showed a significant reduction in residual deviance (from 3061.53 to 586.84) with a chi-squared value of 2474.7 and 22 degrees of freedom, resulting in a p-value less than 2.2e-16.
+The full model showed a significant reduction in residual deviance (from 2660.61 to 633.75) with a chi-squared value of 2026.9 and 22 degrees of freedom, resulting in a p-value less than 2.2e-16.
 
 Run post-hoc tests and save the result as a table:
 
 ```{r richness_glm5}
 posthoc_glm <- emmeans(glm_result, ~ curated_taxonomy)
-pairwise_comparisons <- as_tibble(contrast(posthoc_glm, method = "pairwise", adjust = "bonferroni")) %>%
+pairwise_comparisons <- as_tibble(contrast(posthoc_glm, method = "pairwise",
+                                           adjust = "bonferroni")) %>%
   write_tsv("results/phenotypes/phenotypic_richness_stats.txt")
 #gt(pairwise_comparisons)
 ```
 
-## BPM collapsed at species/subspecies level (carbohydrate utilization)
+## Conservation of predicted carbohydrate utilization pathways
 
-The following heatmap demonstrates percent of predicted utilizes (i.e., "average" phenotypes) at species/subspecies levels.
+The following heatmap shows the percent of genomes harboring a specific carbohydrate utilization pathway in each species/subspecies.
 
 Hierarchical clustering options:
 
@@ -1472,30 +1843,31 @@ Hierarchical clustering options:
 
 -   **Linkage method**: Ward's D2
 
-```{r heatmap_2973_1, fig.align='center', fig.dim=c(15,8)}
-# create a tibble where phenotypes are averaged at species/subspecies levels
-bpm_2973_mean <- bpm_2973_carb_df %>%
+```{r heatmap_all_1, fig.align='center', fig.dim=c(15,8)}
+# create a tibble where pathways are averaged at species/subspecies levels
+bpm_3083_mean <- bpm_3083_carb_df %>%
   group_by(curated_taxonomy) %>%
-  summarise_at(vars(Glc:Asc), list(mean))
+  summarise_at(vars(Glc:`L-Xul`), list(mean))
 # extract the binary matrix
-bpm_2973_mean_mat <- as.matrix(bpm_2973_mean[, 2:67])
+bpm_3083_mean_mat <- as.matrix(bpm_3083_mean[, 2:69])
 # add rownames to the matrix
-rownames(bpm_2973_mean_mat) <- bpm_2973_mean$curated_taxonomy
+rownames(bpm_3083_mean_mat) <- bpm_3083_mean$curated_taxonomy
 
 # extract vectors containing data about glycan type and origin
 glycan_type <- phenotype_metadata$type_group
 glycan_origin <- phenotype_metadata$origin
 # create two column annotations specifying glycan type and origin
-ha_2973_mean <- HeatmapAnnotation(
+ha_3083_mean <- HeatmapAnnotation(
   type = glycan_type, 
   origin = glycan_origin,
   col = list(type = c("monosaccharides_and_derivatives" = "#E6E7E8",
                       "di_and_oligosaccharides" = "#BCBEC0",
                       "polysaccharides" = "#808285"),
              origin = c("universal" = "#ffd22d",
-                        "animal" = "#cbbedd",
+                        "host (animal)" = "#cbbedd",
                         "plant" = "#8dc63f",
-                        "bacterial" = "black")),
+                        "bacterial" = "#754c29",
+                        "fungal" = "#008aa1")),
   show_annotation_name = FALSE,
   simple_anno_size = unit(3, "mm"))
 # add a coloring function
@@ -1504,11 +1876,11 @@ col_fun <- colorRamp2(c(0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1),
                         "#4292C6", "#2171B5", "#08519C", "#08306B"))
 
 # specify the name of the output file
-pdf("results/phenotypes/BPM_2973_collapsed_heatmap.pdf", width=15, height=8)
+pdf("results/phenotypes/bpm_3083_collapsed_heatmap.pdf", width=15, height=8)
 # plot the heatmap
-ht_2973 <- ComplexHeatmap::Heatmap(bpm_2973_mean_mat,
+ht_3083 <- ComplexHeatmap::Heatmap(bpm_3083_mean_mat,
         col = col_fun,
-        bottom_annotation = ha_2973_mean,
+        bottom_annotation = ha_3083_mean,
         clustering_distance_rows = function(m) dist(m, method = "euclidean"),
         clustering_distance_columns = function(m) dist(m, method = "euclidean"),
         clustering_method_rows = "ward.D2",
@@ -1523,36 +1895,37 @@ ht_2973 <- ComplexHeatmap::Heatmap(bpm_2973_mean_mat,
         heatmap_legend_param = list(
           col_fun = col_fun, 
           at = c(0, 0.25, 0.5, 0.75, 1),
-          title = "% of predicted utilizers",
+          title = "% of genomes with pathway",
           direction = "horizontal", 
           title_position = "topcenter",
           border = "black",
           legend_width = unit(40, "mm"))
         )
-draw(ht_2973)
+draw(ht_3083)
 # save the heatmap to a file
-invisible(dev.off())
+dev.off()
 # draw the heatmap again to show it in the compiled markdown file
-draw(ht_2973)
+draw(ht_3083)
 ```
 
-Number of predicted phenotypes with variability within groups.
+Number of predicted pathways with variability within species/subspecies.
 
-```{r heatmap_2973_n}
+```{r heatmap_all_n}
 # count columns with only 0s and 1s
-binary_columns <- sum(apply(bpm_2973_mean_mat, 2, function(col) all(col %in% c(0, 1))))
+binary_columns <- sum(apply(bpm_3083_mean_mat, 2, function(col) all(col %in% c(0, 1))))
 
 # count columns with intermediate values in the [0,1] range
-range_columns <- sum(apply(bpm_2973_mean_mat, 2, function(col) any(col > 0 & col < 1)))
+range_columns <- sum(apply(bpm_3083_mean_mat, 2, function(col) any(col > 0 & col < 1)))
 
-# Print the counts
-cat("Columns with only 0s and 1s:", binary_columns, "\n")
-cat("Columns with intermediate values in [0,1] range:", range_columns, "\n")
+# print the counts
+print(paste0("Number of predicted patwhays conserved within taxonomic groups: ", binary_columns))
+print(paste0("Number of variable pathway: ", range_columns))
 ```
 
-## BPM collapsed at species/subspecies level (other phenotypes)
+## Conservation of predicted B vitamin and amino acid biosynthesis pathways
 
-The following heatmap demonstrates percent of predicted "average" phenotypes at species/subspecies levels:
+The following heatmap demonstrates the percent of genomes harboring a specific pathway in each species/subspecies.
+These pathways include:
 
 -   Biosynthesis of B vitamins
 
@@ -1566,22 +1939,24 @@ Hierarchical clustering options:
 
 -   **Linkage method**: Ward's D2
 
-```{r heatmap_2973_2, fig.align='center', fig.dim=c(15,8)}
-# create a tibble where phenotypes are averaged at species/subspecies levels
-bpm_2973_mean2 <- bpm_2973_other_df %>%
+```{r heatmap_3083_2, fig.align='center', fig.dim=c(15,8)}
+# create a tibble where pathways are averaged at species/subspecies levels
+bpm_3083_mean2 <- bpm_3083_other_df %>%
   group_by(curated_taxonomy) %>%
   summarise_at(vars(B1:Urea_d), list(mean))
 # extract the binary matrix
-bpm_2973_mean2_mat <- as.matrix(bpm_2973_mean2[, 2:30])
+bpm_3083_mean2_mat <- as.matrix(bpm_3083_mean2[, 2:30])
 # add rownames to the matrix
-rownames(bpm_2973_mean2_mat) <- bpm_2973_mean2$curated_taxonomy
+rownames(bpm_3083_mean2_mat) <- bpm_3083_mean2$curated_taxonomy
 
 # extract vectors containing data about pathway type
 pathway_type <- phenotype_metadata_other$type
 # create a column annotations specifying pathway type
-ha_2973_2_mean <- HeatmapAnnotation(
+ha_3083_2_mean <- HeatmapAnnotation(
   type = pathway_type, 
-  col = list(type = c("vitamin" = "#8dc63f", "amino_acid" = "#cbbedd", "other" = "#808285")),
+  col = list(type = c("vitamin" = "#8dc63f",
+                      "amino_acid" = "#cbbedd",
+                      "other" = "#ffd22d")),
   show_annotation_name = FALSE,
   simple_anno_size = unit(3, "mm"))
 # add a coloring function
@@ -1590,11 +1965,11 @@ col_fun <- colorRamp2(c(0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1),
                         "#4292C6", "#2171B5", "#08519C", "#08306B"))
 
 # specify the name of the output file
-pdf("results/phenotypes/BPM_2973_collapsed_heatmap_other.pdf", width=15, height=8)
+pdf("results/phenotypes/bpm_3083_collapsed_heatmap_other.pdf", width=15, height=8)
 # plot the heatmap
-ht_2973_other <- ComplexHeatmap::Heatmap(bpm_2973_mean2_mat,
+ht_3083_other <- ComplexHeatmap::Heatmap(bpm_3083_mean2_mat,
         col = col_fun,
-        bottom_annotation = ha_2973_2_mean,
+        bottom_annotation = ha_3083_2_mean,
         clustering_distance_rows = function(m) dist(m, method = "euclidean"),
         clustering_distance_columns = function(m) dist(m, method = "euclidean"),
         clustering_method_rows = "ward.D2",
@@ -1615,16 +1990,16 @@ ht_2973_other <- ComplexHeatmap::Heatmap(bpm_2973_mean2_mat,
           border = "black",
           legend_width = unit(40, "mm"))
         )
-draw(ht_2973_other)
+draw(ht_3083_other)
 # save the heatmap to a file
-invisible(dev.off())
+dev.off()
 # draw the heatmap again to show it in the compiled markdown file
-draw(ht_2973_other)
+draw(ht_3083_other)
 ```
 
-## Hierarchical clustering of the BPM (carbohydrate utilization) of 95 *Bifidobacterium catenulatum*-like genomes
+## Hierarchical clustering of the BPM (carbohydrate utilization) of 136 *Bifidobacterium catenulatum* and *Bifidobacterium hominis* genomes
 
-The following heatmap shows the hierarchical clustering of BPM with the representation of carbohydrate utilization phenotypes predicted in 95 *Bifidobacterium catenulatum*-like genomes.
+The following heatmap shows the hierarchical clustering of BPM with the representation of carbohydrate utilization pathways predicted in 110 *Bifidobacterium catenulatum* and 26 *B. hominis* genomes.
 
 Hierarchical clustering options:
 
@@ -1633,17 +2008,16 @@ Hierarchical clustering options:
 -   **Linkage method**: Average
 
 ```{r heatmap_catenulatum, fig.align='center', fig.dim=c(18,10)}
-# create a tibble where phenotypes are averaged at species/subspecies levels
-# extract BPM for 263 genomes for merging
-bpm_cat_carb_df <- bpm_2973_carb_df %>%
+# filter rows based on taxonomy
+bpm_cat_carb_df <- bpm_3083_carb_df %>%
   filter(curated_taxonomy %in% c("Bifidobacterium catenulatum subsp. catenulatum",
                                  "Bifidobacterium catenulatum subsp. kashiwanohense",
                                  "Bifidobacterium catenulatum subsp. kashiwanohense_A",
-                                 "Bifidobacterium sp002742445")) %>%
-  dplyr::select(genome_ID, curated_taxonomy, c(Glc:Asc))
+                                 "Bifidobacterium hominis")) %>%
+  dplyr::select(genome_ID, curated_taxonomy, c(Glc:`L-Xul`))
 
 # extract the binary matrix
-bpm_cat_mat <- as.matrix((bpm_cat_carb_df[, 3:68]))
+bpm_cat_mat <- as.matrix((bpm_cat_carb_df[, 3:70]))
 # add rownames to the matrix
 genome_id_cat <- bpm_cat_carb_df$genome_ID
 rownames(bpm_cat_mat) <- genome_id_cat 
@@ -1661,10 +2035,10 @@ col_fun <- structure(c("white", "#08306b"), names = c("0", "1"))
 ha_cat1 <- HeatmapAnnotation(
   which = c("row"),
   Taxonomy = subsp_cat, 
-  col = list(Taxonomy = c("Bifidobacterium catenulatum subsp. catenulatum" = "#51796f",
-                          "Bifidobacterium catenulatum subsp. kashiwanohense" = "#81FF74",
-                          "Bifidobacterium catenulatum subsp. kashiwanohense_A" = "#00b400",
-                          "Bifidobacterium sp002742445" = "#c6dec7")),
+  col = list(Taxonomy = c("Bifidobacterium catenulatum subsp. catenulatum" = "tomato2",
+                          "Bifidobacterium catenulatum subsp. kashiwanohense" = "#ffa600",
+                          "Bifidobacterium catenulatum subsp. kashiwanohense_A" = "#ffff7f",
+                          "Bifidobacterium hominis" = "#a2d2de")),
   show_annotation_name = FALSE,
   simple_anno_size = unit(3, "mm"))
 # create two column annotations specifying glycan type and origin
@@ -1675,9 +2049,10 @@ ha_cat2 <- HeatmapAnnotation(
                       "di_and_oligosaccharides" = "#BCBEC0",
                       "polysaccharides" = "#808285"),
              origin = c("universal" = "#ffd22d",
-                        "animal" = "#cbbedd",
+                        "host (animal)" = "#cbbedd",
                         "plant" = "#8dc63f",
-                        "bacterial" = "#603913")),
+                        "bacterial" = "#603913",
+                        "fungal" = "#008aa1")),
   show_annotation_name = FALSE,
   simple_anno_size = unit(3, "mm"))
 
@@ -1700,10 +2075,10 @@ ht_bcatenulatum <- ComplexHeatmap::Heatmap(bpm_cat_mat,
                               column_names_gp = gpar(fontsize = 5),
                               column_names_rot = 60,
                               width = unit(200, "mm"), 
-                              height = unit(200, "mm"))
+                              height = unit(250, "mm"))
 draw(ht_bcatenulatum)
 # save the heatmap to a file
-invisible(dev.off())
+dev.off()
 # draw the heatmap again to show it in the compiled markdown file
 draw(ht_bcatenulatum)
 ```
@@ -1717,24 +2092,25 @@ Pathways significantly enriched (P~adj~ ≤ 0.01) in specified groups are shown.
 # create a table for Fisher exact test
 # extract data for 263 genomes
 bpm_263_fish_df <- bpm_263_df %>%
-  dplyr::select(genome_ID, curated_taxonomy, c(Glc:Asc), non_westernized, age_group)
-# extract data for 2710 genomes
-bpm_2710_fish_df <- bpm_2710_df %>%
-  dplyr::select(genome_ID, curated_taxonomy, c(Glc:Asc), non_westernized, age_group)
-# reorder columns in `bpm_263_fish_df` based on `bpm_2710_fish_df`
-bpm_263_fish_df <- bpm_263_fish_df[, colnames(bpm_2710_fish_df)]
+  dplyr::select(genome_ID, curated_taxonomy, c(Glc:`L-Xul`), non_westernized, microbiota_age_group)
+# extract data for 2820 genomes
+bpm_2820_fish_df <- bpm_2820_df %>%
+  dplyr::select(genome_ID, curated_taxonomy, c(Glc:`L-Xul`), non_westernized, microbiota_age_group)
+# reorder columns in `bpm_263_fish_df` based on `bpm_2820_fish_df`
+bpm_263_fish_df <- bpm_263_fish_df[, colnames(bpm_2820_fish_df)]
 # merge the two tables
-bpm_2973_fish_df <- merge(bpm_2710_fish_df, bpm_263_fish_df, all=TRUE)
+bpm_3083_fish_df <- merge(bpm_2820_fish_df, bpm_263_fish_df, all=TRUE)
 ```
 
 ### Westernized (age \< 3) vs. non-Westernized (age \< 3)
 
 ```{r child_west_vs_non_west, fig.align='center', fig.dim=c(7,10)}
-bpm_west_inf_df <- bpm_2973_fish_df %>%
-  filter(age_group == "child") %>%
-  dplyr::select(genome_ID, c(Glc:Asc), non_westernized)
+bpm_west_inf_df <- bpm_3083_fish_df %>%
+  filter(microbiota_age_group == "child") %>%
+  dplyr::select(genome_ID, c(Glc:`L-Xul`), non_westernized)
 # create a contingency table
-# i.e., calculate the number of occurrences of "yes" and "no" in the column `non_westernized` # for each binary phenotype
+# i.e., calculate the number of occurrences of "yes" and "no" in the column `non_westernized`
+# for each binary phenotype
 contingency_table_west <- bpm_west_inf_df  %>%
   pivot_longer(cols = -c(genome_ID, non_westernized), names_to = "phenotype", values_to = "value") %>%
   group_by(phenotype, non_westernized, value) %>%
@@ -1761,34 +2137,44 @@ odds_west_df <- results_west_ann %>%
   mutate(log2_conf_int_low = log2(conf_int_low)) %>%
   mutate(log2_conf_int_high = log2(conf_int_high)) %>%
   arrange(desc(log2_odds_ratio)) %>%
-  dplyr::select(phenotype, origin, odds_ratio, conf_int_low, conf_int_high,
-                log2_odds_ratio, p_value, p_adj)
+  dplyr::select(phenotype, origin, odds_ratio,
+                conf_int_low, conf_int_high, log2_odds_ratio, p_value, p_adj)
 
 # plot barplot
 ggplot(data = subset(odds_west_df, p_adj <= 0.01)) +
   aes(x = log2_odds_ratio, y = phenotype, color= origin, fill = origin) +
   geom_bar(stat = "identity", width = 0.5, color = "black") +
   geom_vline(xintercept = 0, color = "black", linetype = "dashed") + 
-  scale_color_manual(values = c("universal" = "#ffd22d", "animal" = "#cbbedd", "plant" = "#8dc63f")) +
-  scale_fill_manual(values = c("universal" = "#ffd22d", "animal" = "#cbbedd", "plant" = "#8dc63f")) +
-  labs(x = "Log2(Odds_ratio)", y = "Phenotype") +
+  scale_color_manual(values = c("universal" = "#ffd22d",
+                                "host (animal)" = "#cbbedd",
+                                "plant" = "#8dc63f", 
+                                "fungal" = "#008aa1",
+                                "bacterial" = "#603913")) +
+  scale_fill_manual(values = c("universal" = "#ffd22d", 
+                               "host (animal)" = "#cbbedd",
+                               "plant" = "#8dc63f",
+                               "fungal" = "#008aa1",
+                               "bacterial" = "#603913")) +
+  labs(x = "Log2(Odds_ratio)", y = "Pathway") +
   theme_bw() + 
   theme(legend.title = element_blank(),
         plot.title = element_text(face="bold"),
         axis.title = element_text(color = "black"),
         axis.text = element_text(color = "black"))
 # save the figure to a file
-ggsave("results/phenotype_enrichment/child_westernized_vs_child_non_westernized.pdf", device = "pdf", width = 7, height = 10)
+ggsave("results/pathway_enrichment/child_westernized_vs_child_non_westernized.pdf",
+       device = "pdf", width = 7, height = 10)
 ```
 
-### Westernized (age \> 3) vs. non-Westernized (age \>= 3)
+### Westernized (age ≥ 3) vs. non-Westernized (age ≥ 3)
 
 ```{r adult_west_vs_non_west, fig.align='center', fig.dim=c(7,10)}
-bpm_west_ad_df <- bpm_2973_fish_df %>%
-  filter(age_group == "adult") %>%
-  dplyr::select(genome_ID, c(Glc:Asc), non_westernized)
+bpm_west_ad_df <- bpm_3083_fish_df %>%
+  filter(microbiota_age_group == "adult") %>%
+  dplyr::select(genome_ID, c(Glc:`L-Xul`), non_westernized)
 # create a contingency table
-# i.e., calculate the number of occurrences of "yes" and "no" in the column `non_westernized` # for each binary phenotype
+# i.e., calculate the number of occurrences of "yes" and "no" in the column `non_westernized`
+# for each binary phenotype
 contingency_table_west <- bpm_west_ad_df   %>%
   pivot_longer(cols = -c(genome_ID, non_westernized), names_to = "phenotype", values_to = "value") %>%
   group_by(phenotype, non_westernized, value) %>%
@@ -1815,40 +2201,49 @@ odds_west_df <- results_west_ann %>%
   mutate(log2_conf_int_low = log2(conf_int_low)) %>%
   mutate(log2_conf_int_high = log2(conf_int_high)) %>%
   arrange(desc(log2_odds_ratio)) %>%
-  dplyr::select(phenotype, origin, odds_ratio, conf_int_low, conf_int_high,
-                log2_odds_ratio, p_value, p_adj)
+  dplyr::select(phenotype, origin, odds_ratio,
+                conf_int_low, conf_int_high, log2_odds_ratio, p_value, p_adj)
 
 # plot barplot
 ggplot(data = subset(odds_west_df, p_adj <= 0.01)) +
   aes(x = log2_odds_ratio, y = phenotype, color= origin, fill = origin) +
   geom_bar(stat = "identity", width = 0.5, color = "black") +
   geom_vline(xintercept = 0, color = "black", linetype = "dashed") + 
-  scale_color_manual(values = c("universal" = "#ffd22d", "animal" = "#cbbedd", "plant" = "#8dc63f")) +
-  scale_fill_manual(values = c("universal" = "#ffd22d", "animal" = "#cbbedd", "plant" = "#8dc63f")) +
-  labs(x = "Log2(Odds_ratio)", y = "Phenotype") +
+  scale_color_manual(values = c("universal" = "#ffd22d",
+                                "host (animal)" = "#cbbedd",
+                                "plant" = "#8dc63f",
+                                "fungal" = "#008aa1",
+                                "bacterial" = "#603913")) +
+  scale_fill_manual(values = c("universal" = "#ffd22d",
+                               "host (animal)" = "#cbbedd",
+                               "plant" = "#8dc63f",
+                               "fungal" = "#008aa1",
+                               "bacterial" = "#603913")) +
+  labs(x = "Log2(Odds_ratio)", y = "Pathway") +
   theme_bw() + 
   theme(legend.title = element_blank(),
         plot.title = element_text(face="bold"),
         axis.title = element_text(color = "black"),
         axis.text = element_text(color = "black"))
 # save the figure to a file
-ggsave("results/phenotype_enrichment/adult_westernized_vs_adult_non_westernized.pdf",
+ggsave("results/pathway_enrichment/adult_westernized_vs_adult_non_westernized.pdf",
        device = "pdf", width = 7, height = 10)
 ```
 
-### Westernized (age \< 3) vs. Westernized (age \>= 3)
+### Westernized (age \< 3) vs. Westernized (age ≥ 3)
 
 ```{r child_west_vs_adult_west, fig.align='center', fig.dim=c(7,10)}
-bpm_age_west_df <- bpm_2973_fish_df %>%
+bpm_age_west_df <- bpm_3083_fish_df %>%
   filter(non_westernized == "no") %>%
-  dplyr::select(genome_ID, c(Glc:Asc), age_group)
+  dplyr::select(genome_ID, c(Glc:`L-Xul`), microbiota_age_group)
 # create a contingency table
-# i.e., calculate the number of occurrences of "yes" and "no" in the column `age_group` for # each binary phenotype
+# i.e., calculate the number of occurrences of "yes" and "no" in the column
+# `microbiota_age_group` for each binary phenotype
 contingency_table_age <- bpm_age_west_df %>%
-  pivot_longer(cols = -c(genome_ID, age_group), names_to = "phenotype", values_to = "value") %>%
-  group_by(phenotype, age_group, value) %>%
+  pivot_longer(cols = -c(genome_ID, microbiota_age_group), names_to = "phenotype", values_to = "value") %>%
+  group_by(phenotype, microbiota_age_group, value) %>%
   summarise(count = n()) %>%
-  pivot_wider(names_from = age_group, values_from = count) %>%
+  pivot_wider(names_from = microbiota_age_group, values_from = count) %>%
   dplyr::select(phenotype, value, child, adult) %>%
   replace(is.na(.), 0)
 # keep only rows where neither all values are 0 nor all values are 1 within each group
@@ -1871,40 +2266,49 @@ odds_age_df <- results_age_ann %>%
   mutate(log2_conf_int_low = log2(conf_int_low)) %>%
   mutate(log2_conf_int_high = log2(conf_int_high)) %>%
   arrange(desc(log2_odds_ratio)) %>%
-  dplyr::select(phenotype, origin, odds_ratio, conf_int_low, conf_int_high,
-                log2_odds_ratio, p_value, p_adj)
+  dplyr::select(phenotype, origin, odds_ratio,
+                conf_int_low, conf_int_high, log2_odds_ratio, p_value, p_adj)
 
 # plot barplot
 ggplot(data = subset(odds_age_df, p_adj <= 0.01)) +
   aes(x = log2_odds_ratio, y = phenotype, color= origin, fill = origin) +
   geom_bar(stat = "identity", width = 0.5, color = "black") +
   geom_vline(xintercept = 0, color = "black", linetype = "dashed") + 
-  scale_color_manual(values = c("universal" = "#ffd22d", "animal" = "#cbbedd", "plant" = "#8dc63f")) +
-  scale_fill_manual(values = c("universal" = "#ffd22d", "animal" = "#cbbedd", "plant" = "#8dc63f")) +
-  labs(x = "Log2(Odds_ratio)", y = "Phenotype") +
+  scale_color_manual(values = c("universal" = "#ffd22d",
+                                "host (animal)" = "#cbbedd",
+                                "plant" = "#8dc63f",
+                                "fungal" = "#008aa1",
+                                "bacterial" = "#603913")) +
+  scale_fill_manual(values = c("universal" = "#ffd22d",
+                               "host (animal)" = "#cbbedd",
+                               "plant" = "#8dc63f",
+                               "fungal" = "#008aa1",
+                               "bacterial" = "#603913")) +
+  labs(x = "Log2(Odds_ratio)", y = "Pathway") +
   theme_bw() + 
   theme(legend.title = element_blank(),
         plot.title = element_text(face="bold"),
         axis.title = element_text(color = "black"),
         axis.text = element_text(color = "black"))
 #
-ggsave("results/phenotype_enrichment/child_westernized_vs_adult_westernized.pdf",
+ggsave("results/pathway_enrichment/child_westernized_vs_adult_westernized.pdf",
        device = "pdf", width = 7, height = 10)
 ```
 
-### non-Westernized (age \< 3) vs. non-Westernized (age \>= 3)
+### non-Westernized (age \< 3) vs. non-Westernized (age ≥ 3)
 
 ```{r childnon_west_vs_adult_non_west, fig.align='center', fig.dim=c(7,10)}
-bpm_age_west_df <- bpm_2973_fish_df %>%
+bpm_age_west_df <- bpm_3083_fish_df %>%
   filter(non_westernized == "yes") %>%
-  dplyr::select(genome_ID, c(Glc:Asc), age_group)
+  dplyr::select(genome_ID, c(Glc:`L-Xul`), microbiota_age_group)
 # create a contingency table
-# i.e., calculate the number of occurrences of "yes" and "no" in the column `age_group` for # each binary phenotype
+# i.e., calculate the number of occurrences of "yes" and "no" in the column
+# `microbiota_age_group` for each binary phenotype
 contingency_table_age <- bpm_age_west_df %>%
-  pivot_longer(cols = -c(genome_ID, age_group), names_to = "phenotype", values_to = "value") %>%
-  group_by(phenotype, age_group, value) %>%
+  pivot_longer(cols = -c(genome_ID, microbiota_age_group), names_to = "phenotype", values_to = "value") %>%
+  group_by(phenotype, microbiota_age_group, value) %>%
   summarise(count = n()) %>%
-  pivot_wider(names_from = age_group, values_from = count) %>%
+  pivot_wider(names_from = microbiota_age_group, values_from = count) %>%
   dplyr::select(phenotype, value, child, adult) %>%
   replace(is.na(.), 0)
 # keep only rows where neither all values are 0 nor all values are 1 within each group
@@ -1927,36 +2331,45 @@ odds_age_df <- results_age_ann %>%
   mutate(log2_conf_int_low = log2(conf_int_low)) %>%
   mutate(log2_conf_int_high = log2(conf_int_high)) %>%
   arrange(desc(log2_odds_ratio)) %>%
-  dplyr::select(phenotype, origin, odds_ratio, conf_int_low, conf_int_high,
-                log2_odds_ratio, p_value, p_adj)
+  dplyr::select(phenotype, origin, odds_ratio,
+                conf_int_low, conf_int_high, log2_odds_ratio, p_value, p_adj) %>%
+  filter((phenotype != "Lac"))
 
 # plot barplot
 ggplot(data = subset(odds_age_df, p_adj <= 0.01)) +
   aes(x = log2_odds_ratio, y = phenotype, color= origin, fill = origin) +
   geom_bar(stat = "identity", width = 0.5, color = "black") +
   geom_vline(xintercept = 0, color = "black", linetype = "dashed") + 
-  scale_color_manual(values = c("universal" = "#ffd22d", "animal" = "#cbbedd", "plant" = "#8dc63f")) +
-  scale_fill_manual(values = c("universal" = "#ffd22d", "animal" = "#cbbedd", "plant" = "#8dc63f")) +
-  labs(x = "Log2(Odds_ratio)", y = "Phenotype") +
+  scale_color_manual(values = c("universal" = "#ffd22d",
+                                "host (animal)" = "#cbbedd",
+                                "plant" = "#8dc63f",
+                                "fungal" = "#008aa1",
+                                "bacterial" = "#603913")) +
+  scale_fill_manual(values = c("universal" = "#ffd22d",
+                               "host (animal)" = "#cbbedd",
+                               "plant" = "#8dc63f",
+                               "fungal" = "#008aa1",
+                               "bacterial" = "#603913")) +
+  labs(x = "Log2(Odds_ratio)", y = "Pathway") +
   theme_bw() + 
   theme(legend.title = element_blank(),
         plot.title = element_text(face="bold"),
         axis.title = element_text(color = "black"),
         axis.text = element_text(color = "black"))
 #
-ggsave("results/phenotype_enrichment/child_non_westernized_vs_adult_non_westernized.pdf",
+ggsave("results/pathway_enrichment/child_non_westernized_vs_adult_non_westernized.pdf",
        device = "pdf", width = 7, height = 10)
 ```
 
-### Westernized vs. non-Westernized stratified by taxon
+### Westernized vs. non-Westernized within each taxon
 
 ```{r taxon_specific, fig.align='center', fig.dim=c(10,10)}
 # prepare data
-bpm_2973_ado_df <- bpm_2973_fish_df %>%
-  dplyr::select(curated_taxonomy, genome_ID, c(Glc:Asc), non_westernized)
+bpm_3083_ado_df <- bpm_3083_fish_df %>%
+  dplyr::select(curated_taxonomy, genome_ID, c(Glc:`L-Xul`), non_westernized)
 
 # create a contingency table
-contingency_table_west <- bpm_2973_ado_df %>%
+contingency_table_west <- bpm_3083_ado_df %>%
   pivot_longer(cols = -c(genome_ID, curated_taxonomy, non_westernized),
                names_to = "phenotype", values_to = "value") %>%
   group_by(curated_taxonomy, phenotype, non_westernized, value) %>%
@@ -1991,22 +2404,28 @@ odds_west_df <- results_west_ann %>%
   mutate(log2_conf_int_low = log2(conf_int_low)) %>%
   mutate(log2_conf_int_high = log2(conf_int_high)) %>%
   arrange(desc(log2_odds_ratio)) %>%
-  dplyr::select(curated_taxonomy, phenotype, origin, odds_ratio, conf_int_low, 
-                conf_int_high, log2_odds_ratio, p_value, p_adj)
+  dplyr::select(curated_taxonomy, phenotype, origin, odds_ratio,
+                conf_int_low, conf_int_high, log2_odds_ratio, p_value, p_adj)
 
 # create individual plots
 plots <- odds_west_df %>%
   filter(p_adj <= 0.01) %>%
   split(.$curated_taxonomy) %>%
-  map(~ ggplot(data = .x) +
+  purrr::map(~ ggplot(data = .x) +
         aes(x = log2_odds_ratio, y = phenotype, color = origin, fill = origin) +
         geom_bar(stat = "identity", width = 0.5, color = "black") +
         geom_vline(xintercept = 0, color = "black", linetype = "dashed") + 
-        scale_color_manual(values = c("universal" = "#ffd22d", "animal" = "#cbbedd",
-                                      "plant" = "#8dc63f")) +
-        scale_fill_manual(values = c("universal" = "#ffd22d", "animal" = "#cbbedd",
-                                     "plant" = "#8dc63f")) +
-        labs(x = "Log2(Odds_ratio)", y = "Phenotype", title = .x$curated_taxonomy[1]) +
+        scale_color_manual(values = c("universal" = "#ffd22d",
+                                      "host (animal)" = "#cbbedd",
+                                      "plant" = "#8dc63f",
+                                      "fungal" = "#008aa1",
+                                      "bacterial" = "#603913")) +
+        scale_fill_manual(values = c("universal" = "#ffd22d",
+                                     "host (animal)" = "#cbbedd",
+                                     "plant" = "#8dc63f",
+                                     "fungal" = "#008aa1",
+                                     "bacterial" = "#603913")) +
+        labs(x = "Log2(Odds_ratio)", y = "Pathway", title = .x$curated_taxonomy[1]) +
         theme_bw() + 
         theme(legend.title = element_blank(),
               plot.title = element_text(face="bold"),
@@ -2018,18 +2437,18 @@ combined_plot <- wrap_plots(plots, ncol = 2)
 combined_plot
 
 # save the combined plot
-ggsave("results/phenotype_enrichment/taxon_west_nonwest_combined.pdf",
-       combined_plot, device = "pdf", width = 14, height = 10)
+ggsave("results/pathway_enrichment/taxon_west_nonwest_combined.pdf", combined_plot,
+       device = "pdf", width = 14, height = 10)
 
 ```
 
-### Differences in taxonomic representation: Westernized vs. non-Westernized
+### Taxononomy differences: Westernized vs. non-Westernized
 
 ```{r taxononomy_enrichment}
-tax_2973_west_df <- bpm_2973_fish_df %>%
+tax_3083_west_df <- bpm_3083_fish_df %>%
   select(genome_ID, curated_taxonomy, non_westernized)
 # create a contingency table
-west_tax <- tax_2973_west_df %>%
+west_tax <- tax_3083_west_df %>%
   pivot_longer(cols = -c(genome_ID, non_westernized), names_to = "group", values_to = "value") %>%
   group_by(non_westernized, value) %>%
   summarise(count = n()) %>%
@@ -2037,7 +2456,9 @@ west_tax <- tax_2973_west_df %>%
   replace(is.na(.), 0) %>%
   add_row(value = "total", 
           `no` = sum(.[["no"]]), 
-          `yes` = sum(.[["yes"]]))
+          `yes` = sum(.[["yes"]])) %>%
+  select(-"NA")
+
 # calculate complement row for a given row
 calculate_complement <- function(row, total_row) {
   new_row <- data.frame(
@@ -2073,14 +2494,14 @@ west_tax_contingency <- new_data %>%
     grepl("Bifidobacterium catenulatum subsp. catenulatum", value) ~ "catenulatum",
     grepl("Bifidobacterium catenulatum subsp. kashiwanohense_A", value) ~ "kashiwanohense_A",
     grepl("Bifidobacterium catenulatum subsp. kashiwanohense", value) ~ "kashiwanohense",
-    grepl("Bifidobacterium sp002742445", value) ~ "sp002742445",
     grepl("Bifidobacterium dentium", value) ~ "dentium",
     grepl("Bifidobacterium gallicum", value) ~ "gallicum",
+    grepl("Bifidobacterium globosum", value) ~ "globosum",
+    grepl("Bifidobacterium hominis", value) ~ "hominis",
     grepl("Bifidobacterium longum subsp. infantis", value) ~ "longum_infantis",
     grepl("Bifidobacterium longum subsp. longum", value) ~ "longum_longum",
     grepl("Bifidobacterium longum subsp. nov.", value) ~ "longum_nov",
     grepl("Bifidobacterium longum subsp. suis", value) ~ "longum_suis",
-    grepl("Bifidobacterium pseudolongum subsp. globosum", value) ~ "pseudolongum_globosum",
     grepl("Bifidobacterium pullorum", value) ~ "pullorum",
     grepl("Bifidobacterium scardovii", value) ~ "scardovii",
     grepl("Bifidobacterium thermophilum", value) ~ "thermophilum",
@@ -2105,263 +2526,491 @@ gt(result_west_tax)
 
 # Analysis of *in vitro* growth data
 
-## *B. adolescentis* STL_TW14.1_LFYP80
+## *B. adolescentis* LFYP80
 
-Growth curves *B. adolescentis* STL_TW14.1_LFYP80 in MRS-AC supplemented with various (n = 42) carbon sources.
+Growth curves of *B. adolescentis* LFYP80 in MRS-AC supplemented with various (n = 47) carbon sources.
 
-```{r growth_Ado_LFYP80_1, fig.align='center', fig.dim=c(8.5,11)}
-growth_curves("Bifidobacterium adolescentis STL_TW14.1_LFYP80",
-              "data/growth/formatted/Badolescentis_STL_TW14.1_LFYP80.txt",
-              "results/growth/growth_curves/Badolescentis_STL_TW14.1_LFYP80.pdf",
-              36)
+```{r growth_LFYP80, fig.align='center', fig.dim=c(8.5,11)}
+growth_curves("Bifidobacterium adolescentis LFYP80",
+              "data/growth/formatted/Badolescentis_LFYP80.txt",
+              "results/growth/growth_curves/Badolescentis_LFYP80.pdf",
+              40)
+```
+
+## *B. adolescentis* M56B_1C3
+
+Growth curves of *B. adolescentis* M56B_1C3 in MRS-AC supplemented with various (n = 45) carbon sources.
+
+```{r growth_M56B_1C3, fig.align='center', fig.dim=c(8.5,11)}
+growth_curves("Bifidobacterium adolescentis M56B_1C3",
+              "data/growth/formatted/Badolescentis_M56B_1C3.txt",
+              "results/growth/growth_curves/Badolescentis_M56B_1C3.pdf",
+              40)
 ```
 
 ## *B. bifidum* Bg41221_3D10
 
-Growth curves *B. bifidum* Bg41221_3D10 in MRS-AC supplemented with various (n = 42) carbon sources.
+Growth curves of *B. bifidum* Bg41221_3D10 in MRS-AC supplemented with various (n = 47) carbon sources.
 
-```{r growth_bifidum_1, fig.align='center', fig.dim=c(8.5,11)}
+```{r growth_Bg41221_3D10, fig.align='center', fig.dim=c(8.5,11)}
 growth_curves("Bifidobacterium bifidum Bg41221_3D10",
               "data/growth/formatted/Bbifidum_Bg41221_3D10.txt",
               "results/growth/growth_curves/Bbifidum_Bg41221_3D10.pdf",
-              36)
+              40)
+```
+
+## *B. bifidum* M138B_2A5
+
+Growth curves of *B. bifidum* M138B_2A5 in MRS-AC supplemented with various (n = 43) carbon sources.
+
+```{r growth_M138B_2A5, fig.align='center', fig.dim=c(8.5,11)}
+growth_curves("Bifidobacterium bifidum M138B_2A5",
+              "data/growth/formatted/Bbifidum_M138B_2A5.txt",
+              "results/growth/growth_curves/Bbifidum_M138B_2A5.pdf",
+              40)
+```
+
+## *B. bifidum* M257B_A12
+
+Growth curves of *B. bifidum* M257B_A12 in MRS-AC supplemented with various (n = 42) carbon sources.
+
+```{r growth_M257B_A12, fig.align='center', fig.dim=c(8.5,11)}
+growth_curves("Bifidobacterium bifidum M257B_A12",
+              "data/growth/formatted/Bbifidum_M257B_A12.txt",
+              "results/growth/growth_curves/Bbifidum_M257B_A12.pdf",
+              40)
+```
+
+## *B. breve* Bg131.S11_D6
+
+Growth curves of *B. breve* Bg131.S11_D6 in MRS-AC supplemented with various (n = 44) carbon sources.
+
+```{r growth_Bg131.S11_D6, fig.align='center', fig.dim=c(8.5,11)}
+growth_curves("Bifidobacterium breve Bg131.S11_D6",
+              "data/growth/formatted/Bbreve_Bg131.S11_D6.txt",
+              "results/growth/growth_curves/Bbreve_Bg131.S11_D6.pdf",
+              40)
 ```
 
 ## *B. breve* Bg155.S08_4F7
 
-Growth curves *B. breve* Bg155.S08_4F7 in MRS-AC supplemented with various (n = 42) carbon sources.
+Growth curves of *B. breve* Bg155.S08_4F7 in MRS-AC supplemented with various (n = 47) carbon sources.
 
-```{r growth_4F7_1, fig.align='center', fig.dim=c(8.5,11)}
+```{r growth_Bg155.S08_4F7, fig.align='center', fig.dim=c(8.5,11)}
 growth_curves("Bifidobacterium breve Bg155.S08_4F7",
               "data/growth/formatted/Bbreve_Bg155.S08_4F7.txt",
               "results/growth/growth_curves/Bbreve_Bg155.S08_4F7.pdf",
-              36)
+              40)
 ```
 
 ## *B. breve* Bg41721_1C11
 
-Growth curves *B. breve* Bg41721_1C11 in MRS-AC supplemented with various (n = 42) carbon sources.
+Growth curves of *B. breve* Bg41721_1C11 in MRS-AC supplemented with various (n = 47) carbon sources.
 
-```{r growth_1C11_1, fig.align='center', fig.dim=c(8.5,11)}
+```{r growth_Bg41721_1C11, fig.align='center', fig.dim=c(8.5,11)}
 growth_curves("Bifidobacterium breve Bg41721_1C11",
               "data/growth/formatted/Bbreve_Bg41721_1C11.txt",
               "results/growth/growth_curves/Bbreve_Bg41721_1C11.pdf",
-              36)
+              40)
 ```
 
 ## *B. breve* JG_Bg463
 
-Growth curves *B. breve* JG_Bg463 in MRS-AC supplemented with various (n = 42) carbon sources.
+Growth curves of *B. breve* JG_Bg463 in MRS-AC supplemented with various (n = 47) carbon sources.
 
-```{r growth_br463_1, fig.align='center', fig.dim=c(8.5,11)}
+```{r growth_breve_JG_Bg463, fig.align='center', fig.dim=c(8.5,11)}
 growth_curves("Bifidobacterium breve JG_Bg463",
               "data/growth/formatted/Bbreve_JG_Bg463.txt",
-              "results/growth/growth_curves/Bbreve_JG_Bg463.pdf", 36)
+              "results/growth/growth_curves/Bbreve_JG_Bg463.pdf",
+              40)
 ```
 
-## *B. breve* STL_TW14.1_LFYP81
+## *B. breve* LFYP81
 
-Growth curves *B. breve* STL_TW14.1_LFYP81 in MRS-AC supplemented with various (n = 42) carbon sources.
+Growth curves of *B. breve* LFYP81 in MRS-AC supplemented with various (n = 47) carbon sources.
 
-```{r growth_br_LFYP81_1, fig.align='center', fig.dim=c(8.5,11)}
-growth_curves("Bifidobacterium breve STL_TW14.1_LFYP81",
-              "data/growth/formatted/Bbreve_STL_TW14.1_LFYP81.txt",
-              "results/growth/growth_curves/Bbreve_STL_TW14.1_LFYP81.pdf",
-              36)
+```{r growth_LFYP81, fig.align='center', fig.dim=c(8.5,11)}
+growth_curves("Bifidobacterium breve LFYP81",
+              "data/growth/formatted/Bbreve_LFYP81.txt",
+              "results/growth/growth_curves/Bbreve_LFYP81.pdf",
+              40)
+```
+
+## *B. breve* M257B_A4
+
+Growth curves of *B. breve* M257B_A4 in MRS-AC supplemented with various (n = 45) carbon sources.
+
+```{r growth_M257B_A4, fig.align='center', fig.dim=c(8.5,11)}
+growth_curves("Bifidobacterium breve M257B_A4",
+              "data/growth/formatted/Bbreve_M257B_A4.txt",
+              "results/growth/growth_curves/Bbreve_M257B_A4.pdf",
+              40)
 ```
 
 ## *B*. *catenulatum* subsp. *kashiwanohense* Bg42221_1E1
 
-Growth curves *B*.
+Growth curves of *B*.
 *catenulatum* subsp.
-*kashiwanohense* Bg42221_1E1 in MRS-AC supplemented with various (n = 42) carbon sources.
+*kashiwanohense* Bg42221_1E1 in MRS-AC supplemented with various (n = 47) carbon sources.
 
-```{r growth_kash_1, fig.align='center', fig.dim=c(8.5,11)}
+```{r growth_Bg42221_1E1, fig.align='center', fig.dim=c(8.5,11)}
 growth_curves("Bifidobacterium catenulatum subsp. kashiwanohense Bg42221_1E1",
               "data/growth/formatted/Bc_kashiwanohense_Bg42221_1E1.txt",
               "results/growth/growth_curves/Bc_kashiwanohense_Bg42221_1E1.pdf",
-              36)
+              40)
 ```
 
-## *B*. *dentium* STL_TW14.1_LFYP24
+## *B*. *catenulatum* subsp. *kashiwanohense_A* Bg42221_1D3
 
-Growth curves *B*.
-*dentium* STL_TW14.1_LFYP24 in MRS-AC supplemented with various (n = 42) carbon sources.
+Growth curves of *B*.
+*catenulatum* subsp.
+*kashiwanohense_A* Bg42221_1D3 in MRS-AC supplemented with various (n = 43) carbon sources.
 
-```{r growth_dent_1, fig.align='center', fig.dim=c(8.5,11)}
-growth_curves("Bifidobacterium dentium STL_TW14.1_LFYP24",
-              "data/growth/formatted/Bdentium_STL_TW14.1_LFYP24.txt",
-              "results/growth/growth_curves/Bdentium_STL_TW14.1_LFYP24.pdf", 24)
+```{r growth_Bg42221_1C3, fig.align='center', fig.dim=c(8.5,11)}
+growth_curves("Bifidobacterium catenulatum subsp. kashiwanohense_A Bg42221_1D3",
+              "data/growth/formatted/Bc_kashiwanohense_A Bg42221_1D3.txt",
+              "results/growth/growth_curves/Bc_kashiwanohense_A Bg42221_1D3.pdf",
+              40)
+```
+
+## *B*. *dentium* LFYP24
+
+Growth curves of *B*.
+*dentium* LFYP24 in MRS-AC supplemented with various (n = 47) carbon sources.
+
+```{r growth_LFYP24, fig.align='center', fig.dim=c(8.5,11)}
+growth_curves("Bifidobacterium dentium LFYP24",
+              "data/growth/formatted/Bdentium_LFYP24.txt",
+              "results/growth/growth_curves/Bdentium_LFYP24.pdf",
+              24)
+```
+
+## *B*. *hominis* Bg064.11_2H10
+
+Growth curves of *B*.
+*hominis* Bg064.11_2H10 in MRS-AC supplemented with various (n = 44) carbon sources.
+
+```{r growth_Bg064.11_2H10, fig.align='center', fig.dim=c(8.5,11)}
+growth_curves("Bifidobacterium hominis Bg064.11_2H10",
+              "data/growth/formatted/Bhominis_Bg064.11_2H10.txt",
+              "results/growth/growth_curves/Bhominis_Bg064.11_2H10.pdf",
+              40)
+```
+
+## *B*. *hominis* Bg155.08_4B11
+
+Growth curves of *B*.
+*hominis* Bg155.08_4B11 in MRS-AC supplemented with various (n = 45) carbon sources.
+
+```{r growth_Bg155.08_4B11, fig.align='center', fig.dim=c(8.5,11)}
+growth_curves("Bifidobacterium hominis Bg155.08_4B11",
+              "data/growth/formatted/Bhominis_Bg155.08_4B11.txt",
+              "results/growth/growth_curves/Bhominis_Bg155.08_4B11.pdf",
+              40)
+```
+
+## *B*. *hominis* M264_MC1
+
+Growth curves of *B*.
+*hominis* M264_MC1 in MRS-AC supplemented with various (n = 43) carbon sources.
+
+```{r growth_M264_MC1, fig.align='center', fig.dim=c(8.5,11)}
+growth_curves("Bifidobacterium hominis M264_MC1",
+              "data/growth/formatted/Bhominis_M264_MC1.txt",
+              "results/growth/growth_curves/Bhominis_M264_MC1.pdf",
+              40)
 ```
 
 ## *B. longum* subsp. *infantis* ATCC 15697 = JCM 1222
 
-Growth curves *B. longum* subsp.
-*infantis* ATCC 15697 = JCM 1222 in MRS-AC supplemented with various (n = 42) carbon sources.
+Growth curves of *B. longum* subsp.
+*infantis* ATCC 15697 = JCM 1222 in MRS-AC supplemented with various (n = 47) carbon sources.
 
-```{r growth_ATCC_1, fig.align='center', fig.dim=c(8.5,11)}
+```{r growth_ATCC15697, fig.align='center', fig.dim=c(8.5,11)}
 growth_curves("Bifidobacterium longum subsp. infantis ATCC 15697 = JCM 1222",
               "data/growth/formatted/Bl_infantis_ATCC15697.txt",
               "results/growth/growth_curves/Bl_infantis_ATCC15697.pdf",
-              36)
+              40)
 ```
 
 ## *B. longum* subsp. *infantis* Bg064.S07_13.C6
 
-Growth curves *B. longum* subsp.
-*infantis* Bg064.S07_13.C6 in MRS-AC supplemented with various (n = 42) carbon sources.
+Growth curves of *B. longum* subsp.
+*infantis* Bg064.S07_13.C6 in MRS-AC supplemented with various (n = 47) carbon sources.
 
-```{r growth_PS064_1, fig.align='center', fig.dim=c(8.5,11)}
+```{r growth_Bg064.S07_13.C6, fig.align='center', fig.dim=c(8.5,11)}
 growth_curves("Bifidobacterium longum subsp. infantis Bg064.S07_13.C6",
               "data/growth/formatted/Bl_infantis_Bg064.S07_13.C6.txt",
               "results/growth/growth_curves/Bl_infantis_Bg064.S07_13.C6.pdf",
-              36)
+              40)
 ```
 
 ## *B. longum* subsp. *infantis* Bg40721_2D9
 
-Growth curves *B. longum* subsp.
-*infantis* Bg40721_2D9 in MRS-AC supplemented with various (n = 42) carbon sources.
+Growth curves of *B. longum* subsp.
+*infantis* Bg40721_2D9 in MRS-AC supplemented with various (n = 47) carbon sources.
 
-```{r growth_2D9_1, fig.align='center', fig.dim=c(8.5,11)}
+```{r growth_Bg40721_2D9, fig.align='center', fig.dim=c(8.5,11)}
 growth_curves("Bifidobacterium longum subsp. infantis Bg40721_2D9",
               "data/growth/formatted/Bl_infantis_Bg40721_2D9.txt",
               "results/growth/growth_curves/Bl_infantis_Bg40721_2D9.pdf",
-              36)
+              40)
 ```
 
 ## *B. longum* subsp. *infantis* JG_Bg463
 
-Growth curves *B. longum* subsp.
-*infantis* JG_Bg463 in MRS-AC supplemented with various (n = 42) carbon sources.
+Growth curves of *B. longum* subsp.
+*infantis* JG_Bg463 in MRS-AC supplemented with various (n = 47) carbon sources.
 
-```{r growth_inf463_1, fig.align='center', fig.dim=c(8.5,11)}
+```{r growth_infantis_JG_Bg463, fig.align='center', fig.dim=c(8.5,11)}
 growth_curves("Bifidobacterium longum subsp. infantis JG_Bg463",
               "data/growth/formatted/Bl_infantis_JG_Bg463.txt",
               "results/growth/growth_curves/Bl_infantis_JG_Bg463.pdf",
-              36)
+              40)
 ```
 
 ## *B. longum* subsp. *infantis* Malawi264A_MC2
 
-Growth curves *B. longum* subsp.
-*infantis* Malawi264A_MC2 in MRS-AC supplemented with various (n = 42) carbon sources.
+Growth curves of *B. longum* subsp.
+*infantis* Malawi264A_MC2 in MRS-AC supplemented with various (n = 47) carbon sources.
 
-```{r growth_MC2_1, fig.align='center', fig.dim=c(8.5,11)}
+```{r growth_Malawi264A_MC2, fig.align='center', fig.dim=c(8.5,11)}
 growth_curves("Bifidobacterium longum subsp. infantis Malawi264A_MC2",
               "data/growth/formatted/Bl_infantis_Malawi264A_MC2.txt",
               "results/growth/growth_curves/Bl_infantis_Malawi264A_MC2.pdf",
-              36)
+              40)
 ```
 
 ## *B. longum* subsp. *longum* Bg115.S08_3A11
 
-Growth curves *B. longum* subsp.
-*longum* Bg115.S08_3A11 in MRS-AC supplemented with various (n = 42) carbon sources.
+Growth curves of *B. longum* subsp.
+*longum* Bg115.S08_3A11 in MRS-AC supplemented with various (n = 47) carbon sources.
 
-```{r growth_3A11_1, fig.align='center', fig.dim=c(8.5,11)}
+```{r growth_Bg115.S08_3A11, fig.align='center', fig.dim=c(8.5,11)}
 growth_curves("Bifidobacterium longum subsp. longum Bg115.S08_3A11", 
               "data/growth/formatted/Bl_longum_Bg115.S08_3A11.txt",
               "results/growth/growth_curves/Bl_longum_Bg115.S08_3A11.pdf",
-              36)
+              40)
 ```
 
 ## *B. longum* subsp. *suis* Bg131.S11_17.F6
 
-Growth curves *B. longum* subsp.
-*suis* Bg131.S11_17.F6 in MRS-AC supplemented with various (n = 42) carbon sources.
+Growth curves of *B. longum* subsp.
+*suis* Bg131.S11_17.F6 in MRS-AC supplemented with various (n = 47) carbon sources.
 
-```{r growth_PS131_1, fig.align='center', fig.dim=c(8.5,11)}
+```{r growth_Bg131.S11_17.F6, fig.align='center', fig.dim=c(8.5,11)}
 growth_curves("Bifidobacterium longum subsp. suis Bg131.S11_17.F6",
               "data/growth/formatted/Bl_suis_Bg131.S11_17.F6.txt",
               "results/growth/growth_curves/Bl_suis_Bg131.S11_17.F6.pdf",
-              36)
+              40)
 ```
 
-## *B. pseudocatenulatum* STL_TW14.1_LFYP29
+## *B. longum* subsp. *suis* Bg41121_2E1
 
-Growth curves *B.* p*seudocatenulatum* STL_TW14.1_LFYP29 in MRS-AC supplemented with various (n = 42) carbon sources.
+Growth curves of *B. longum* subsp.
+*suis* Bg41121_2E1 in MRS-AC supplemented with various (n = 44) carbon sources.
 
-```{r growth_pse_1, fig.align='center', fig.dim=c(8.5,11)}
-growth_curves("Bifidobacterium pseudocatenulatum STL_TW14.1_LFYP29",
-              "data/growth/formatted/Bpseudocatenulatum_STL_TW14.1_LFYP29.txt",
-              "results/growth/growth_curves/Bpseudocatenulatum_STL_TW14.1_LFYP29.pdf",
-              36)
+```{r growth_Bg41121_2E1, fig.align='center', fig.dim=c(8.5,11)}
+growth_curves("Bifidobacterium longum subsp. suis Bg41121_2E1",
+              "data/growth/formatted/Bl_suis_Bg41121_2E1.txt",
+              "results/growth/growth_curves/Bl_suis_Bg41121_2E1.pdf",
+              40)
+```
+
+## *B. longum* subsp. *suis* M257B_A6
+
+Growth curves of *B. longum* subsp.
+*suis* M257B_A6 in MRS-AC supplemented with various (n = 45) carbon sources.
+
+```{r growth_M257B_A6, fig.align='center', fig.dim=c(8.5,11)}
+growth_curves("Bifidobacterium longum subsp. suis M257B_A6",
+              "data/growth/formatted/Bl_suis_M257B_A6.txt",
+              "results/growth/growth_curves/Bl_suis_M257B_A6.pdf",
+              40)
+```
+
+## *B. longum* LFYP82
+
+Growth curves of *B. longum* LFYP82 in MRS-AC supplemented with various (n = 45) carbon sources.
+
+```{r growth_LFYP82, fig.align='center', fig.dim=c(8.5,11)}
+growth_curves("Bifidobacterium longum LFYP82",
+              "data/growth/formatted/Blongum_LFYP82.txt",
+              "results/growth/growth_curves/Blongum_LFYP82.pdf",
+              40)
+```
+
+## *B. pseudocatenulatum* LFYP29
+
+Growth curves of *B.* *pseudocatenulatum* LFYP29 in MRS-AC supplemented with various (n = 47) carbon sources.
+
+```{r growth_LFYP29, fig.align='center', fig.dim=c(8.5,11)}
+growth_curves("Bifidobacterium pseudocatenulatum LFYP29",
+              "data/growth/formatted/Bpseudocatenulatum_LFYP29.txt",
+              "results/growth/growth_curves/Bpseudocatenulatum_LFYP29.pdf",
+              40)
+```
+
+## *B. pseudocatenulatum* M26A_2F1
+
+Growth curves of *B.* *pseudocatenulatum* M26A_2F1 in MRS-AC supplemented with various (n = 44) carbon sources.
+
+Unlike all other tested strains, *B.* *pseudocatenulatum* M26A_2F1 exhibited weak growth in MRS-AC without added carbon source (OD600 in range 0.2-0.25).
+To account for that, we increased the growth/no growth OD600 threshold for this strain.
+
+```{r growth_M26A_2F1, fig.align='center', fig.dim=c(8.5,11)}
+# read files
+strain_name <- "Bifidobacterium pseudocatenulatum M26A_2F1"
+growth_data <- "data/growth/formatted/Bpseudocatenulatum_M26A_2F1.txt"
+growth_output_file <- "results/growth/growth_curves/Bpseudocatenulatum_M26A_2F1.pdf"
+trim_at_time <- 40 # measurements until [input] hours
+growth_annotation <- "data/growth/formatted/plate_layout.txt"
+blank_wells <- c("blank_1","blank_2","blank_3") # specify blank wells
+blank_wells_ST <- c("blank_ST1","blank_ST2","blank_ST3") # specify blank wells for MRS-AC-ST
+# read the file with measurements
+d <- read_tsv(growth_data) %>%
+  filter(time <= trim_at_time)
+# calculate mean blank measurements (MRS-AC-Lac without added cells)
+blank_d <- d %>%
+  dplyr::select(all_of(blank_wells)) %>%
+  rowMeans()
+# calculate mean blank measurements for ST blank (MRS-AC-ST without added cells)
+blank_ST <- d %>%
+  dplyr::select(all_of(blank_wells_ST)) %>%
+  rowMeans()
+# subtract blank measurements and round OD600 values to 3 digits
+d_bl <- d %>%
+  mutate(across(-c(time, blank_ST1, blank_ST2, blank_ST3, ST1, ST2, ST3), ~ .x - blank_d)) %>%
+  mutate(across(c(blank_ST1, blank_ST2, blank_ST3, ST1, ST2, ST3), ~ .x - blank_ST)) %>%
+  mutate(across(2:last_col(), ~ round(.x, 3)))
+
+# read the file with plate annotation
+ann <- read_tsv(growth_annotation)
+d_bl_long <- d_bl %>%
+  gather(., well, od, -time)
+# create annotated table
+d_bl_long_ann <- left_join(d_bl_long, ann, by="well") %>%
+  filter(carbon_source != "blank") %>%
+  filter(carbon_source != "blank_ST") %>%
+  mutate(across(carbon_source, factor, levels = c("No substrate",
+                                                  "D-glucose (Glc)",
+                                                  "D-galactose (Gal)",
+                                                  "D-fructose (Fru)",
+                                                  "D-mannose (Man)",
+                                                  "D-xylose (Xyl)",
+                                                  "L-arabinose (Ara)",
+                                                  "D-ribose (Rib)",
+                                                  "N-acetyl-D-glucosamine (GlcNAc)",
+                                                  "N-acetyl-D-galactosamine (GalNAc)",
+                                                  "N-acetyl-D-mannosamine (ManNAc)",
+                                                  "N-acetylneuraminic acid (Neu5Ac)",
+                                                  "D-glucuronate (GlcA)",
+                                                  "D-galacturonate (GalA)",
+                                                  "D-gluconate (Gco)",
+                                                  "Myo-inositol (Ino)",
+                                                  "D-mannitol (Mtl)",
+                                                  "D-sorbitol (Stl)",
+                                                  "Maltose (Mal)",
+                                                  "Maltotriose (MOS)",
+                                                  "Panose (IMO)",
+                                                  "Isomaltotriose (IMO)",
+                                                  "Melezitose (Mlz)",
+                                                  "Cellobiose (BglOS)",
+                                                  "Gentiobiose (BglOS)",
+                                                  "Laminaritriose (BglOS)",
+                                                  "Sophorose (BglOS)",
+                                                  "Melibiose (Mel)",
+                                                  "Raffinose (RFO)",
+                                                  "Lactose (Lac)",
+                                                  "Sucrose (Scr)",
+                                                  "Fructooligosaccharide DP=3 (scFOS)",
+                                                  "Chicory fructooligosaccharides (lcFOS)",
+                                                  "Mannotriose (bMnOS)",
+                                                  "Xylotriose (XOS)",
+                                                  "Arabinotriose (aAOS)",
+                                                  "Lacto-N-tetraose (LNT)",
+                                                  "Lacto-N-neotetraose (LNnT)",
+                                                  "2'-fucosyllactose (2'FL)",
+                                                  "3'-sialyllactose (SHMO)",
+                                                  "6'-sialyllactose (SHMO)",
+                                                  "Potato soluble starch (ST)",
+                                                  "Pullulan (PUL)",
+                                                  "Gum arabic from acacia tree (GA)",
+                                                  "Konjac glucomannan (bMAN)",
+                                                  "Wheat flour arabinoxylan (AX)",
+                                                  "Sugar beet arabinan (AR)",
+                                                  "Tamarind xyloglucan (XGL)")))
+
+# calculate the mean OD600_max value and set thresholds based on this value
+mean_max_OD <- mean(head(sort(d_bl_long_ann$od,decreasing=TRUE), n=30))
+# threshold for no growth (10% of OD600_max)
+growth_limit <- 0.22 * mean_max_OD 
+# threshold for weak growth (25% of OD600_max)
+weak_growth_limit <- 0.55 * mean_max_OD 
+
+# calculate mean OD and standard deviation for each carbon source and time
+growth_summary <- d_bl_long_ann %>%
+  group_by(carbon_source, time) %>%
+  summarise(
+    mean_od = mean(od),
+    sd_od = sd(od),
+    n = n()
+  )
+# calculate lower and upper confidence intervals
+confidence_level <- 0.95  # set the desired confidence level (e.g., 95%)
+z_value <- qnorm((1 + confidence_level) / 2)  # calculate the z-value based on the confidence level
+growth_summary <- growth_summary %>%
+  mutate(
+    lower_ci = mean_od - z_value * (sd_od / sqrt(n)),
+    upper_ci = mean_od + z_value * (sd_od / sqrt(n))
+  )
+
+# plot growth curves
+filtered_summary <- growth_summary[!is.na(growth_summary$mean_od), ]
+curves <- ggplot(filtered_summary, aes(x = time, y = mean_od)) +
+  # add line
+  geom_line() +
+  # add confidence interval
+  geom_ribbon(aes(ymin = lower_ci, ymax = upper_ci), alpha = 0.2) +
+  scale_x_continuous(limits=c(0, trim_at_time),
+                     breaks=c(0, trim_at_time*0.25, trim_at_time*0.5, trim_at_time*0.75, trim_at_time)) +
+  # add threshold for no growth
+  geom_hline(yintercept=growth_limit , linetype="dashed", color = "red", linewidth=0.2) +
+  # add threshold for weak growth
+  geom_hline(yintercept=weak_growth_limit, linetype="dashed", color = "#F48326", linewidth=0.2) +
+  ggtitle(strain_name) +
+  xlab("Time (h)") +
+  ylab("OD600") +
+  facet_wrap(~ carbon_source, scales="fixed", ncol = 6) +
+  theme_bw() + 
+  theme(
+    strip.text = element_text(size = 5) 
+  )
+# save pdf
+ggsave(filename = growth_output_file, plot = curves, width = 8.5, height = 11, units = "in", dpi = 300)
+print(curves)
+```
+
+## *B. scardovii* JCM 12489 = DSM 13734
+
+Growth curves of *B. scardovii* JCM 12489 = DSM 13734 in MRS-C supplemented with various (n = 43) carbon sources.
+
+```{r growth_JCM12489, fig.align='center', fig.dim=c(8.5,11)}
+growth_curves("Bifidobacterium scardovii JCM 12489 = DSM 13734",
+              "data/growth/formatted/Bscardovii_JCM12489.txt",
+              "results/growth/growth_curves/Bscardovii_JCM12489.pdf",
+              40)
 ```
 
 ## Selected growth curves
 
-### Growth in MRS-AC supplemented with 1% scFOS/lcFOS
-
-```{r FOS, fig.align='center', fig.dim=c(14,4)}
-# set input files
-FOS_output_file <- "results/growth/FOS.pdf"
-FOS_data <- "data/growth/formatted_selected/FOS/growth_FOS.txt"
-FOS_annotation <- "data/growth/formatted_selected/FOS/growth_FOS_ann.txt"
-FOS_trim_at_time <- 36 # measurements until [input] hours
-FOS_blank_wells <- c("blank_1","blank_2","blank_3") # specify blank wells
-
-# read a file with measurements
-FOS_d <- read_tsv(FOS_data) %>%
-  filter(time <= FOS_trim_at_time)
-# calculate mean blank measurements (MRS-AC-Lac without added cells)
-FOS_blank <- FOS_d %>%
-  select(all_of(FOS_blank_wells)) %>%
-  rowMeans()
-# subtract blank measurements and round OD600 values to 3 digits
-FOS_d_bl <- FOS_d %>%
-  mutate(across(2:last_col(), ~ .x - FOS_blank)) %>%
-  mutate(across(2:last_col(), ~ round(.x, 3)))
-# read files with plate annotations
-FOS_ann <- read_tsv(FOS_annotation)
-FOS_d_bl_long <- FOS_d_bl %>%
-  gather(., well, od, -time)
-# create annotated tables
-FOS_d_bl_long_ann <- left_join(FOS_d_bl_long, FOS_ann, by="well") %>%
-  filter(carbon_source != "blank")
-# plot growth curves
-ggplot(FOS_d_bl_long_ann, aes(time, od, color = strain, fill = strain)) +
-  #geom_point() +
-  # add line connecting means from three replicates
-  stat_summary(
-    fun = mean,
-    geom='line',
-    size=0.5) +
-  # add errorbars (standard deviation)
-  stat_summary(
-    fun.data=mean_sd,
-    geom='errorbar',
-    size=0.2,
-    width=0.2,
-    alpha=1) +
-  scale_color_manual(name = "Taxonomy",
-                     breaks=c("B. adolescentis STL_TW14.1_LFYP80",
-                              "B. breve Bg155.S08_4F7",
-                              "B. longum subsp. infantis Bg064.S07_13.C6",
-                              "B. longum subsp. infantis Bg40721_2D9",
-                              "B. longum subsp. infantis Malawi264A_MC2",
-                              "B. bifidum Bg41221_3D10"),
-                     values=c("tomato2", "#00a2ff", "#51796f", "black", "grey", "#c5c2f0")) +
-  scale_x_continuous(limits=c(0, FOS_trim_at_time),
-                     breaks=c(0, FOS_trim_at_time*0.25, FOS_trim_at_time*0.5,
-                              FOS_trim_at_time*0.75, FOS_trim_at_time)) +
-  xlab("Time (h)") +
-  ylab("OD600") +
-  theme_bw() + 
-  theme(axis.text = element_text(color = "black")) +
-  facet_wrap(~carbon_source)
-# save the plot as pdf
-ggsave(filename = FOS_output_file, width = 14, height = 4, units = "in", dpi = 300)
-```
-
 ### Growth in MRS-AC supplemented with 0.5% tamarind xyloglucan
 
 ```{r XGL, fig.align='center', fig.dim=c(7,4)}
-# set input files
 XGL_output_file <- "results/growth/XGL.pdf"
 XGL_data <- "data/growth/formatted_selected/XGL/growth_xyloglucan.txt"
 XGL_annotation <- "data/growth/formatted_selected/XGL/growth_xyloglucan_ann.txt"
-XGL_trim_at_time <- 36 # measurements until [input] hours
+XGL_trim_at_time <- 40 # measurements until [input] hours
 XGL_blank_wells <- c("blank_1","blank_2","blank_3") # specify blank wells
 
 # read a file with measurements
@@ -2398,12 +3047,12 @@ ggplot(XGL_d_bl_long_ann, aes(time, od, color = strain, fill = strain)) +
     width=0.2,
     alpha=1) +
   scale_color_manual(name = "Taxonomy",
-                     breaks=c("B. adolescentis STL_TW14.1_LFYP80",
-                              "B. catenulatum subsp. kashiwanohense Bg42221_1E1", 
-                              "B. dentium STL_TW14.1_LFYP24",
-                              "B. longum subsp. longum Bg115.S08_3A11",
-                              "B. pseudocatenulatum STL_TW14.1_LFYP29"),
-                     values=c("tomato2", "black", "#8e063c", "#51796f", "#e68607")) +
+                     breaks=c("B. adolescentis LFYP80",
+                              "B. catenulatum ssp. kashiwanohense Bg42221_1E1",
+                              "B. catenulatum subsp. kashiwanohense_A Bg42221_1D3", 
+                              "B. longum ssp. longum Bg115.S08_3A11",
+                              "B. pseudocatenulatum LFYP29"),
+                     values=c("black", "tomato2","#00a2ff", "#51796f", "#e68607")) +
   scale_x_continuous(limits=c(0, XGL_trim_at_time),
                      breaks=c(0, XGL_trim_at_time*0.25, XGL_trim_at_time*0.5,
                               XGL_trim_at_time*0.75, XGL_trim_at_time)) +
@@ -2415,14 +3064,14 @@ ggplot(XGL_d_bl_long_ann, aes(time, od, color = strain, fill = strain)) +
 ggsave(filename = XGL_output_file, width = 7, height = 4, units = "in", dpi = 300)
 ```
 
-### Growth in MRS-AC supplemented with 1% N-acetylneuraminic acid.
+### Growth in MRS-AC supplemented with 1% N-acetylneuraminic acid
 
 ```{r Neu5Ac, fig.align='center', fig.dim=c(8,4)}
 # set input files
 NANA_output_file <- "results/growth/Neu5Ac.pdf"
 NANA_data <- "data/growth/formatted_selected/Neu5Ac/growth_sialic_acid.txt"
 NANA_annotation <- "data/growth/formatted_selected/Neu5Ac/growth_sialic_acid_ann.txt"
-NANA_trim_at_time <- 36 # measurements until [input] hours
+NANA_trim_at_time <- 40 # measurements until [input] hours
 NANA_blank_wells <- c("blank_1","blank_2","blank_3") # specify blank wells
 
 # read a file with measurements
@@ -2458,11 +3107,11 @@ ggplot(NANA_d_bl_long_ann, aes(time, od, color = strain, fill = strain)) +
     width=0.2,
     alpha=1) +
   scale_color_manual(name = "Taxonomy",
-                     breaks=c("B. breve Bg41721_1C11",
-                              "B. breve Bg155.S08_4F7", 
-                              "B. breve JG_Bg463",
-                              "B. breve STL_TW14.1_LFYP24"),
-                     values=c("#51796f", "#ffa600", "#00a2ff", "#00b400")) +
+                     breaks=c("B. breve Bg41721_1C11", "B. breve Bg155.S08_4F7", 
+                             "B. breve JG_Bg463", "B. breve LFYP24",
+                             "B. breve Bg131.S11_D6"),
+                     values=c("#51796f", "#ffa600", "#00a2ff", "#00b400",
+                              "black")) +
   scale_x_continuous(limits=c(0, NANA_trim_at_time),
                    breaks=c(0, NANA_trim_at_time*0.25, NANA_trim_at_time*0.5,
                             NANA_trim_at_time*0.75, NANA_trim_at_time)) +
@@ -2474,13 +3123,13 @@ ggplot(NANA_d_bl_long_ann, aes(time, od, color = strain, fill = strain)) +
 ggsave(filename = NANA_output_file, width = 8, height = 4, units = "in", dpi = 300)
 ```
 
-### Growth in MRS-AC supplemented with 0.5% mannotriose (bMnOS) or 0.5% konjac glucomannan (bMAN).
+### Growth in MRS-AC supplemented with 0.5% mannotriose or 0.5% konjac glucomannan
 
 ```{r bMAN, fig.align='center', fig.dim=c(10,4)}
 bMAN_output_file <- "results/growth/bMAN.pdf"
 bMAN_data <- "data/growth/formatted_selected/bMAN/growth_bMAN.txt"
 bMAN_annotation <- "data/growth/formatted_selected/bMAN/growth_bMAN_ann.txt"
-bMAN_trim_at_time <- 36 # measurements until [input] hours
+bMAN_trim_at_time <- 40 # measurements until [input] hours
 bMAN_blank_wells <- c("blank_1","blank_2","blank_3") # specify blank wells
 
 # read a file with measurements
@@ -2500,7 +3149,9 @@ bMAN_d_bl_long <- bMAN_d_bl %>%
   gather(., well, od, -time)
 # create annotated tables
 bMAN_d_bl_long_ann <- left_join(bMAN_d_bl_long, bMAN_ann, by="well") %>%
-  filter(carbon_source != "blank")
+  filter(carbon_source != "blank") %>%
+  mutate(carbon_source = factor(carbon_source, levels = c("Mannotriose (bMnOS)",
+                                                          "Konjac glucomannan (bMAN)"))) 
 # plot growth curves
 ggplot(bMAN_d_bl_long_ann, aes(time, od, color = strain, fill = strain)) +
   # add line connecting means from three replicates
@@ -2516,11 +3167,10 @@ ggplot(bMAN_d_bl_long_ann, aes(time, od, color = strain, fill = strain)) +
     width=0.2,
     alpha=1) +
   scale_color_manual(name = "Taxonomy",
-                     breaks=c("B. breve Bg41721_1C11",
-                              "B. breve Bg155.S08_4F7", 
-                              "B. dentium STL_TW14.1_LFYP24",
-                              "B. breve STL_TW14.1_LFYP24"),
-                     values=c("#51796f", "#ffa600", "#8e063c", "#00b400")) +
+                     breaks=c("B. breve Bg41721_1C11", "B. breve Bg155.S08_4F7",
+                              "B. breve LFYP81", "B. dentium LFYP24",
+                              "B. scardovii JCM 12489"),
+                     values=c("#51796f", "#ffa600", "#00b400", "#8e063c", "grey")) +
   scale_x_continuous(limits=c(0, bMAN_trim_at_time),
                      breaks=c(0, bMAN_trim_at_time*0.25, bMAN_trim_at_time*0.5,
                               bMAN_trim_at_time*0.75, bMAN_trim_at_time)) +
@@ -2533,13 +3183,13 @@ ggplot(bMAN_d_bl_long_ann, aes(time, od, color = strain, fill = strain)) +
 ggsave(filename = bMAN_output_file, width = 10, height = 4, units = "in", dpi = 300)
 ```
 
-### Growth in MRS-AC supplemented with 1% D-glucuronic acid.
+### Growth in MRS-AC supplemented with 1% D-glucuronic acid sodium salt
 
 ```{r GlcA, fig.align='center', fig.dim=c(7,4)}
 GlcA_output_file <- "results/growth/GlcA.pdf"
 GlcA_data <- "data/growth/formatted_selected/GlcA/growth_GlcA.txt"
 GlcA_annotation <- "data/growth/formatted_selected/GlcA/growth_GlcA_ann.txt"
-GlcA_trim_at_time <- 36 # measurements until [input] hours
+GlcA_trim_at_time <- 40 # measurements until [input] hours
 GlcA_blank_wells <- c("blank_1","blank_2","blank_3") # specify blank wells
 
 # read a file with measurements
@@ -2576,9 +3226,9 @@ ggplot(GlcA_d_bl_long_ann, aes(time, od, color = strain, fill = strain)) +
     alpha=1) +
   scale_color_manual(name = "Taxonomy",
                      breaks=c("B. breve Bg41721_1C11",
-                              "B. longum subsp. infantis ATCC15697", 
-                              "B. longum subsp. infantis JG_Bg463",
-                              "B. longum subsp. infantis Bg40721_2D9"),
+                              "B. longum ssp. infantis ATCC15697", 
+                              "B. longum ssp. infantis JG_Bg463",
+                              "B. longum ssp. infantis Bg40721_2D9"),
                      values=c("#51796f", "#2032ab", "#8e063c", "black")) +
   scale_x_continuous(limits=c(0, GlcA_trim_at_time),
                      breaks=c(0, GlcA_trim_at_time*0.25, GlcA_trim_at_time*0.5,
@@ -2591,7 +3241,7 @@ ggplot(GlcA_d_bl_long_ann, aes(time, od, color = strain, fill = strain)) +
 ggsave(filename = GlcA_output_file, width = 7, height = 4, units = "in", dpi = 300)
 ```
 
-### Growth in MRS-AC supplemented with 1% HMOs from pooled human milk (pHMOs); first experiment (24 h)
+### Growth in MRS-AC supplemented with 1% HMOs from pooled human milk (pHMOs)
 
 ```{r pHMO_24h, fig.align='center', fig.dim=c(7,4)}
 # load libraries
@@ -2621,8 +3271,7 @@ d_bl_long_HMO <- d_bl_HMO %>%
   gather(., well, od, -time)
 # create annotated tables
 d_bl_long_HMO_ann <- left_join(d_bl_long_HMO, ann, by="well") %>%
-  filter(carbon_source != "blank") %>%
-  filter(carbon_source != "Lac")
+  filter(carbon_source != "blank")
 
 # plot growth curves
 ggplot(d_bl_long_HMO_ann, aes(time, od, color = strain, fill = strain)) +
@@ -2640,16 +3289,22 @@ ggplot(d_bl_long_HMO_ann, aes(time, od, color = strain, fill = strain)) +
     width=0.2,
     alpha=1) +
   scale_color_manual(name = "Taxonomy",
-                     breaks=c("B. catenulatum subsp. kashiwanohense Bg42221_1E1",
-                              "B. longum subsp. infantis ATCC 15697",
-                              "B. longum subsp. infantis Bg40721_2D9", 
-                              "B. longum subsp. longum Bg115.S08_3A11",
-                              "B. longum subsp. suis Bg131.S11_17.F6",
-                              "B. pseudocatenulatum STL_TW14.1_LFYP29"),
-                     values=c("black", "#ffa600","#0C7BDC",
-                              "#71284a", "#00b400", "grey")) +
+                     breaks=c("B. breve Bg155.S08_4F7",
+                              "B. catenulatum ssp. kashiwanohense Bg42221_1E1",
+                              "B. catenulatum ssp. kashiwanohense_A Bg42221_1D3",
+                              "B. longum ssp. infantis ATCC 15697",
+                              "B. longum ssp. infantis Bg40721_2D9", 
+                              "B. longum ssp. longum Bg115.S08_3A11",
+                              "B. longum ssp. suis Bg131.S11_17.F6",
+                              "B. longum ssp. suis Bg41121_2E1",
+                              "B. longum (ssp. nov.) LFYP82",
+                              "B. pseudocatenulatum LFYP29"),
+                     values=c("#00a2ff", "#52ab35", "#ffa600",
+                              "#52ab35", "#52ab35", "#00a2ff",
+                              "#52ab35", "#ffa600", "black",
+                              "black")) +
 scale_x_continuous(limits=c(0, trim_at_time),
-                   breaks=c(0, trim_at_time*0.25, trim_at_time*0.5,
+                   breaks=c(0, trim_at_time*0.25, trim_at_time*0.5, 
                             trim_at_time*0.75, trim_at_time)) +
   xlab("Time (h)") +
   ylab("OD600") +
@@ -2661,9 +3316,9 @@ ggsave(filename = pHMO_output_file, width = 7, height = 4, units = "in", dpi = 3
 
 ## Summary of growth data
 
-The code chunks below describe the comparison of predicted binary carbohydrate utilization phenotypes with *in vitro* growth data obtained in this work or found in literature ([Bottacini et al., 2014](https://bmcgenomics.biomedcentral.com/articles/10.1186/1471-2164-15-170) and [Arboleya et al., 2018](https://bmcgenomics.biomedcentral.com/articles/10.1186/s12864-017-4388-9)).
+The code chunks below describe the comparison of predicted binary carbohydrate utilization (CU) phenotypes with *in vitro* growth data obtained in this work or described previously in the literature ([Bottacini et al., 2014](https://bmcgenomics.biomedcentral.com/articles/10.1186/1471-2164-15-170), [Arboleya et al., 2018](https://bmcgenomics.biomedcentral.com/articles/10.1186/s12864-017-4388-9), and [Orihara et al. 2023](https://doi.org/10.1080/19490976.2023.2207455)).
 
-Here we compare predicted binary phenotypes (**1** or **0**) with growth phenotypes (**+/w** and **-**) and calculate the number of true positives (TP), true negatives (TN), false positives (FP), and false negatives (FN).
+Here we compare predicted binary CU phenotypes (**1** or **0**) with growth phenotypes (**+/w** and **-**) and calculate the number of true positives (TP), true negatives (TN), false positives (FP), and false negatives (FN).
 We then calculate various metrics (precision, recall, specificity, accuracy, F-score, and Matthew's correlation coefficient) based on TP, TN, FP, and FN counts.
 
 ```{r binary_vs_growth}
@@ -2678,46 +3333,79 @@ compute_metrics <- function(df) {
                          (TruePositive + TrueNegative + FalsePositive + FalseNegative), 2),
       F_score = round(2 * (Precision * Recall) / (Precision + Recall), 2),
       MCC = round((TruePositive * TrueNegative - FalsePositive * FalseNegative) / 
-        sqrt((TruePositive + FalsePositive) * 
-               (TruePositive + FalseNegative) * (TrueNegative + FalsePositive) *
-               (TrueNegative + FalseNegative)), 2)
+        sqrt((TruePositive + FalsePositive) * (TruePositive + FalseNegative) * 
+               (TrueNegative + FalsePositive) * (TrueNegative + FalseNegative)), 2)
     )
   
   return(df)
 }
 
 # read files
-# BPM and the summary of growth data for 16 strains from this work
-bpm_ar <- read_tsv("data/growth/summary/bif_16_strains_BPM.txt")
-growth_ar <- read_tsv("data/growth/summary/bif_16_strains_growth_data.txt")
+# BPM and the summary of growth data for 30 strains from this work
+# all strains
+bpm_arz <- read_tsv("data/growth/summary/bif_30_strains_BPM.txt") %>%
+  select(-country,-dataset)
+growth_arz <- read_tsv("data/growth/summary/bif_30_strains_growth_data.txt") %>%
+  select(-country,-dataset)
+# only reference strains
+bpm_arz_ref <- read_tsv("data/growth/summary/bif_30_strains_BPM.txt") %>%
+  filter(dataset == "ref") %>%
+  select(-country,-dataset)
+growth_arz_ref <- read_tsv("data/growth/summary/bif_30_strains_growth_data.txt") %>%
+  filter(dataset == "ref") %>%
+  select(-country,-dataset)
+# only new strains
+bpm_arz_ext <- read_tsv("data/growth/summary/bif_30_strains_BPM.txt") %>%
+  filter(dataset == "ext") %>%
+  select(-country,-dataset)
+growth_arz_ext <- read_tsv("data/growth/summary/bif_30_strains_growth_data.txt") %>%
+  filter(dataset == "ext") %>%
+  select(-country,-dataset)
+
+
 # BPM and the summary of growth data for 6 strains from Bottacini et al., 2014
 bpm_bot <- read_tsv("data/growth/summary/Bottacini_2014_BPM.txt")
 growth_bot <- read_tsv("data/growth/summary/Bottacini_2014_growth_data.txt")
+
 # BPM and the summary of growth data for 19 strains from Arboleya et al., 2018
 bpm_arb <- read_tsv("data/growth/summary/Arboleya_2018_BPM.txt")
 growth_arb <- read_tsv("data/growth/summary/Arboleya_2018_growth_data.txt")
+
+# BPM and the summary of growth data for 8 strains from Orihara et al. 2023
+bpm_ori <- read_tsv("data/growth/summary/Orihara_2023_BPM.txt")
+growth_ori <- read_tsv("data/growth/summary/Orihara_2023_growth_data.txt")
+
 # phenotype metadata
 phenotype_metadata_gr <- read_tsv("data/tables/phenotype_metadata_carbs.txt") %>%
   dplyr::select(phenotype, type_group)
 
+
 # calculate the number TP, TN, FP, and FN counts
 # growth data from this work
-results_ar <- calculate_metrics_within_groups(bpm_ar, growth_ar, phenotype_metadata_gr)
-results_ar_df <- bind_rows(results_ar, .id = "Group")
+results_arz <- calculate_metrics_within_groups(bpm_arz, growth_arz, phenotype_metadata_gr)
+results_arz_df <- bind_rows(results_arz, .id = "Group")
+results_arz_ref <- calculate_metrics_within_groups(bpm_arz_ref, growth_arz_ref, phenotype_metadata_gr)
+results_arz_ref_df <- bind_rows(results_arz_ref, .id = "Group")
+results_arz_ext <- calculate_metrics_within_groups(bpm_arz_ext, growth_arz_ext, phenotype_metadata_gr)
+results_arz_ext_df <- bind_rows(results_arz_ext, .id = "Group")
 # growth data from Bottacini et al., 2014
 results_bot <- calculate_metrics_within_groups(bpm_bot, growth_bot, phenotype_metadata_gr)
 results_bot_df <- bind_rows(results_bot, .id = "Group")
 # growth data from Arboleya et al., 2018
 results_arb <- calculate_metrics_within_groups(bpm_arb, growth_arb, phenotype_metadata_gr)
 results_arb_df <- bind_rows(results_arb, .id = "Group")
+# growth data from Orihara et al., 2023
+results_ori <- calculate_metrics_within_groups(bpm_ori, growth_ori, phenotype_metadata_gr)
+results_ori_df <- bind_rows(results_ori, .id = "Group")
 # combine TP, TN, FP, and FN count data: Bottacini et al., 2014 + Arboleya et al., 2018
+# + Orihara et al., 2023
 desired_order <- c(
   "monosaccharides_and_derivatives",
   "di_and_oligosaccharides",
   "polysaccharides",
   "AllGroups"
 )
-results_papers_df <- bind_rows(results_bot_df, results_arb_df) %>%
+results_papers_df <- bind_rows(results_bot_df, results_arb_df, results_ori_df) %>%
   group_by(Group) %>%
   summarise(
     Tested = sum(Tested),
@@ -2729,7 +3417,7 @@ results_papers_df <- bind_rows(results_bot_df, results_arb_df) %>%
   arrange(match(Group, desired_order))
 ```
 
-Summary for data from [Bottacini et al., 2014](https://bmcgenomics.biomedcentral.com/articles/10.1186/1471-2164-15-170) and [Arboleya et al., 2018](https://bmcgenomics.biomedcentral.com/articles/10.1186/s12864-017-4388-9):
+Summary for data from [Bottacini et al., 2014](https://bmcgenomics.biomedcentral.com/articles/10.1186/1471-2164-15-170), [Arboleya et al., 2018](https://bmcgenomics.biomedcentral.com/articles/10.1186/s12864-017-4388-9), and [Orihara et al. 2023](https://doi.org/10.1080/19490976.2023.2207455):
 
 ```{r binary_vs_growth1}
 # calculate the metrics for TP, TN, FP, and FN counts
@@ -2742,62 +3430,141 @@ gt(results_papers_df_m  ) %>%
   )
 ```
 
-Summary for data obtained in this work:
+Summary for data obtained in this work for 20 reference strains:
 
 ```{r binary_vs_growth2}
 # calculate the metrics for TP, TN, FP, and FN counts
-results_ar_df_m <- compute_metrics(results_ar_df)
+results_arz_ref_df_m <- compute_metrics(results_arz_ref_df)
 # use the gt package to produce the table
-gt(results_ar_df_m ) %>% 
+gt(results_arz_ref_df_m) %>% 
   cols_align(
     align = "left",
     columns = everything()
   )
 ```
 
-Plot the heatmap with results:
+Summary for data obtained in this work for 10 additional strains:
 
-```{r binary_vs_growth3, fig.align='center', fig.dim=c(15,8)}
-# Assuming bpm_ar, growth_ar, phenotype_metadata_gr are already defined
-comparison_table <- bpm_ar %>%
-  mutate(across(-genome_name, ~case_when(
-    . == 1 & growth_ar[[cur_column()]] %in% c("+", "w") ~ "TP",
-    . == 0 & growth_ar[[cur_column()]] %in% c("-") ~ "TN",
-    . == 1 & growth_ar[[cur_column()]] %in% c("-") ~ "FP",
-    . == 0 & growth_ar[[cur_column()]] %in% c("+", "w") ~ "FN",
-    TRUE ~ NA_character_ # for any case that does not match the above
+```{r binary_vs_growth3}
+# calculate the metrics for TP, TN, FP, and FN counts
+results_arz_ext_df_m <- compute_metrics(results_arz_ext_df)
+# use the gt package to produce the table
+gt(results_arz_ext_df_m) %>% 
+  cols_align(
+    align = "left",
+    columns = everything()
+  )
+```
+
+Summary for data obtained in this work for all 30 strains:
+
+```{r binary_vs_growth4}
+# calculate the metrics for TP, TN, FP, and FN counts
+results_arz_df_m <- compute_metrics(results_arz_df)
+# use the gt package to produce the table
+gt(results_arz_df_m) %>% 
+  cols_align(
+    align = "left",
+    columns = everything()
+  )
+```
+
+Plot the heatmap with growth results:
+
+```{r binary_vs_growth5, fig.align='center', fig.dim=c(15,8)}
+# read full growth data
+growth_data <- read_tsv("data/growth/summary/Bif_30_strains_growth_data_full.txt")
+# extract the binary matrix
+growth_mat <- as.matrix((growth_data[, 2:44]))
+# add rownames to the matrix
+growth_mat_ID <- growth_data$genome_ID
+rownames(growth_mat) <- growth_mat_ID
+
+# create annotation vectors
+genome_group <- growth_data$dataset
+genome_country <- growth_data$country
+
+# create a coloring function
+col_fun <- structure(c("#949599", "white", "#d7f2a2", "#5e9155"), names = c("NT","-", "w", "+"))
+# create two row annotations specifying taxonomy
+ha_row <- HeatmapAnnotation(
+  which = c("row"),
+  country = genome_country,
+  col = list(country = c("US" = "#bdbad9",
+                           "Bangladesh" = "#51796f",
+                           "Malawi" = "#ffa600",
+                           "Europe" = "black")),
+             show_annotation_name = FALSE,
+             simple_anno_size = unit(3, "mm"))
+
+# plot the heatmap
+pdf("results/growth/growth_summary.pdf", width=20, height=20)
+ht_growth_data <- ComplexHeatmap::Heatmap(growth_mat,
+                              name = "Summary of growth data",
+                              right_annotation = ha_row,
+                              col = col_fun,
+                              cluster_rows = F,
+                              cluster_columns = F,
+                              rect_gp = gpar(col = "grey", lwd = 0.05),
+                              show_row_names = TRUE,
+                              row_names_gp = gpar(fontsize = 3),
+                              column_names_gp = gpar(fontsize = 5),
+                              column_names_rot = 60,
+                              column_names_side = "top",
+                              width = unit(350, "mm"), 
+                              height = unit(200, "mm"))
+draw(ht_growth_data)
+# save the heatmap to a file
+dev.off()
+# draw the heatmap again to show it in the compiled markdown file
+draw(ht_growth_data)
+```
+
+Plot the heatmap with comparison results:
+
+```{r binary_vs_growth6, fig.align='center', fig.dim=c(15,8)}
+# assuming bpm_arz, growth_arz, phenotype_metadata_gr are already defined
+# modify comparison table creation to handle NT values
+comparison_table <- bpm_arz %>%
+  mutate(across(-genome_ID, ~case_when(
+    growth_arz[[cur_column()]] == "NT" ~ NA_character_,  # Handle NT first
+    . == 1 & growth_arz[[cur_column()]] %in% c("+", "w") ~ "TP",
+    . == 0 & growth_arz[[cur_column()]] %in% c("-") ~ "TN",
+    . == 1 & growth_arz[[cur_column()]] %in% c("-") ~ "FP",
+    . == 0 & growth_arz[[cur_column()]] %in% c("+", "w") ~ "FN",
+    TRUE ~ NA_character_  # Ensure all other cases are NA
   )))
 
-# Extract the binary matrix
+# extract the binary matrix
 comparison_table_mat <- as.matrix(comparison_table[, 2:ncol(comparison_table)])
-# Add rownames to the matrix
-rownames(comparison_table_mat) <- comparison_table$genome_name
 
-# Extract vectors containing data about glycan type and origin
-# Get the column names of the matrix, excluding the first one
+# add rownames to the matrix
+rownames(comparison_table_mat) <- comparison_table$genome_ID
+
+# extract vectors containing data about glycan type and origin
 matrix_column_names <- colnames(comparison_table_mat)
-
-# Find the matching indices of these names in the phenotype column of phenotype_metadata_67
 matching_indices <- match(matrix_column_names, phenotype_metadata_gr$phenotype)
-
-# Use the indices to get the corresponding type values
 glycan_type_vector <- phenotype_metadata_gr$type_group[matching_indices]
 
-# Create a coloring function
-comp_col_fun <- structure(c("#C5DEC6", "#C5DEC6", "#fffdbc", "#fffdbc"),
-                          names = c("TP", "TN", "FP", "FN"))
+# update coloring function to include white for NA (NT cases)
+comp_col_fun <- structure(
+  c("#C5DEC6", "#C5DEC6", "#fffdbc", "#fffdbc", "#FFFFFF"), 
+  names = c("TP", "TN", "FP", "FN", NA_character_)
+)
 
-# Create a column annotation specifying glycan type
+# create a column annotation specifying glycan type
 comp_ha_ann <- HeatmapAnnotation(
   type = glycan_type_vector,
-  col = list(type = c("monosaccharides_and_derivatives" = "#FFFFFF",
-                      "di_and_oligosaccharides" = "#E6E7E8",
+  col = list(type = c("monosaccharides_and_derivatives" = "#FFFFFF", 
+                      "di_and_oligosaccharides" = "#E6E7E8", 
                       "polysaccharides" = "#BCBEC0")),
   show_annotation_name = FALSE,
-  simple_anno_size = unit(3, "mm"))
+  simple_anno_size = unit(3, "mm")
+)
 
-# Plot the heatmap
+# plot the heatmap
 pdf("results/growth/predictions_vs_growth.pdf", width=15, height=8)
+
 ht_growth <- ComplexHeatmap::Heatmap(comparison_table_mat,
                               name = "Legend",
                               heatmap_legend_param = list(title_position = "topcenter"),
@@ -2810,120 +3577,172 @@ ht_growth <- ComplexHeatmap::Heatmap(comparison_table_mat,
                               row_names_gp = gpar(fontsize = 8),
                               column_names_gp = gpar(fontsize = 8),
                               column_names_rot = 45,
-                              width = unit(250, "mm"), 
+                              width = unit(175, "mm"), 
                               height = unit(100, "mm"),
                               cell_fun = function(j, i, x, y, width, height, fill) {
-                                if (comparison_table_mat[i, j] == "FP") {
-                                  grid.text(comparison_table_mat[i, j], x, y,
-                                            gp = gpar(fontsize = 8, col = "#2c64a3"))
-                                } else if (comparison_table_mat[i, j] == "FN") {
-                                  grid.text(comparison_table_mat[i, j], x, y,
-                                            gp = gpar(fontsize = 8, col = "#be5d20"))
+                                cell_value <- comparison_table_mat[i, j]
+                                if (is.na(cell_value)) {
+                                  return()  # Do nothing for NT cases (NA)
+                                } else if (cell_value == "FP") {
+                                  grid.text(cell_value, x, y, gp = gpar(fontsize = 8, col = "#2c64a3"))
+                                } else if (cell_value == "FN") {
+                                  grid.text(cell_value, x, y, gp = gpar(fontsize = 8, col = "#be5d20"))
                                 } else {
-                                  grid.text(comparison_table_mat[i, j], x, y,
-                                            gp = gpar(fontsize = 8))
+                                  grid.text(cell_value, x, y, gp = gpar(fontsize = 8))
                                 }
                               })  
+
 draw(ht_growth, heatmap_legend_side = "top", annotation_legend_side = "top")
-# Save the heatmap to a file
-invisible(dev.off())
-# Draw the heatmap again to show it in the compiled markdown file
+dev.off()
 draw(ht_growth)
 ```
 
 ------------------------------------------------------------------------
 
-# Analysis of HMO consumption data
+# Analysis of human milk oligosaccharide (HMO) consumption data
 
 ## Introduction
 
 This block describes the analysis of tables with information about the concentration of individual HMOs (nmol/mL) in culture supernatants of select *Bifidobacterium* strains grown in MRS-AC-pHMO for (a) 8 hours or (b) 24 hours.
-The supernatants of two different timepoints were collected in two separate experiments
+The supernatants of two different timepoints were collected in four separate experiments
 
 ## Load data
 
-```{r pHMO_cons_load_data}
+```{r HMO_load_data}
 # read data
 pHMO_data_8h <- "data/hmo_consumption/HMO_consumption_8h.txt"
 pHMO_data_24h <- "data/hmo_consumption/HMO_consumption_24h.txt"
 ```
 
-## First experiment (24 h)
+### HMO consumption after 24h
 
-```{r pHMO_cons24h, fig.align='center', fig.dim=c(14,4)}
+```{r pHMO_cons24h_1, fig.align='center', fig.dim=c(7,4)}
 # read files with measurements
 HMO_24h <- read_tsv(pHMO_data_24h) %>%
-  mutate(across(3:last_col(), ~ round(.x, 1))) %>%
-  rowwise() %>%
-  mutate(Total = sum(c_across(3:last_col())))
+  mutate(across(3:last_col(), ~ round(.x, 1)))
 # calculate average values
 HMO_24h_avg <- HMO_24h %>%
   group_by(strain) %>%
   summarize(across(where(is.numeric), mean, na.rm = TRUE)) %>%
   mutate(across(2:last_col(), ~ round(.x, 1)))
-# calculate percent of utilized HMOs
+# calculate the percent of utilized HMOs
+group1_strains <- c("B. catenulatum ssp. kashiwanohense Bg42221_1E1",
+                    "B. longum ssp. infantis ATCC 15697",
+                    "B. longum ssp. infantis Bg40721_2D9",
+                    "B. longum ssp. longum Bg115.S08_3A11",
+                    "B. pseudocatenulatum LFYP29")
+group2_strains <- c("B. breve Bg155.S08_4F7",
+                    "B. catenulatum ssp. kashiwanohense_A Bg42221_1D3",
+                    "B. longum (ssp. nov.) LFYP82",
+                    "B. longum ssp. suis Bg131.S11_17.F6",
+                    "B. longum ssp. suis Bg41121_2E1")
 HMO_24h_ut <- HMO_24h_avg %>%
-  mutate(across(-strain, ~ . / .[strain == "medium"])) %>%
+  mutate(across(-strain, ~ case_when(
+    strain %in% group1_strains ~ 1 - (. / HMO_24h_avg %>% filter(strain == "medium_batch1")
+                                      %>% pull(cur_column())),  
+    strain %in% group2_strains ~ 1 - (. / HMO_24h_avg %>% filter(strain == "medium_batch2")
+                                      %>% pull(cur_column())),  
+    TRUE ~ .  # leave others unchanged
+  ))) %>%
   mutate(across(2:last_col(), ~ round(.x, 3))) %>%
-  filter(strain != "medium")
+  filter(!strain %in% c("medium_batch1", "medium_batch2"))
+  #select(-c(total, total_sial, total_fuc))
+
 # extract matrices
 hmo_mat_24h <- as.matrix(HMO_24h_ut[,2:ncol(HMO_24h_ut)])
 rownames(hmo_mat_24h) <- pull(HMO_24h_ut, strain)
+desired_order <- c("LNT", "LNnT", "LNH", "2'FL", "3FL", "LDFT",
+                   "LNFP I", "LNFP II", "LNFP III", "DFLNT", "FLNH",
+                   "DFLNH", "3'SL", "6'SL", "LSTb", "LSTc", "DSLNT",
+                   "DSLNH", "FDSLNH", "total", "total_fuc", "total_sial")
+hmo_mat_24h <- hmo_mat_24h[, desired_order]
 
 # add a coloring function
-col_fun <- colorRamp2(c(1, 0.875, 0.75, 0.625, 0.5, 0.375, 0.25, 0.125, 0), 
+# modify the legend 1, 0.875, 0.75, 0.625, 0.5, 0.375, 0.25, 0.125, 0
+col_fun <- colorRamp2(c(0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1), 
                       c("#ffffff", "#DEEBF7", "#C6DBEF", "#9ECAE1", "#6BAED6",
                         "#4292C6", "#2171B5", "#08519C", "#08306B"))
-# modify the legend 1, 0.875, 0.75, 0.625, 0.5, 0.375, 0.25, 0.125, 0
-lgd <- Legend(col_fun = col_fun, 
-              title = "% of predicted utilizers",
-              direction = "horizontal", 
+
+lgd <- Legend(col_fun = col_fun,  
+              title = "% utilized",  
+              direction = "horizontal",  
               title_position = "lefttop")
+# plot the heatmap
 pdf("results/HMO_utilization/heatmap_24h.pdf", width=15, height=4)
 ht_hmo_24h <- ComplexHeatmap::Heatmap(hmo_mat_24h,
-                                     name = "HMO consumption at 8h",
+                                     name = "HMO utilization at 8h",
                                      col = col_fun,
                                      cluster_rows = TRUE,
                                      cluster_columns = FALSE,
                                      rect_gp = gpar(col = "grey", lwd = 0.05),
                                      heatmap_legend_param = list(
-                                       col_fun = col_fun, 
-                                       at = c(1, 0.75, 0.5, 0.25, 0),
-                                       title = "% of utilized HMOs",
-                                       direction = "horizontal", 
-                                       title_position = "topcenter",
-                                       border = "black",
-                                       legend_width = unit(40, "mm"))
-)
+                                       col_fun = col_fun,  
+                                       at = c(0, 0.25, 0.5, 0.75, 1),  
+                                       title = "% of utilized HMOs",  
+                                       direction = "horizontal",  
+                                       title_position = "topcenter",  
+                                       border = "black",  
+                                       legend_width = unit(40, "mm")))
 draw(ht_hmo_24h)
 # save the heatmap to a file
-invisible(dev.off())
+dev.off()
 # draw the heatmap again to show it in the compiled markdown file
 draw(ht_hmo_24h)
 ```
 
-## Second experiment (8 h)
+### HMO consumption after 8h 
 
-```{r pHMO_cons8h, fig.align='center', fig.dim=c(14,4)}
+```{r pHMO_cons8h, fig.align='center', fig.dim=c(7,4)}
 # read files with measurements
 HMO_8h <- read_tsv(pHMO_data_8h) %>%
-  mutate(across(3:last_col(), ~ round(.x, 1))) %>%
-  rowwise() %>%
-  mutate(Total = sum(c_across(3:last_col())))
+  mutate(across(3:last_col(), ~ round(.x, 1)))
 # calculate average values
 HMO_8h_avg <- HMO_8h %>%
   group_by(strain) %>%
   summarize(across(where(is.numeric), mean, na.rm = TRUE)) %>%
   mutate(across(2:last_col(), ~ round(.x, 1)))
 # calculate percent of utilized HMOs
+group1_strains_8h <- c("B. breve Bg155.S08_4F7",
+                    "B. catenulatum ssp. kashiwanohense Bg42221_1E1",
+                    "B. longum ssp. infantis ATCC 15697",
+                    "B. longum ssp. infantis Bg40721_2D9",
+                    "B. longum ssp. longum Bg115.S08_3A11",
+                    "B. pseudocatenulatum LFYP29")
+group2_strains_8h <- c("B. catenulatum ssp. kashiwanohense_A Bg42221_1D3",
+                    "B. longum (ssp. nov.) LFYP82",
+                    "B. longum ssp. suis Bg131.S11_17.F6",
+                    "B. longum ssp. suis Bg41121_2E1")
+custom_order <- c("B. longum ssp. suis Bg131.S11_17.F6",
+                  "B. longum ssp. infantis ATCC 15697",
+                  "B. longum ssp. infantis Bg40721_2D9",
+                  "B. catenulatum ssp. kashiwanohense Bg42221_1E1",
+                  "B. catenulatum ssp. kashiwanohense_A Bg42221_1D3",
+                  "B. longum ssp. suis Bg41121_2E1",
+                  "B. longum ssp. longum Bg115.S08_3A11",
+                  "B. breve Bg155.S08_4F7",
+                  "B. longum (ssp. nov.) LFYP82",
+                  "B. pseudocatenulatum LFYP29")
+
 HMO_8h_ut <- HMO_8h_avg %>%
-  mutate(across(-strain, ~ . / .[strain == "medium"])) %>%
+  mutate(across(-strain, ~ case_when(
+    strain %in% group1_strains_8h ~ . / HMO_8h_avg %>% filter(strain == "medium_batch1")
+    %>% pull(cur_column()),
+    strain %in% group2_strains_8h ~ . / HMO_8h_avg %>% filter(strain == "medium_batch2")
+    %>% pull(cur_column()),
+    TRUE ~ .  # leave others unchanged
+  ))) %>%
   mutate(across(2:last_col(), ~ round(.x, 3))) %>%
-  filter(strain != "B. breve Bg155.S08_4F7") %>%
-  filter(strain != "medium")
+  filter(!strain %in% c("medium_batch1", "medium_batch2")) %>%
+  mutate(strain = factor(strain, levels = custom_order)) %>%
+  arrange(strain)
 # extract matrices
 hmo_mat_8h <- as.matrix(HMO_8h_ut[,2:ncol(HMO_8h_ut)])
 rownames(hmo_mat_8h) <- pull(HMO_8h_ut, strain)
+desired_order <- c("LNT", "LNnT", "LNH", "2'FL", "3FL", "LDFT",
+                   "LNFP I", "LNFP II", "LNFP III", "DFLNT", "FLNH",
+                   "DFLNH", "3'SL", "6'SL", "LSTb", "LSTc", "DSLNT",
+                   "DSLNH", "FDSLNH", "total", "total_fuc", "total_sial")
+hmo_mat_8h <- hmo_mat_8h[, desired_order]
 
 # add a coloring function
 col_fun <- colorRamp2(c(1, 0.875, 0.75, 0.625, 0.5, 0.375, 0.25, 0.125, 0), 
@@ -2940,7 +3759,7 @@ pdf("results/HMO_utilization/heatmap_8h.pdf", width=15, height=4)
 ht_hmo_8h <- ComplexHeatmap::Heatmap(hmo_mat_8h,
                         name = "HMO consumption at 8h",
                         col = col_fun,
-                        cluster_rows = TRUE,
+                        cluster_rows = FALSE,
                         cluster_columns = FALSE,
                         rect_gp = gpar(col = "grey", lwd = 0.05),
                         heatmap_legend_param = list(
@@ -2954,9 +3773,87 @@ ht_hmo_8h <- ComplexHeatmap::Heatmap(hmo_mat_8h,
                         )
 draw(ht_hmo_8h)
 # save the heatmap to a file
-invisible(dev.off())
+dev.off()
 # draw the heatmap again to show it in the compiled markdown file
 draw(ht_hmo_8h)
+```
+
+### Integration of growth and HMO consumption data
+
+We first use the gcplyr package to calculate growth parameters, namely Area Under the Curve (AUC).
+
+```{r pHMO_24h_AUC, fig.align='center', fig.dim=c(7,4)}
+# read_data
+pHMO_output_file <- "results/growth/pHMO_24h.pdf"
+pHMO_data <- "data/growth/formatted_selected/pHMO/growth_pHMO_24h.txt"
+pHMO_annotation <- "data/growth/formatted_selected/pHMO/growth_pHMO_24h_ann.txt"
+trim_at_time <- 24 # measurements until [input] hours
+blank_wells_HMO <- c("blank_1","blank_2","blank_3") # specify blank wells
+
+# read a file with measurements
+d_HMO <- read_tsv(pHMO_data) %>%
+  filter(time <= trim_at_time)
+# calculate mean blank measurements (MRS-AC-Lac without added cells)
+blank_HMO <- d_HMO %>%
+  dplyr::select(all_of(blank_wells_HMO)) %>%
+  rowMeans()
+# subtract blank measurements and round OD600 values to 3 digits
+d_bl_HMO <- d_HMO %>%
+  mutate(across(2:last_col(), ~ .x - blank_HMO)) %>%
+  mutate(across(2:last_col(), ~ round(.x, 3)))
+# read files with plate annotations
+ann <- read_tsv(pHMO_annotation)
+d_bl_long_HMO <- d_bl_HMO %>%
+  gather(., well, od, -time)
+# create annotated tables
+d_bl_long_HMO_ann <- left_join(d_bl_long_HMO, ann, by="well") %>%
+  filter(carbon_source != "blank")
+
+# derivatives and doubling time
+ex_dat_mrg <- mutate(group_by(d_bl_long_HMO_ann, well, strain),
+                     deriv_percap5 = calc_deriv(x = time, y = od, 
+                                        percapita = TRUE, blank = 0,
+                                        window_width_n = 5, trans_y = "log"),
+                     doub_time = doubling_time(y = deriv_percap5))
+sample_wells <- c("ATCC_1", "Bg2D9_1", "Bg131_1", "Bg1C3_1", "Bg2E1_1", "Bg1E1_1",
+                  "Bg4F7_1", "Bg3A11_1", "LFYP82_1", "LFYP29_1")
+
+# calculate maximum density and AUC
+ex_dat_mrg_sum <- summarize(group_by(ex_dat_mrg, strain, well),
+            max_dens = max_gc(od, na.rm = TRUE),
+            auc = auc(x = time, y = od))
+```
+
+PCA of growth and HMO consumption data.
+
+```{r PCA_comb, fig.align='center', fig.dim=c(7,4)}
+# read data frames with measuerements
+auc <- ex_dat_mrg_sum
+hmo <- HMO_24h_ut
+
+# aggregate AUC values per strain (mean across replicates)
+auc_summary <- auc %>%
+  group_by(strain) %>%
+  summarize(auc = mean(auc)) %>%
+  mutate(scaled_auc = auc / max(auc)) %>%  # scale all AUC values relative to max AUC
+  select(-auc)
+
+# merge AUC and HMO data based on strain
+merged_data <- inner_join(auc_summary, hmo, by = "strain")
+
+# remove strain column for PCA
+pca_data <- merged_data %>% select(-strain)
+strain  <- merged_data$strain
+pca.res <- prcomp(pca_data, scale.=F, retx=T)
+
+# plot the results
+autoplot(pca.res, merged_data, color = "strain",
+         size = 6) +
+  theme_bw() +
+  coord_fixed() +
+  theme(plot.title = element_text(face = "bold"))
+# save the plot
+ggsave("results/HMO_utilization/PCA.pdf", device = "pdf", width = 10, height = 10)
 ```
 
 ------------------------------------------------------------------------
@@ -3266,7 +4163,7 @@ DEGs: *Bifidobacterium catenulatum* subsp.
 seed.ann <- read_tsv('data/rnaseq/annotation/mcSEED_annotations.txt')
 corr <- read_tsv('data/rnaseq/annotation/locus_tag_comparison.txt')
 final.ann <- right_join(seed.ann, corr, by = c('seed_id' = 'seed_id')) %>%
-  dplyr::select(locus_tag, annotation)
+  dplyr::select(seed_id, locus_tag, annotation)
 
 # annotate DEGs
 # xyloglucan vs lactose
