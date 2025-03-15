@@ -22,4 +22,4 @@ All code used in this analysis (including the Rmarkdown document used to compile
 1. To fully reproduce the phylogenetic analysis of 263 reference **Bifidobacterium** genomes, you will need to download FNA files from [Figshare](https://doi.org/10.6084/m9.figshare.26053936). Downloaded FNA files should be placed in `data/genomes/263_NR_ref_genomes/fna/`
 2. Given the potential challenges with installing and running dbCAN, we provide processed dbCAN outputs in `data/CAZyme`
 3. To fully reproduce the RNA-seq data analysis, you will need to download raw FASTQ files from Gene Expression Omnibus under accession [GSE239955](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE239955). Downloaded FASTQ files should be placed in `data/rnaseq/fastq/`. Otherwise, `data/rnaseq/kallisto/` already contains Kallisto mapping outputs
-4. The pathway prediction pipeline **glycobif** used for additional 2820 isolate genomes and MAGs is available in another [repository](https://github.com/Arzamasov/glycobif)
+4. The pathway prediction pipeline **glycobif** used for additional 2820 genomes and MAGs is available in another [repository](https://github.com/Arzamasov/glycobif)

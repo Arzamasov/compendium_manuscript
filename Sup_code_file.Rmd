@@ -279,7 +279,7 @@ fr_output <- paste("Total number of functional roles:", num_roles, "\n",
                 "Downstream catabolic enzymes:", num_donwstream, "\n",
                 "CAZymes:", num_cazy, "\n",
                 "Transcriptional regulators:", num_reg, "\n",
-                "Total number of publications:", num_unique_pmids - 1, "\n")
+                "Total number of publications:", num_unique_pmids - 2, "\n")
 cat(fr_output)
 ```
 
@@ -1075,7 +1075,7 @@ ha_263_2 <- HeatmapAnnotation(
                       "polysaccharides" = "#808285"),
              origin = c("universal" = "#ffd22d",
                         "host (animal)" = "#cbbedd",
-                        "plant" = "#79d400",
+                        "plant" = "#8dc63f",
                         "bacterial" = "#603913",
                         "fungal" = "#008aa1" )),
   show_annotation_name = FALSE,
@@ -2083,7 +2083,7 @@ dev.off()
 draw(ht_bcatenulatum)
 ```
 
-## Pathway enrichment
+## Pathway enrichment analysis
 
 Here we do a pathway enrichment analysis using Fisher's exact test.
 Pathways significantly enriched (P~adj~ ≤ 0.01) in specified groups are shown.
@@ -2140,27 +2140,30 @@ odds_west_df <- results_west_ann %>%
   dplyr::select(phenotype, origin, odds_ratio,
                 conf_int_low, conf_int_high, log2_odds_ratio, p_value, p_adj)
 
-# plot barplot
+# plot odds ratios with 95% CI
 ggplot(data = subset(odds_west_df, p_adj <= 0.01)) +
-  aes(x = log2_odds_ratio, y = phenotype, color= origin, fill = origin) +
-  geom_bar(stat = "identity", width = 0.5, color = "black") +
-  geom_vline(xintercept = 0, color = "black", linetype = "dashed") + 
-  scale_color_manual(values = c("universal" = "#ffd22d",
-                                "host (animal)" = "#cbbedd",
-                                "plant" = "#8dc63f", 
-                                "fungal" = "#008aa1",
-                                "bacterial" = "#603913")) +
-  scale_fill_manual(values = c("universal" = "#ffd22d", 
+  aes(x = log2_odds_ratio, y = phenotype, fill = origin) +
+  geom_errorbarh(aes(xmin = log2(conf_int_low),
+                     xmax = log2(conf_int_high)),
+                     height = 0.2,
+                     position = position_dodge(width = 0.25),
+                     linewidth = 1,
+                     color = "grey50") +
+  geom_point(position = position_dodge(width = 0.25) , shape = 21, size = 5) +
+  geom_vline(xintercept = 0, color = "black", linetype = "dashed") +
+  scale_fill_manual(values = c("universal" = "#ffd22d",
                                "host (animal)" = "#cbbedd",
                                "plant" = "#8dc63f",
                                "fungal" = "#008aa1",
                                "bacterial" = "#603913")) +
   labs(x = "Log2(Odds_ratio)", y = "Pathway") +
-  theme_bw() + 
-  theme(legend.title = element_blank(),
-        plot.title = element_text(face="bold"),
-        axis.title = element_text(color = "black"),
-        axis.text = element_text(color = "black"))
+  theme_bw() +
+  theme(
+    legend.title = element_blank(),
+    plot.title = element_text(face = "bold"),
+    axis.title = element_text(color = "black"),
+    axis.text = element_text(color = "black")
+  )
 # save the figure to a file
 ggsave("results/pathway_enrichment/child_westernized_vs_child_non_westernized.pdf",
        device = "pdf", width = 7, height = 10)
@@ -2204,27 +2207,30 @@ odds_west_df <- results_west_ann %>%
   dplyr::select(phenotype, origin, odds_ratio,
                 conf_int_low, conf_int_high, log2_odds_ratio, p_value, p_adj)
 
-# plot barplot
+# plot odds ratios with 95% CI
 ggplot(data = subset(odds_west_df, p_adj <= 0.01)) +
-  aes(x = log2_odds_ratio, y = phenotype, color= origin, fill = origin) +
-  geom_bar(stat = "identity", width = 0.5, color = "black") +
-  geom_vline(xintercept = 0, color = "black", linetype = "dashed") + 
-  scale_color_manual(values = c("universal" = "#ffd22d",
-                                "host (animal)" = "#cbbedd",
-                                "plant" = "#8dc63f",
-                                "fungal" = "#008aa1",
-                                "bacterial" = "#603913")) +
+  aes(x = log2_odds_ratio, y = phenotype, fill = origin) +
+  geom_errorbarh(aes(xmin = log2(conf_int_low),
+                     xmax = log2(conf_int_high)),
+                     height = 0.2,
+                     position = position_dodge(width = 0.25),
+                     linewidth = 1,
+                     color = "grey50") +
+  geom_point(position = position_dodge(width = 0.25) , shape = 21, size = 5) +
+  geom_vline(xintercept = 0, color = "black", linetype = "dashed") +
   scale_fill_manual(values = c("universal" = "#ffd22d",
                                "host (animal)" = "#cbbedd",
                                "plant" = "#8dc63f",
                                "fungal" = "#008aa1",
                                "bacterial" = "#603913")) +
   labs(x = "Log2(Odds_ratio)", y = "Pathway") +
-  theme_bw() + 
-  theme(legend.title = element_blank(),
-        plot.title = element_text(face="bold"),
-        axis.title = element_text(color = "black"),
-        axis.text = element_text(color = "black"))
+  theme_bw() +
+  theme(
+    legend.title = element_blank(),
+    plot.title = element_text(face = "bold"),
+    axis.title = element_text(color = "black"),
+    axis.text = element_text(color = "black")
+  )
 # save the figure to a file
 ggsave("results/pathway_enrichment/adult_westernized_vs_adult_non_westernized.pdf",
        device = "pdf", width = 7, height = 10)
@@ -2269,28 +2275,32 @@ odds_age_df <- results_age_ann %>%
   dplyr::select(phenotype, origin, odds_ratio,
                 conf_int_low, conf_int_high, log2_odds_ratio, p_value, p_adj)
 
-# plot barplot
+# plot odds ratios with 95% CI
 ggplot(data = subset(odds_age_df, p_adj <= 0.01)) +
-  aes(x = log2_odds_ratio, y = phenotype, color= origin, fill = origin) +
-  geom_bar(stat = "identity", width = 0.5, color = "black") +
-  geom_vline(xintercept = 0, color = "black", linetype = "dashed") + 
-  scale_color_manual(values = c("universal" = "#ffd22d",
-                                "host (animal)" = "#cbbedd",
-                                "plant" = "#8dc63f",
-                                "fungal" = "#008aa1",
-                                "bacterial" = "#603913")) +
+  aes(x = log2_odds_ratio, y = phenotype, fill = origin) +
+  geom_errorbarh(aes(xmin = log2(conf_int_low),
+                     xmax = log2(conf_int_high)),
+                     height = 0.2, 
+                     position = position_dodge(width = 0.25),
+                     linewidth = 1,
+                     color = "grey50") +
+  geom_point(position = position_dodge(width = 0.25) , shape = 21, size = 5) +
+  geom_vline(xintercept = 0, color = "black", linetype = "dashed") +
   scale_fill_manual(values = c("universal" = "#ffd22d",
                                "host (animal)" = "#cbbedd",
                                "plant" = "#8dc63f",
                                "fungal" = "#008aa1",
                                "bacterial" = "#603913")) +
+  scale_x_continuous(breaks = seq(-12,4, 2)) +
   labs(x = "Log2(Odds_ratio)", y = "Pathway") +
-  theme_bw() + 
-  theme(legend.title = element_blank(),
-        plot.title = element_text(face="bold"),
-        axis.title = element_text(color = "black"),
-        axis.text = element_text(color = "black"))
-#
+  theme_bw() +
+  theme(
+    legend.title = element_blank(),
+    plot.title = element_text(face = "bold"),
+    axis.title = element_text(color = "black"),
+    axis.text = element_text(color = "black")
+  )
+# save the figure to a file
 ggsave("results/pathway_enrichment/child_westernized_vs_adult_westernized.pdf",
        device = "pdf", width = 7, height = 10)
 ```
@@ -2335,28 +2345,31 @@ odds_age_df <- results_age_ann %>%
                 conf_int_low, conf_int_high, log2_odds_ratio, p_value, p_adj) %>%
   filter((phenotype != "Lac"))
 
-# plot barplot
+# plot odds ratios with 95% CI
 ggplot(data = subset(odds_age_df, p_adj <= 0.01)) +
-  aes(x = log2_odds_ratio, y = phenotype, color= origin, fill = origin) +
-  geom_bar(stat = "identity", width = 0.5, color = "black") +
-  geom_vline(xintercept = 0, color = "black", linetype = "dashed") + 
-  scale_color_manual(values = c("universal" = "#ffd22d",
-                                "host (animal)" = "#cbbedd",
-                                "plant" = "#8dc63f",
-                                "fungal" = "#008aa1",
-                                "bacterial" = "#603913")) +
+  aes(x = log2_odds_ratio, y = phenotype, fill = origin) +
+  geom_errorbarh(aes(xmin = log2(conf_int_low),
+                     xmax = log2(conf_int_high)),
+                     height = 0.2, 
+                     position = position_dodge(width = 0.25),
+                     linewidth = 1,
+                     color = "grey50") +
+  geom_point(position = position_dodge(width = 0.25) , shape = 21, size = 5) +
+  geom_vline(xintercept = 0, color = "black", linetype = "dashed") +
   scale_fill_manual(values = c("universal" = "#ffd22d",
                                "host (animal)" = "#cbbedd",
                                "plant" = "#8dc63f",
                                "fungal" = "#008aa1",
                                "bacterial" = "#603913")) +
   labs(x = "Log2(Odds_ratio)", y = "Pathway") +
-  theme_bw() + 
-  theme(legend.title = element_blank(),
-        plot.title = element_text(face="bold"),
-        axis.title = element_text(color = "black"),
-        axis.text = element_text(color = "black"))
-#
+  theme_bw() +
+  theme(
+    legend.title = element_blank(),
+    plot.title = element_text(face = "bold"),
+    axis.title = element_text(color = "black"),
+    axis.text = element_text(color = "black")
+  )
+# save the figure to a file
 ggsave("results/pathway_enrichment/child_non_westernized_vs_adult_non_westernized.pdf",
        device = "pdf", width = 7, height = 10)
 ```
@@ -2412,25 +2425,26 @@ plots <- odds_west_df %>%
   filter(p_adj <= 0.01) %>%
   split(.$curated_taxonomy) %>%
   purrr::map(~ ggplot(data = .x) +
-        aes(x = log2_odds_ratio, y = phenotype, color = origin, fill = origin) +
-        geom_bar(stat = "identity", width = 0.5, color = "black") +
-        geom_vline(xintercept = 0, color = "black", linetype = "dashed") + 
-        scale_color_manual(values = c("universal" = "#ffd22d",
-                                      "host (animal)" = "#cbbedd",
-                                      "plant" = "#8dc63f",
-                                      "fungal" = "#008aa1",
-                                      "bacterial" = "#603913")) +
-        scale_fill_manual(values = c("universal" = "#ffd22d",
-                                     "host (animal)" = "#cbbedd",
-                                     "plant" = "#8dc63f",
-                                     "fungal" = "#008aa1",
-                                     "bacterial" = "#603913")) +
-        labs(x = "Log2(Odds_ratio)", y = "Pathway", title = .x$curated_taxonomy[1]) +
-        theme_bw() + 
-        theme(legend.title = element_blank(),
-              plot.title = element_text(face="bold"),
-              axis.title = element_text(color = "black"),
-              axis.text = element_text(color = "black")))
+          aes(x = log2_odds_ratio, y = phenotype, fill = origin) +
+          geom_errorbarh(aes(xmin = log2(conf_int_low),
+                             xmax = log2(conf_int_high)),
+                             height = 0.2,
+                             position = position_dodge(width = 0.25),
+                             linewidth = 1,
+                             color = "grey50") +
+          geom_point(position = position_dodge(width = 0.25) , shape = 21, size = 5) +
+          geom_vline(xintercept = 0, color = "black", linetype = "dashed") +
+          scale_fill_manual(values = c("universal" = "#ffd22d",
+                               "host (animal)" = "#cbbedd",
+                               "plant" = "#8dc63f",
+                               "fungal" = "#008aa1",
+                               "bacterial" = "#603913")) +
+          labs(x = "Log2(Odds_ratio)", y = "Phenotype", title = .x$curated_taxonomy[1]) +
+          theme_bw() +
+          theme(legend.title = element_blank(),
+                plot.title = element_text(face = "bold"),
+                axis.title = element_text(color = "black"),
+                axis.text = element_text(color = "black")))
 
 # combine plots using patchwork
 combined_plot <- wrap_plots(plots, ncol = 2)
@@ -2439,7 +2453,6 @@ combined_plot
 # save the combined plot
 ggsave("results/pathway_enrichment/taxon_west_nonwest_combined.pdf", combined_plot,
        device = "pdf", width = 14, height = 10)
-
 ```
 
 ### Taxononomy differences: Westernized vs. non-Westernized
@@ -3690,7 +3703,7 @@ dev.off()
 draw(ht_hmo_24h)
 ```
 
-### HMO consumption after 8h 
+### HMO consumption after 8h
 
 ```{r pHMO_cons8h, fig.align='center', fig.dim=c(7,4)}
 # read files with measurements
