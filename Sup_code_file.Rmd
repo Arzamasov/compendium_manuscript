@@ -1,5 +1,5 @@
 ---
-title: "Integrative genomic reconstruction of carbohydrate utilization networks in bifidobacteria reveals global trends, local variability, and dietary adaptation"
+title: "Integrative genomic reconstruction reveals heterogeneity in carbohydrate utilization across human gut bifidobacteria"
 author: 
 - Aleksandr A. Arzamasov
 - Dmitry A. Rodionov
@@ -1844,7 +1844,7 @@ Hierarchical clustering options:
 -   **Linkage method**: Ward's D2
 
 ```{r heatmap_all_1, fig.align='center', fig.dim=c(15,8)}
-# create a tibble where pathways are averaged at species/subspecies levels
+# create a tibble where pathways are averaged at species level
 bpm_3083_mean <- bpm_3083_carb_df %>%
   group_by(curated_taxonomy) %>%
   summarise_at(vars(Glc:`L-Xul`), list(mean))
@@ -1940,7 +1940,7 @@ Hierarchical clustering options:
 -   **Linkage method**: Ward's D2
 
 ```{r heatmap_3083_2, fig.align='center', fig.dim=c(15,8)}
-# create a tibble where pathways are averaged at species/subspecies levels
+# create a tibble where pathways are averaged at species level
 bpm_3083_mean2 <- bpm_3083_other_df %>%
   group_by(curated_taxonomy) %>%
   summarise_at(vars(B1:Urea_d), list(mean))
@@ -2007,7 +2007,7 @@ Hierarchical clustering options:
 
 -   **Linkage method**: Average
 
-```{r heatmap_catenulatum, fig.align='center', fig.dim=c(18,10)}
+```{r heatmap_catenulatum, fig.align='center', fig.dim=c(18,18)}
 # filter rows based on taxonomy
 bpm_cat_carb_df <- bpm_3083_carb_df %>%
   filter(curated_taxonomy %in% c("Bifidobacterium catenulatum subsp. catenulatum",
@@ -2057,7 +2057,7 @@ ha_cat2 <- HeatmapAnnotation(
   simple_anno_size = unit(3, "mm"))
 
 # plot the heatmap
-pdf("results/phenotypes/Bcatenulatum_heatmap.pdf", width=18, height=10)
+pdf("results/phenotypes/Bcatenulatum_heatmap.pdf", width=18, height=18)
 ht_bcatenulatum <- ComplexHeatmap::Heatmap(bpm_cat_mat,
                               name = "Predicted phenotype",
                               right_annotation = ha_cat1,
@@ -2075,7 +2075,7 @@ ht_bcatenulatum <- ComplexHeatmap::Heatmap(bpm_cat_mat,
                               column_names_gp = gpar(fontsize = 5),
                               column_names_rot = 60,
                               width = unit(200, "mm"), 
-                              height = unit(250, "mm"))
+                              height = unit(300, "mm"))
 draw(ht_bcatenulatum)
 # save the heatmap to a file
 dev.off()
@@ -2134,11 +2134,11 @@ results_west_ann <- left_join(result_west, phenotype_metadata, by = "phenotype")
 # create a data frame with the log2-transformed odds ratios
 odds_west_df <- results_west_ann %>%
   mutate(log2_odds_ratio = log2(odds_ratio)) %>%
-  mutate(log2_conf_int_low = log2(conf_int_low)) %>%
-  mutate(log2_conf_int_high = log2(conf_int_high)) %>%
   arrange(desc(log2_odds_ratio)) %>%
   dplyr::select(phenotype, origin, odds_ratio,
                 conf_int_low, conf_int_high, log2_odds_ratio, p_value, p_adj)
+# save the table
+write_tsv(odds_west_df, "results/pathway_enrichment/tables/Westernized_age_less_3_vs_non_Westernized_age_less_3.txt")
 
 # plot odds ratios with 95% CI
 ggplot(data = subset(odds_west_df, p_adj <= 0.01)) +
@@ -2201,8 +2201,6 @@ results_west_ann <- left_join(result_west, phenotype_metadata, by = "phenotype")
 # create a data frame with the log2-transformed odds ratios
 odds_west_df <- results_west_ann %>%
   mutate(log2_odds_ratio = log2(odds_ratio)) %>%
-  mutate(log2_conf_int_low = log2(conf_int_low)) %>%
-  mutate(log2_conf_int_high = log2(conf_int_high)) %>%
   arrange(desc(log2_odds_ratio)) %>%
   dplyr::select(phenotype, origin, odds_ratio,
                 conf_int_low, conf_int_high, log2_odds_ratio, p_value, p_adj)
@@ -2269,11 +2267,11 @@ results_age_ann <- left_join(result_age, phenotype_metadata, by = "phenotype")
 # create a data frame with the log2-transformed odds ratios
 odds_age_df <- results_age_ann %>%
   mutate(log2_odds_ratio = log2(odds_ratio)) %>%
-  mutate(log2_conf_int_low = log2(conf_int_low)) %>%
-  mutate(log2_conf_int_high = log2(conf_int_high)) %>%
   arrange(desc(log2_odds_ratio)) %>%
   dplyr::select(phenotype, origin, odds_ratio,
                 conf_int_low, conf_int_high, log2_odds_ratio, p_value, p_adj)
+# save the table
+write_tsv(odds_age_df, "results/pathway_enrichment/tables/Westernized_age_less_3_vs_Westernized_age_more_3.txt")
 
 # plot odds ratios with 95% CI
 ggplot(data = subset(odds_age_df, p_adj <= 0.01)) +
@@ -2338,12 +2336,12 @@ results_age_ann <- left_join(result_age, phenotype_metadata, by = "phenotype")
 # create a data frame with the log2-transformed odds ratios
 odds_age_df <- results_age_ann %>%
   mutate(log2_odds_ratio = log2(odds_ratio)) %>%
-  mutate(log2_conf_int_low = log2(conf_int_low)) %>%
-  mutate(log2_conf_int_high = log2(conf_int_high)) %>%
   arrange(desc(log2_odds_ratio)) %>%
   dplyr::select(phenotype, origin, odds_ratio,
                 conf_int_low, conf_int_high, log2_odds_ratio, p_value, p_adj) %>%
   filter((phenotype != "Lac"))
+# save the table
+write_tsv(odds_age_df, "results/pathway_enrichment/tables/non_Westernized_age_less_3_vs_non_Westernized_age_more_3.txt")
 
 # plot odds ratios with 95% CI
 ggplot(data = subset(odds_age_df, p_adj <= 0.01)) +
@@ -2390,10 +2388,14 @@ contingency_table_west <- bpm_3083_ado_df %>%
   pivot_wider(names_from = non_westernized, values_from = count) %>%
   replace(is.na(.), 0)
 
-# keep only rows where neither all values are 0 nor all values are 1 within each group
+# remove any taxon × pathway groups where all genomes either all encode a pathway 
+# or all do not encode a pathway
 contingency_table_west <- contingency_table_west %>%
   group_by(curated_taxonomy, phenotype) %>%
-  filter(!all(value == 0) & !all(value == 1))
+  filter(n_distinct(value) == 2,     # must have both 0 and 1
+         any(value == 0 & (`no` + `yes`) > 0),
+         any(value == 1 & (`no` + `yes`) > 0)) %>%
+  ungroup()
 
 # perform the Fisher's exact test, calculate odds ratios and adjusted p-values
 result_west <- contingency_table_west %>%
@@ -2414,11 +2416,12 @@ results_west_ann <- left_join(result_west, phenotype_metadata, by = "phenotype")
 # create a data frame with the log2-transformed odds ratios
 odds_west_df <- results_west_ann %>%
   mutate(log2_odds_ratio = log2(odds_ratio)) %>%
-  mutate(log2_conf_int_low = log2(conf_int_low)) %>%
-  mutate(log2_conf_int_high = log2(conf_int_high)) %>%
   arrange(desc(log2_odds_ratio)) %>%
   dplyr::select(curated_taxonomy, phenotype, origin, odds_ratio,
                 conf_int_low, conf_int_high, log2_odds_ratio, p_value, p_adj)
+
+# save the table
+write_tsv(odds_west_df, "results/pathway_enrichment/tables/non_Westernized_vs_non_Westernized_taxon_specific.txt")
 
 # create individual plots
 plots <- odds_west_df %>%
@@ -2532,6 +2535,8 @@ result_west_tax <-  west_tax_contingency %>%
             conf_int_high = fisher.test(matrix(c(yes, no), nrow = 2))$conf.int[2]) %>%
   mutate(p_adj = p.adjust(p_value, method = "fdr")) %>% 
   select(curated_taxonomy, odds_ratio, conf_int_low, conf_int_high, p_value, p_adj)
+# save the table
+write_tsv(result_west_tax, "results/pathway_enrichment/tables/taxonomy_West_non_West.txt")
 gt(result_west_tax)
 ```
 
@@ -3000,7 +3005,7 @@ curves <- ggplot(filtered_summary, aes(x = time, y = mean_od)) +
     strip.text = element_text(size = 5) 
   )
 # save pdf
-ggsave(filename = growth_output_file, plot = curves, width = 8.5, height = 11, units = "in", dpi = 300)
+ggsave(filename = growth_output_file, plot = curves, width = 210, height = 297, units = "mm", dpi = 300)
 print(curves)
 ```
 
@@ -3671,7 +3676,7 @@ desired_order <- c("LNT", "LNnT", "LNH", "2'FL", "3FL", "LDFT",
 hmo_mat_24h <- hmo_mat_24h[, desired_order]
 
 # add a coloring function
-# modify the legend 1, 0.875, 0.75, 0.625, 0.5, 0.375, 0.25, 0.125, 0
+# backup legend (1, 0.875, 0.75, 0.625, 0.5, 0.375, 0.25, 0.125, 0)
 col_fun <- colorRamp2(c(0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1), 
                       c("#ffffff", "#DEEBF7", "#C6DBEF", "#9ECAE1", "#6BAED6",
                         "#4292C6", "#2171B5", "#08519C", "#08306B"))
@@ -3683,7 +3688,7 @@ lgd <- Legend(col_fun = col_fun,
 # plot the heatmap
 pdf("results/HMO_utilization/heatmap_24h.pdf", width=15, height=4)
 ht_hmo_24h <- ComplexHeatmap::Heatmap(hmo_mat_24h,
-                                     name = "HMO utilization at 8h",
+                                     name = "HMO utilization at 24h",
                                      col = col_fun,
                                      cluster_rows = TRUE,
                                      cluster_columns = FALSE,
@@ -3735,13 +3740,15 @@ custom_order <- c("B. longum ssp. suis Bg131.S11_17.F6",
                   "B. breve Bg155.S08_4F7",
                   "B. longum (ssp. nov.) LFYP82",
                   "B. pseudocatenulatum LFYP29")
-
+# calculate the percent of utilized HMOs
 HMO_8h_ut <- HMO_8h_avg %>%
   mutate(across(-strain, ~ case_when(
-    strain %in% group1_strains_8h ~ . / HMO_8h_avg %>% filter(strain == "medium_batch1")
-    %>% pull(cur_column()),
-    strain %in% group2_strains_8h ~ . / HMO_8h_avg %>% filter(strain == "medium_batch2")
-    %>% pull(cur_column()),
+    strain %in% group1_strains_8h ~ 1 - (. / HMO_8h_avg %>% 
+                                           filter(strain == "medium_batch1")
+                                      %>% pull(cur_column())),  
+    strain %in% group2_strains_8h ~ 1 - (. / HMO_8h_avg %>% 
+                                           filter(strain == "medium_batch2")
+                                      %>% pull(cur_column())),  
     TRUE ~ .  # leave others unchanged
   ))) %>%
   mutate(across(2:last_col(), ~ round(.x, 3))) %>%
@@ -3749,6 +3756,7 @@ HMO_8h_ut <- HMO_8h_avg %>%
   mutate(strain = factor(strain, levels = custom_order)) %>%
   arrange(strain)
 # extract matrices
+
 hmo_mat_8h <- as.matrix(HMO_8h_ut[,2:ncol(HMO_8h_ut)])
 rownames(hmo_mat_8h) <- pull(HMO_8h_ut, strain)
 desired_order <- c("LNT", "LNnT", "LNH", "2'FL", "3FL", "LDFT",
@@ -3758,10 +3766,11 @@ desired_order <- c("LNT", "LNnT", "LNH", "2'FL", "3FL", "LDFT",
 hmo_mat_8h <- hmo_mat_8h[, desired_order]
 
 # add a coloring function
-col_fun <- colorRamp2(c(1, 0.875, 0.75, 0.625, 0.5, 0.375, 0.25, 0.125, 0), 
+col_fun <- colorRamp2(c(0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1), 
                       c("#ffffff", "#DEEBF7", "#C6DBEF", "#9ECAE1", "#6BAED6",
                         "#4292C6", "#2171B5", "#08519C", "#08306B"))
-# modify the legend 1, 0.875, 0.75, 0.625, 0.5, 0.375, 0.25, 0.125, 0
+
+
 lgd <- Legend(col_fun = col_fun, 
               title = "% of predicted utilizers",
               direction = "horizontal", 
@@ -3777,7 +3786,7 @@ ht_hmo_8h <- ComplexHeatmap::Heatmap(hmo_mat_8h,
                         rect_gp = gpar(col = "grey", lwd = 0.05),
                         heatmap_legend_param = list(
                           col_fun = col_fun, 
-                          at = c(1, 0.75, 0.5, 0.25, 0),
+                          at = c(0, 0.25, 0.5, 0.75, 1),
                           title = "% of utilized HMOs",
                           direction = "horizontal", 
                           title_position = "topcenter",
@@ -3793,11 +3802,10 @@ draw(ht_hmo_8h)
 
 ### Integration of growth and HMO consumption data
 
-We first use the gcplyr package to calculate growth parameters, namely Area Under the Curve (AUC).
+We first use the [gcplyr](https://github.com/mikeblazanin/gcplyr) package to calculate growth parameters (maximum OD600, Area Under the Curve (AUC), and growth rate).
 
 ```{r pHMO_24h_AUC, fig.align='center', fig.dim=c(7,4)}
 # read_data
-pHMO_output_file <- "results/growth/pHMO_24h.pdf"
 pHMO_data <- "data/growth/formatted_selected/pHMO/growth_pHMO_24h.txt"
 pHMO_annotation <- "data/growth/formatted_selected/pHMO/growth_pHMO_24h_ann.txt"
 trim_at_time <- 24 # measurements until [input] hours
@@ -3827,14 +3835,14 @@ ex_dat_mrg <- mutate(group_by(d_bl_long_HMO_ann, well, strain),
                      deriv_percap5 = calc_deriv(x = time, y = od, 
                                         percapita = TRUE, blank = 0,
                                         window_width_n = 5, trans_y = "log"),
-                     doub_time = doubling_time(y = deriv_percap5))
-sample_wells <- c("ATCC_1", "Bg2D9_1", "Bg131_1", "Bg1C3_1", "Bg2E1_1", "Bg1E1_1",
-                  "Bg4F7_1", "Bg3A11_1", "LFYP82_1", "LFYP29_1")
+                     doub_time = doubling_time(y = deriv_percap5)) %>%
+              mutate(deriv_percap5_filtered = ifelse(od > 0.05, deriv_percap5, NA))
 
-# calculate maximum density and AUC
+# calculate maximum density, AUC, and growth rate
 ex_dat_mrg_sum <- summarize(group_by(ex_dat_mrg, strain, well),
             max_dens = max_gc(od, na.rm = TRUE),
-            auc = auc(x = time, y = od))
+            auc = auc(x = time, y = od),
+            max_growth_rate = max(deriv_percap5_filtered, na.rm = TRUE))
 ```
 
 PCA of growth and HMO consumption data.
@@ -3844,20 +3852,22 @@ PCA of growth and HMO consumption data.
 auc <- ex_dat_mrg_sum
 hmo <- HMO_24h_ut
 
-# aggregate AUC values per strain (mean across replicates)
+# aggregate growth data per strain (mean across replicates)
 auc_summary <- auc %>%
   group_by(strain) %>%
-  summarize(auc = mean(auc)) %>%
-  mutate(scaled_auc = auc / max(auc)) %>%  # scale all AUC values relative to max AUC
-  select(-auc)
+  summarize(
+    auc = mean(auc, na.rm = TRUE),
+    max_dens = mean(max_dens, na.rm = TRUE),
+    max_growth_rate = mean(max_growth_rate, na.rm = TRUE)
+  )
 
-# merge AUC and HMO data based on strain
+# merge growth and HMO data based on strain
 merged_data <- inner_join(auc_summary, hmo, by = "strain")
 
 # remove strain column for PCA
 pca_data <- merged_data %>% select(-strain)
 strain  <- merged_data$strain
-pca.res <- prcomp(pca_data, scale.=F, retx=T)
+pca.res <- prcomp(pca_data, scale.=T, retx=T)
 
 # plot the results
 autoplot(pca.res, merged_data, color = "strain",

@@ -130,6 +130,6 @@ curves <- ggplot(filtered_summary, aes(x = time, y = mean_od)) +
     strip.text = element_text(size = 5) 
   )
 # save pdf
-ggsave(filename = growth_output_file, plot = curves, width = 8.5, height = 11, units = "in", dpi = 300)
+ggsave(filename = growth_output_file, plot = curves, width = 210, height = 297, units = "mm", dpi = 300)
 print(curves)
 }
